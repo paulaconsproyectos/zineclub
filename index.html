@@ -37,6 +37,121 @@ button,input,textarea{font-family:'DM Sans',sans-serif;}
 <script type="text/babel">
 const {useState,useEffect,useRef} = React;
 
+const I18N = {
+  es:{
+    appTag:"El cine exacto para este momento.",
+    quizCta:"¿Qué veo hoy?",quizSub:"Test de estado de ánimo · personalizado",
+    marathon:"🍿 Modo Maratón",marathonSub:"Tengo tiempo. Dame todo.",
+    search:"Busca películas o series...",
+    watchedBtn:"Marcar como vista",addList:"+ Mi lista",
+    watched:"✓ Vista",inList:"✓ En lista",
+    save:"Guardada",pts:"pts",
+    home:"Inicio",searchNav:"Buscar",forYou:"Para ti",social:"Social",profile:"Perfil",
+    login:"Iniciar sesión",register:"Crear cuenta",logout:"Cerrar sesión",
+    name:"Nombre completo",email:"Email",username:"Usuario",password:"Contraseña",
+    loginWelcome:"Bienvenido de vuelta",loginSub:"Entra en tu cuenta de Rack",
+    registerTitle:"Únete a Rack",registerSub:"Crea tu perfil de cinéfilo",
+    noAccount:"¿Sin cuenta?",hasAccount:"¿Ya tienes cuenta?",
+    signUp:"Regístrate",signIn:"Inicia sesión",
+    weeklyFilm:"Peli de la semana",inviteFriends:"Invitar amigos",
+    inviteSub:"cuando se registren con tu código",
+    reviews:"Reseñas",cast:"Reparto",yourReview:"Tu reseña",
+    publishReview:"Publicar reseña",rateAndReview:"Puntúa y reseña",
+    reviewPlaceholder:"¿Qué te pareció?",
+    feed:"Feed",ranking:"Ranking",upcoming:"Estrenos",
+    loading:"Buscando en la cinemateca...",loadingMarathon:"Armando tu maratón...",
+    recommendations:"recomendaciones",onlyForYou:"✨ SOLO PARA TI",marathonMode:"🍿 MODO MARATÓN",
+    newTest:"Nuevo test",myList:"Mi lista",watchedFilms:"Películas vistas",
+    favGenres:"Géneros favoritos",recentSearches:"Búsquedas recientes",
+    notifTitle:"Activa las notificaciones",notifSub:"Entérate de estrenos según tus gustos",
+    activate:"Activar",watchNow:"Ver ahora en",searchPlatforms:"Buscar en plataformas",
+    share:"Compartir",copy:"📋 Copiar",copied:"✓ Copiado",
+    trendingTag:"✦ TRENDING ESTA SEMANA",inviteCode:"Código de invitación",
+    editProfile:"✏️ Editar",saveProfile:"Guardar",cancel:"Cancelar",
+    points:"Puntos",cinephilePoints:"Puntos cinéfilos",
+    remindRelease:"Avisarme del estreno",releaseActive:"Activada",
+    notifActivated:"🔔 Notificaciones activadas",saved:"Guardada",
+    errFields:"Rellena todos los campos",errUser:"Usuario o contraseña incorrectos",errExists:"Usuario ya existe",
+    marathonSession:"🍿 Tu sesión maratón",
+    director:"Director",
+  },
+  en:{
+    appTag:"The perfect film for this moment.",
+    quizCta:"What do I watch today?",quizSub:"Mood test · personalized",
+    marathon:"🍿 Marathon Mode",marathonSub:"I have time. Give me everything.",
+    search:"Search movies or series...",
+    watchedBtn:"Mark as watched",addList:"+ My list",
+    watched:"✓ Watched",inList:"✓ In list",
+    save:"Saved",pts:"pts",
+    home:"Home",searchNav:"Search",forYou:"For you",social:"Social",profile:"Profile",
+    login:"Sign in",register:"Create account",logout:"Sign out",
+    name:"Full name",email:"Email",username:"Username",password:"Password",
+    loginWelcome:"Welcome back",loginSub:"Sign in to your Rack account",
+    registerTitle:"Join Rack",registerSub:"Create your cinephile profile",
+    noAccount:"No account?",hasAccount:"Already have an account?",
+    signUp:"Sign up",signIn:"Sign in",
+    weeklyFilm:"Film of the week",inviteFriends:"Invite friends",
+    inviteSub:"when they sign up with your code",
+    reviews:"Reviews",cast:"Cast",yourReview:"Your review",
+    publishReview:"Publish review",rateAndReview:"Rate & review",
+    reviewPlaceholder:"What did you think?",
+    feed:"Feed",ranking:"Ranking",upcoming:"Upcoming",
+    loading:"Searching the archive...",loadingMarathon:"Building your marathon...",
+    recommendations:"recommendations",onlyForYou:"✨ JUST FOR YOU",marathonMode:"🍿 MARATHON MODE",
+    newTest:"New test",myList:"My list",watchedFilms:"Watched films",
+    favGenres:"Favourite genres",recentSearches:"Recent searches",
+    notifTitle:"Enable notifications",notifSub:"Stay updated on releases you'll love",
+    activate:"Enable",watchNow:"Watch now on",searchPlatforms:"Search on platforms",
+    share:"Share",copy:"📋 Copy",copied:"✓ Copied",
+    trendingTag:"✦ TRENDING THIS WEEK",inviteCode:"Invite code",
+    editProfile:"✏️ Edit",saveProfile:"Save",cancel:"Cancel",
+    points:"Points",cinephilePoints:"Cinephile points",
+    remindRelease:"Notify me",releaseActive:"Active",
+    notifActivated:"🔔 Notifications enabled",saved:"Saved",
+    errFields:"Please fill all fields",errUser:"Wrong username or password",errExists:"Username already taken",
+    marathonSession:"🍿 Your marathon session",
+    director:"Director",
+  },
+  fr:{
+    appTag:"Le cinéma exactement pour ce moment.",
+    quizCta:"Que regarder aujourd'hui ?",quizSub:"Test d'humeur · personnalisé",
+    marathon:"🍿 Mode Marathon",marathonSub:"J'ai le temps. Donne-moi tout.",
+    search:"Rechercher films ou séries...",
+    watchedBtn:"Marquer comme vu",addList:"+ Ma liste",
+    watched:"✓ Vu",inList:"✓ Dans la liste",
+    save:"Sauvegardé",pts:"pts",
+    home:"Accueil",searchNav:"Recherche",forYou:"Pour toi",social:"Social",profile:"Profil",
+    login:"Se connecter",register:"Créer un compte",logout:"Se déconnecter",
+    name:"Nom complet",email:"Email",username:"Utilisateur",password:"Mot de passe",
+    loginWelcome:"Bon retour",loginSub:"Connecte-toi à ton compte Rack",
+    registerTitle:"Rejoindre Rack",registerSub:"Crée ton profil cinéphile",
+    noAccount:"Pas de compte ?",hasAccount:"Déjà un compte ?",
+    signUp:"S'inscrire",signIn:"Se connecter",
+    weeklyFilm:"Film de la semaine",inviteFriends:"Inviter des amis",
+    inviteSub:"quand ils s'inscrivent avec ton code",
+    reviews:"Avis",cast:"Distribution",yourReview:"Ton avis",
+    publishReview:"Publier l'avis",rateAndReview:"Note et commente",
+    reviewPlaceholder:"Qu'en as-tu pensé ?",
+    feed:"Fil",ranking:"Classement",upcoming:"Sorties",
+    loading:"Recherche en cours...",loadingMarathon:"Composition du marathon...",
+    recommendations:"recommandations",onlyForYou:"✨ RIEN QUE POUR TOI",marathonMode:"🍿 MODE MARATHON",
+    newTest:"Nouveau test",myList:"Ma liste",watchedFilms:"Films vus",
+    favGenres:"Genres préférés",recentSearches:"Recherches récentes",
+    notifTitle:"Activer les notifications",notifSub:"Sois informé des sorties",
+    activate:"Activer",watchNow:"Regarder sur",searchPlatforms:"Chercher sur les plateformes",
+    share:"Partager",copy:"📋 Copier",copied:"✓ Copié",
+    trendingTag:"✦ TENDANCE CETTE SEMAINE",inviteCode:"Code d'invitation",
+    editProfile:"✏️ Modifier",saveProfile:"Sauvegarder",cancel:"Annuler",
+    points:"Points",cinephilePoints:"Points cinéphile",
+    remindRelease:"Me prévenir",releaseActive:"Activé",
+    notifActivated:"🔔 Notifications activées",saved:"Sauvegardé",
+    errFields:"Remplis tous les champs",errUser:"Identifiants incorrects",errExists:"Utilisateur déjà pris",
+    marathonSession:"🍿 Ta session marathon",
+    director:"Réalisateur",
+  },
+};
+
+const TMDB_LANG = {es:"es-ES",en:"en-US",fr:"fr-FR"};
 const TMDB_KEY = "10f1051018046e4262a70010b517415c";
 const B = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p/w500";
@@ -549,6 +664,8 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent;}
 `;
 
 function App() {
+  const [lang, setLang] = useState(() => LS.get("rack_lang","es"));
+  const t = I18N[lang]||I18N.es;
   const [auth, setAuth] = useState(() => LS.get("rack_auth","onboarding"));
   const [user, setUser] = useState(() => LS.get("rack_user",null));
   const [obStep, setObStep] = useState(0);
@@ -587,6 +704,7 @@ function App() {
   const [err, setErr] = useState("");
   const stRef = useRef(null);
 
+  useEffect(()=>LS.set("rack_lang",lang),[lang]);
   useEffect(()=>LS.set("rack_auth",auth),[auth]);
   useEffect(()=>LS.set("rack_user",user),[user]);
   useEffect(()=>LS.set("rack_reviews",reviews),[reviews]);
@@ -606,7 +724,7 @@ function App() {
         .catch(()=>{});
     }
   },[auth]);
-  useEffect(()=>{if(screen==="social"&&socTab==="estrenos") tmdbUpcoming().then(setUpcoming).catch(()=>{});},[screen,socTab]);
+  useEffect(()=>{if(screen==="social"&&socTab==="upcoming") tmdbUpcoming().then(setUpcoming).catch(()=>{});},[screen,socTab]);
   useEffect(()=>{
     if(ptab==="all"){setPlatRes([]);return;}
     setLoadingPlat(true);
@@ -631,7 +749,7 @@ function App() {
   const reqNotif = async () => {
     if(!("Notification" in window)){t_("Navegador no soporta notificaciones");return;}
     const p = await Notification.requestPermission();
-    if(p==="granted"){setNotif(true);t_("🔔 Notificaciones activadas");try{new Notification("Rack",{body:"Te avisaremos de los próximos estrenos."});}catch{}}
+    if(p==="granted"){setNotif(true);t_(t.notifActivated);try{new Notification("Rack",{body:"Te avisaremos de los próximos estrenos."});}catch{}}
     else t_("Permisos denegados en ajustes");
   };
   const toggleNotifF = id => setNotifF(p=>{const n={...p};if(n[id])delete n[id];else n[id]=true;return n;});
@@ -731,7 +849,7 @@ function App() {
   const addL = async f => {
     if(!user||isL(f))return;
     setUser(p=>({...p,watchlist:[...(p.watchlist||[]),f]}));
-    t_("Guardada");
+    t_(t.save);
     try { await supa.from("watchlist").insert({user_id:user.id,film_id:String(f.id),film_title:f.titleEs||f.title,film_data:f}); } catch(e){}
   };
   const submitRev = async f => {
@@ -806,8 +924,8 @@ function App() {
             <p className="land-tag">El cine exacto para este momento.</p>
           </div>
           <div className="land-bottom">
-            <button className="btn btn-p" onClick={()=>{setAuthMode("register");setAuth("auth");}}>Crear cuenta</button>
-            <button className="btn btn-s" onClick={()=>{setAuthMode("login");setAuth("auth");}}>Iniciar sesión</button>
+            <button className="btn btn-p" onClick={()=>{setAuthMode("register");setAuth("auth");}}>{t.register}</button>
+            <button className="btn btn-s" onClick={()=>{setAuthMode("login");setAuth("auth");}}>{t.login}</button>
           </div>
         </div>
       )}
@@ -824,7 +942,7 @@ function App() {
             <div className="field"><label>Usuario</label><input placeholder="tu_usuario" value={lH} onChange={e=>setLH(e.target.value)} onKeyDown={e=>e.key==="Enter"&&doLogin()}/></div>
             <div className="field"><label>Contraseña</label><input type="password" placeholder="••••••••" value={lP} onChange={e=>setLP(e.target.value)} onKeyDown={e=>e.key==="Enter"&&doLogin()}/></div>
             <div className="demo-hint">Demo: <strong>sofiam</strong>, <strong>marcosr</strong>, <strong>laiat</strong>, <strong>andresb</strong> · pass: <strong>1234</strong></div>
-            <button className="btn btn-p" style={{marginTop:16}} onClick={doLogin}>Entrar</button>
+            <button className="btn btn-p" style={{marginTop:16}} onClick={doLogin}>{t.login}</button>
             <div className="auth-hint">¿Sin cuenta? <button onClick={()=>{setAuthMode("register");setErr("");}}>Regístrate</button></div>
           </React.Fragment> : <React.Fragment>
             <div className="auth-ttl">Únete a Rack</div>
@@ -834,7 +952,7 @@ function App() {
             <div className="field"><label>Email</label><input type="email" placeholder="tu@email.com" value={rE} onChange={e=>setRE(e.target.value)}/></div>
             <div className="field"><label>Usuario</label><input placeholder="tu_usuario" value={rH} onChange={e=>setRH(e.target.value)}/></div>
             <div className="field"><label>Contraseña</label><input type="password" placeholder="••••••••" value={rP} onChange={e=>setRP(e.target.value)} onKeyDown={e=>e.key==="Enter"&&doReg()}/></div>
-            <button className="btn btn-p" style={{marginTop:14}} onClick={doReg}>Crear cuenta</button>
+            <button className="btn btn-p" style={{marginTop:14}} onClick={doReg}>{t.register}</button>
             <div className="auth-hint">¿Ya tienes cuenta? <button onClick={()=>{setAuthMode("login");setErr("");}}>Inicia sesión</button></div>
           </React.Fragment>}
         </div>
@@ -853,7 +971,7 @@ function App() {
                   <div style={{fontSize:13,fontWeight:600,color:"var(--acc2)",marginBottom:2}}>Activa las notificaciones</div>
                   <div style={{fontSize:11,color:"var(--t3)"}}>Entérate de estrenos según tus gustos</div>
                 </div>
-                <button className="notif-ban-btn" onClick={reqNotif}>Activar</button>
+                <button className="notif-ban-btn" onClick={reqNotif}>{t.activate}</button>
               </div>
             )}
             <button className="quiz-cta" onClick={()=>goQuiz(false)}>
@@ -879,7 +997,7 @@ function App() {
             <div className="stats-row">
               <div className="stat-card"><div className="stat-n">{user.score}</div><div className="stat-l">Puntos</div></div>
               <div className="stat-card"><div className="stat-n">{(user.watched||[]).length}</div><div className="stat-l">Vistas</div></div>
-              <div className="stat-card"><div className="stat-n">{reviews.filter(r=>r.userId===user.id).length}</div><div className="stat-l">Reseñas</div></div>
+              <div className="stat-card"><div className="stat-n">{reviews.filter(r=>r.userId===user.id).length}</div><div className="stat-l">{t.reviews}</div></div>
             </div>
             {films.length>0&&<button className="btn btn-s" style={{marginBottom:10}} onClick={()=>setScreen("results")}>Ver últimas recomendaciones →</button>}
             {(user.favGenres||[]).length>0&&(
@@ -928,7 +1046,7 @@ function App() {
             <div className="logo" style={{marginBottom:14}}>ra<span>ck</span></div>
             <div className="search-box">
               <span className="si-ic">🔍</span>
-              <input className="search-input" placeholder="Busca películas o series..." value={searchQ} onChange={e=>setSearchQ(e.target.value)} autoFocus/>
+              <input className="search-input" placeholder={t.search} value={searchQ} onChange={e=>setSearchQ(e.target.value)} autoFocus/>
               {searchQ&&<button className="si-cl" onClick={()=>{setSearchQ("");setSearchRes([]);}}>✕</button>}
             </div>
             <div className="ptabs">
@@ -952,7 +1070,7 @@ function App() {
                     <div className="fli-desc">{f.description}</div>
                     <div className="fli-acts" onClick={e=>e.stopPropagation()}>
                       <button className={`pb ${isL(f)?"pb-done":"pb-neu"}`} onClick={()=>addL(f)}>{isL(f)?"✓ Lista":"+ Lista"}</button>
-                      <button className={`pb ${isW(f)?"pb-done":"pb-acc"}`} onClick={()=>markW(f)}>{isW(f)?"✓ Vista":"Marcar vista"}</button>
+                      <button className={`pb ${isW(f)?"pb-done":"pb-acc"}`} onClick={()=>markW(f)}>{isW(f)?t.watched:"Marcar vista"}</button>
                     </div>
                   </div>
                 </div>
@@ -980,7 +1098,7 @@ function App() {
                     <div className="fli-desc">{f.description}</div>
                     <div className="fli-acts" onClick={e=>e.stopPropagation()}>
                       <button className={`pb ${isL(f)?"pb-done":"pb-neu"}`} onClick={()=>addL(f)}>{isL(f)?"✓ Lista":"+ Lista"}</button>
-                      <button className={`pb ${isW(f)?"pb-done":"pb-acc"}`} onClick={()=>markW(f)}>{isW(f)?"✓ Vista":"Marcar vista"}</button>
+                      <button className={`pb ${isW(f)?"pb-done":"pb-acc"}`} onClick={()=>markW(f)}>{isW(f)?t.watched:"Marcar vista"}</button>
                     </div>
                   </div>
                 </div>
@@ -1060,7 +1178,7 @@ function App() {
                   </div>
                 ))}
               </div>
-              <button className="btn btn-p" style={{marginTop:16}} onClick={()=>goQuiz(marathon)}>Nuevo test</button>
+              <button className="btn btn-p" style={{marginTop:16}} onClick={()=>goQuiz(marathon)}>{t.newTest}</button>
             </div>
           </>
         )}
@@ -1077,7 +1195,7 @@ function App() {
                     <div style={{marginBottom:5}}><TypePill item={sel}/></div>
                     <div className="det-title">{sel.titleEs||sel.title}</div>
                     <div className="det-info">
-                      {sel.director&&<div>🎬 {sel.director}</div>}
+                      {sel.director&&<div>{t.director}: {sel.director}</div>}
                       <div>📅 {sel.year}{sel.duration?` · ${sel.duration}`:""}</div>
                       {sel.genres?.length>0&&<div>🏷 {sel.genres.join(", ")}</div>}
                     </div>
@@ -1101,8 +1219,8 @@ function App() {
                   </div>
                 </>}
                 <div className="det-btns">
-                  <button className={`det-btn db-p${isW(sel)?" db-done":""}`} onClick={()=>markW(sel)}>{isW(sel)?"✓ Vista":"Marcar como vista"}</button>
-                  <button className={`det-btn db-s${isL(sel)?" db-done":""}`} onClick={()=>addL(sel)}>{isL(sel)?"✓ En lista":"+ Mi lista"}</button>
+                  <button className={`det-btn db-p${isW(sel)?" db-done":""}`} onClick={()=>markW(sel)}>{isW(sel)?t.watched:t.watchedBtn}</button>
+                  <button className={`det-btn db-s${isL(sel)?" db-done":""}`} onClick={()=>addL(sel)}>{isL(sel)?t.inList:t.addList}</button>
                 </div>
                 <StreamLinks film={sel}/>
                 <ShareBtns film={sel}/>
@@ -1110,8 +1228,8 @@ function App() {
                 <div className="rev-sec">
                   <div style={{fontSize:10,fontWeight:700,letterSpacing:".06em",textTransform:"uppercase",color:"var(--t3)",marginBottom:9}}>Puntúa y reseña</div>
                   <div className="stars">{[1,2,3,4,5].map(s=><button key={s} className={`star${s<=revSt?" on":""}`} onClick={()=>setRevSt(s)}>★</button>)}</div>
-                  <textarea className="rev-ta" placeholder="¿Qué te pareció?" value={revTxt} onChange={e=>setRevTxt(e.target.value)}/>
-                  <button className="rev-sub" disabled={!revTxt.trim()||!revSt} onClick={()=>submitRev(sel)}>Publicar reseña</button>
+                  <textarea className="rev-ta" placeholder={t.reviewPlaceholder} value={revTxt} onChange={e=>setRevTxt(e.target.value)}/>
+                  <button className="rev-sub" disabled={!revTxt.trim()||!revSt} onClick={()=>submitRev(sel)}>{t.publishReview}</button>
                 </div>
                 {filmRevs.length>0&&<>
                   <div className="sec">Reseñas · {filmRevs.length}</div>
@@ -1136,10 +1254,8 @@ function App() {
             <div className="ph"><div className="logo">ra<span>ck</span></div></div>
             <div className="page" style={{paddingTop:0}}>
               <div className="tab-row">
-                {["feed","ranking","reseñas","estrenos"].map(t=>(
-                  <button key={t} className={`tab-btn${socTab===t?" active":""}`} onClick={()=>setSocTab(t)}>
-                    {t.charAt(0).toUpperCase()+t.slice(1)}
-                  </button>
+                {[["feed",t.feed],["ranking",t.ranking],["reviews",t.reviews],["upcoming",t.upcoming]].map(([tid,tlabel])=>(
+                  <button key={tid} className={`tab-btn${socTab===tid?" active":""}`} onClick={()=>setSocTab(tid)}>{tlabel}</button>
                 ))}
               </div>
               {socTab==="feed"&&DEMO_FEED.map((a,i)=>(
@@ -1161,7 +1277,7 @@ function App() {
                   <div style={{textAlign:"right"}}><div className="rank-score">{u.score}</div><div style={{fontSize:9,color:"var(--t3)"}}>pts</div></div>
                 </div>
               ))}
-              {socTab==="reseñas"&&reviews.map(r=>(
+              {socTab==="reviews"&&reviews.map(r=>(
                 <div key={r.id} className="rc" style={{paddingTop:13}}>
                   <div style={{fontSize:10,fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",color:"var(--acc2)",marginBottom:6}}>{r.film}</div>
                   <div className="rc-h">
@@ -1172,7 +1288,7 @@ function App() {
                   <button className={`rc-like${r.likedBy.includes(user.id)?" liked":""}`} onClick={()=>toggleLike(r.id)}>♥ {r.likes}</button>
                 </div>
               ))}
-              {socTab==="estrenos"&&<>
+              {socTab==="upcoming"&&<>
                 {!notif&&(
                   <div className="notif-ban" style={{marginBottom:14}}>
                     <div style={{fontSize:22}}>🔔</div>
@@ -1226,7 +1342,14 @@ function App() {
                 <div className="prof-handle">@{user.handle}</div>
                 <div style={{display:"flex",gap:6,alignItems:"center",marginTop:6}}>
                   <div className="prof-badge">{badge?.icon} {badge?.label}</div>
-                  <button style={{background:"var(--s2)",border:"1px solid var(--b)",borderRadius:20,padding:"3px 10px",fontSize:11,color:"var(--t3)",cursor:"pointer"}} onClick={()=>setEditingProfile(true)}>✏️ Editar</button>
+                  <button style={{background:"var(--s2)",border:"1px solid var(--b)",borderRadius:20,padding:"3px 10px",fontSize:11,color:"var(--t3)",cursor:"pointer"}} onClick={()=>setEditingProfile(true)}>{t.editProfile}</button>
+                </div>
+                <div style={{display:"flex",gap:5,marginTop:8}}>
+                  {["es","en","fr"].map(l=>(
+                    <button key={l} onClick={()=>setLang(l)} style={{padding:"3px 9px",borderRadius:20,border:`1px solid ${lang===l?"var(--acc)":"var(--b)"}`,background:lang===l?"var(--acc3)":"transparent",color:lang===l?"var(--acc2)":"var(--t3)",fontSize:11,fontWeight:lang===l?700:400,cursor:"pointer"}}>
+                      {{es:"🇪🇸 ES",en:"🇬🇧 EN",fr:"🇫🇷 FR"}[l]}
+                    </button>
+                  ))}
                 </div>
               </>}
             </div>
@@ -1277,7 +1400,7 @@ function App() {
                   </div>
                 ))}
               </>}
-              <button className="logout-btn" onClick={doLogout}>Cerrar sesión</button>
+              <button className="logout-btn" onClick={doLogout}>{t.logout}</button>
             </div>
           </>
         )}
@@ -1285,11 +1408,11 @@ function App() {
         {screen!=="quiz"&&(
           <nav className="nav">
             {[
-              {s:"home",l:"Inicio",ic:"🏠"},
-              {s:"search",l:"Buscar",ic:"🔍"},
-              {s:"results",l:"Para ti",ic:"✨",dis:films.length===0},
-              {s:"social",l:"Social",ic:"👥"},
-              {s:"profile",l:"Perfil",ic:"👤"},
+              {s:"home",l:t.home,ic:"🏠"},
+              {s:"search",l:t.searchNav,ic:"🔍"},
+              {s:"results",l:t.forYou,ic:"✨",dis:films.length===0},
+              {s:"social",l:t.social,ic:"👥"},
+              {s:"profile",l:t.profile,ic:"👤"},
             ].map(({s,l,ic,dis})=>(
               <button key={s} className={`nb${screen===s?" active":""}`} style={{opacity:dis?0.3:1}} onClick={dis?undefined:()=>setScreen(s)}>
                 <div className="nb-ic">{ic}</div>
