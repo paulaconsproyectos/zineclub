@@ -277,6 +277,10 @@ function ShareBtns({film}) {
 
 const CSS = `
 .app{max-width:430px;margin:0 auto;min-height:100vh;background:var(--bg);overflow-x:hidden;}
+.screen-enter{animation:screenIn .25s cubic-bezier(.4,0,.2,1);}
+@keyframes screenIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1)}}
 button{cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .ob{min-height:100vh;display:flex;flex-direction:column;}
 .ob-slides{flex:1;position:relative;overflow:hidden;min-height:52vh;}
@@ -535,6 +539,11 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:var(--s2);color:var(--t);border:1px solid var(--b2);border-radius:20px;padding:8px 16px;font-size:13px;font-weight:500;z-index:999;white-space:nowrap;animation:tin .22s ease;box-shadow:0 8px 24px rgba(0,0,0,.5);pointer-events:none;}
 @keyframes tin{from{opacity:0;transform:translateX(-50%) translateY(8px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
 .empty{padding:40px 0;text-align:center;color:var(--t3);}
+.skel{background:linear-gradient(90deg,var(--s2) 25%,var(--s3) 50%,var(--s2) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{border-radius:13px;height:180px;margin-bottom:9px;}
+.skel-line{border-radius:6px;height:12px;margin-bottom:6px;}
+.skel-line-sm{border-radius:6px;height:9px;margin-bottom:4px;width:60%;}
 .empty-i{font-size:36px;margin-bottom:9px;}
 .empty-t{font-size:13px;}
 `;
@@ -555,6 +564,7 @@ function App() {
   const [answers, setAnswers] = useState({});
   const [multi, setMulti] = useState([]);
   const [searchQ, setSearchQ] = useState("");
+  const [searchHistory, setSearchHistory] = useState(() => LS.get("rack_search_history",[]));
   const [searchRes, setSearchRes] = useState([]);
   const [searching, setSearching] = useState(false);
   const [ptab, setPtab] = useState("all");
@@ -562,6 +572,8 @@ function App() {
   const [loadingPlat, setLoadingPlat] = useState(false);
   const [upcoming, setUpcoming] = useState([]);
   const [notif, setNotif] = useState(() => LS.get("rack_notif",false));
+  const [editingProfile, setEditingProfile] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState(null);
   const [notifF, setNotifF] = useState(() => LS.get("rack_notifF",{}));
   const [reviews, setReviews] = useState(() => LS.get("rack_reviews",DEMO_REVIEWS));
   const [revTxt, setRevTxt] = useState("");
@@ -605,7 +617,13 @@ function App() {
     if(!searchQ.trim()||ptab!=="all"){setSearchRes([]);return;}
     setSearching(true);
     stRef.current = setTimeout(async()=>{
-      try{const r=await tmdbSearch(searchQ);setSearchRes(r);}catch{}
+      try{
+        const r=await tmdbSearch(searchQ);setSearchRes(r);
+        if(searchQ.trim().length>2){
+          const h = [searchQ,...searchHistory.filter(x=>x!==searchQ)].slice(0,8);
+          setSearchHistory(h);LS.set("rack_search_history",h);
+        }
+      }catch{}
       setSearching(false);
     },450);
   },[searchQ,ptab]);
@@ -617,6 +635,28 @@ function App() {
     else t_("Permisos denegados en ajustes");
   };
   const toggleNotifF = id => setNotifF(p=>{const n={...p};if(n[id])delete n[id];else n[id]=true;return n;});
+
+  const handleAvatarChange = async (e) => {
+    const file = e.target.files[0]; if(!file) return;
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      const dataUrl = ev.target.result;
+      setAvatarPreview(dataUrl);
+      setUser(p=>({...p,avatar:dataUrl}));
+      LS.set("rack_avatar_"+user.id, dataUrl);
+      try { await supa.from("users").update({avatar:dataUrl.slice(0,500)}).eq("id",user.id); } catch(e){}
+      t_("✓ Foto actualizada");
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const saveProfile = async (newName, newHandle) => {
+    if(!newName.trim()) return;
+    setUser(p=>({...p,name:newName,handle:newHandle||p.handle}));
+    try { await supa.from("users").update({name:newName,handle:newHandle}).eq("id",user.id); } catch(e){}
+    setEditingProfile(false);
+    t_("✓ Perfil actualizado");
+  };
 
   const doLogin = async () => {
     if(!lH.trim()||!lP.trim()){setErr("Rellena todos los campos");return;}
@@ -680,6 +720,7 @@ function App() {
   const markW = async f => {
     if(!user||isW(f))return;
     const pts = Math.round((parseFloat(f.score)||5)*10);
+    try{if(navigator.vibrate)navigator.vibrate([30,20,60]);}catch{}
     setUser(p=>({...p,watched:[...(p.watched||[]),f],score:p.score+pts}));
     t_(`+${pts} pts`);
     try {
@@ -841,11 +882,33 @@ function App() {
               <div className="stat-card"><div className="stat-n">{reviews.filter(r=>r.userId===user.id).length}</div><div className="stat-l">Reseñas</div></div>
             </div>
             {films.length>0&&<button className="btn btn-s" style={{marginBottom:10}} onClick={()=>setScreen("results")}>Ver últimas recomendaciones →</button>}
+            {(user.favGenres||[]).length>0&&(
+              <div style={{background:"var(--acc4)",border:"1px solid rgba(99,102,241,0.2)",borderRadius:12,padding:"11px 14px",marginBottom:10,display:"flex",alignItems:"center",gap:10}}>
+                <span style={{fontSize:18}}>🎯</span>
+                <div style={{flex:1}}>
+                  <div style={{fontSize:12,fontWeight:600,color:"var(--acc2)"}}>Basado en tus géneros</div>
+                  <div style={{fontSize:11,color:"var(--t3)"}}>{(user.favGenres||[]).slice(0,3).join(" · ")}</div>
+                </div>
+                <button style={{background:"var(--acc)",color:"#fff",border:"none",borderRadius:8,padding:"6px 12px",fontSize:12,fontWeight:600,cursor:"pointer"}} onClick={()=>goQuiz(false)}>Ver →</button>
+              </div>
+            )}
             <div className="invite-row" onClick={()=>setShowInv(true)}>
               <div><div className="ir-t">Invitar amigos</div><div className="ir-s">+100 pts cuando se registren con tu código</div></div>
               <span style={{color:"var(--acc2)"}}>→</span>
             </div>
             {(user.watchlist||[]).length>0 && <>
+              <div className="sec">Géneros favoritos</div>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:16}}>
+                {["Terror","Comedia","Drama","Thriller","Sci-Fi","Romance","Documental","Animación"].map(g=>{
+                  const favs = user.favGenres||[];
+                  const on = favs.includes(g);
+                  return <button key={g} onClick={()=>{
+                    const nf = on?favs.filter(x=>x!==g):[...favs,g];
+                    setUser(p=>({...p,favGenres:nf}));
+                    LS.set("rack_genres_"+user.id,nf);
+                  }} style={{padding:"6px 12px",borderRadius:20,border:`1px solid ${on?"var(--acc)":"var(--b2)"}`,background:on?"var(--acc3)":"var(--s2)",color:on?"var(--acc2)":"var(--t3)",fontSize:12,fontWeight:on?600:400,cursor:"pointer",transition:"all .15s"}}>{g}</button>;
+                })}
+              </div>
               <div className="sec">Mi lista</div>
               {(user.watchlist||[]).slice(0,4).map((f,i)=>(
                 <div key={i} className="wl-item" onClick={()=>goDetail(f,"home")}>
@@ -896,6 +959,16 @@ function App() {
               ))}
               {!searching&&!searchQ&&<div className="empty"><div className="empty-i">🍿</div><div className="empty-t">Busca cualquier peli o serie</div></div>}
               {!searching&&searchQ&&searchRes.length===0&&<div className="empty"><div className="empty-i">🔎</div><div className="empty-t">Sin resultados para "{searchQ}"</div></div>}
+              {!searching&&!searchQ&&searchHistory.length>0&&<>
+                <div className="sec" style={{marginTop:8}}>Búsquedas recientes</div>
+                {searchHistory.map((h,i)=>(
+                  <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 0",borderBottom:"1px solid var(--b)",cursor:"pointer"}} onClick={()=>setSearchQ(h)}>
+                    <span style={{color:"var(--t3)",fontSize:14}}>🕐</span>
+                    <span style={{fontSize:13,color:"var(--t2)"}}>{h}</span>
+                    <button style={{marginLeft:"auto",background:"none",border:"none",color:"var(--t4)",fontSize:12,cursor:"pointer"}} onClick={e=>{e.stopPropagation();const nh=searchHistory.filter(x=>x!==h);setSearchHistory(nh);LS.set("rack_search_history",nh);}}>✕</button>
+                  </div>
+                ))}
+              </>}
             </React.Fragment> : <React.Fragment>
               {loadingPlat&&<div style={{textAlign:"center",padding:"32px 0",color:"var(--t3)"}}>Cargando {ptab}...</div>}
               {!loadingPlat&&platRes.map((f,i)=>(
@@ -946,7 +1019,15 @@ function App() {
         )}
 
         {screen==="results"&&loading&&(
-          <div className="loading-page"><div className="spinner"/><div className="loading-txt">{marathon?"Armando tu maratón...":"Buscando en la cinemateca..."}</div></div>
+          <div className="loading-page">
+            <div className="spinner"/>
+            <div className="loading-txt">{marathon?"Armando tu maratón...":"Buscando en la cinemateca..."}</div>
+            <div style={{width:"100%",padding:"0 18px",marginTop:24}}>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:9}}>
+                {[1,2,3,4].map(i=><div key={i}><div className="skel skel-card"/><div className="skel skel-line"/><div className="skel skel-line-sm"/></div>)}
+              </div>
+            </div>
+          </div>
         )}
 
         {screen==="results"&&!loading&&(
@@ -1124,10 +1205,30 @@ function App() {
         {screen==="profile"&&(
           <>
             <div className="prof-hd">
-              <div className="prof-av">{ini(user.name)}</div>
-              <div className="prof-name">{user.name}</div>
-              <div className="prof-handle">@{user.handle}</div>
-              <div className="prof-badge" style={{marginTop:6}}>{badge?.icon} {badge?.label}</div>
+              <div style={{position:"relative",width:72,height:72,marginBottom:11}}>
+                {user.avatar||avatarPreview
+                  ? <img src={user.avatar||avatarPreview} style={{width:72,height:72,borderRadius:"50%",objectFit:"cover",border:"2px solid var(--acc)"}} alt=""/>
+                  : <div className="prof-av">{ini(user.name)}</div>
+                }
+                <label style={{position:"absolute",bottom:0,right:0,width:24,height:24,borderRadius:"50%",background:"var(--acc)",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",fontSize:12}}>
+                  📷<input type="file" accept="image/*" style={{display:"none"}} onChange={handleAvatarChange}/>
+                </label>
+              </div>
+              {editingProfile ? <>
+                <input defaultValue={user.name} id="edit-name" style={{background:"var(--s2)",border:"1px solid var(--acc)",borderRadius:8,padding:"8px 12px",color:"var(--t)",fontSize:15,marginBottom:6,width:"100%",outline:"none"}}/>
+                <input defaultValue={user.handle} id="edit-handle" style={{background:"var(--s2)",border:"1px solid var(--b2)",borderRadius:8,padding:"8px 12px",color:"var(--t2)",fontSize:13,marginBottom:10,width:"100%",outline:"none"}}/>
+                <div style={{display:"flex",gap:6,marginBottom:10}}>
+                  <button style={{flex:1,padding:"9px",background:"var(--acc)",color:"#fff",border:"none",borderRadius:9,fontSize:13,fontWeight:600,cursor:"pointer"}} onClick={()=>saveProfile(document.getElementById("edit-name").value,document.getElementById("edit-handle").value)}>Guardar</button>
+                  <button style={{flex:1,padding:"9px",background:"var(--s2)",color:"var(--t2)",border:"1px solid var(--b)",borderRadius:9,fontSize:13,cursor:"pointer"}} onClick={()=>setEditingProfile(false)}>Cancelar</button>
+                </div>
+              </> : <>
+                <div className="prof-name">{user.name}</div>
+                <div className="prof-handle">@{user.handle}</div>
+                <div style={{display:"flex",gap:6,alignItems:"center",marginTop:6}}>
+                  <div className="prof-badge">{badge?.icon} {badge?.label}</div>
+                  <button style={{background:"var(--s2)",border:"1px solid var(--b)",borderRadius:20,padding:"3px 10px",fontSize:11,color:"var(--t3)",cursor:"pointer"}} onClick={()=>setEditingProfile(true)}>✏️ Editar</button>
+                </div>
+              </>}
             </div>
             <div className="page" style={{paddingTop:0}}>
               <div className="score-blk">
@@ -1156,7 +1257,19 @@ function App() {
                 ))}
               </>}
               {(user.watchlist||[]).length>0&&<>
-                <div className="sec">Mi lista</div>
+                <div className="sec">Géneros favoritos</div>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:16}}>
+                {["Terror","Comedia","Drama","Thriller","Sci-Fi","Romance","Documental","Animación"].map(g=>{
+                  const favs = user.favGenres||[];
+                  const on = favs.includes(g);
+                  return <button key={g} onClick={()=>{
+                    const nf = on?favs.filter(x=>x!==g):[...favs,g];
+                    setUser(p=>({...p,favGenres:nf}));
+                    LS.set("rack_genres_"+user.id,nf);
+                  }} style={{padding:"6px 12px",borderRadius:20,border:`1px solid ${on?"var(--acc)":"var(--b2)"}`,background:on?"var(--acc3)":"var(--s2)",color:on?"var(--acc2)":"var(--t3)",fontSize:12,fontWeight:on?600:400,cursor:"pointer",transition:"all .15s"}}>{g}</button>;
+                })}
+              </div>
+              <div className="sec">Mi lista</div>
                 {(user.watchlist||[]).map((f,i)=>(
                   <div key={i} className="wl-item" onClick={()=>goDetail(f,"profile")}>
                     {f.poster?<img className="wl-p" src={f.poster} alt="" loading="lazy"/>:<div className="wl-pe">🎬</div>}
