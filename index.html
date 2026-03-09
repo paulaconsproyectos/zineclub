@@ -664,7 +664,7 @@ function App(){
       var d=await r.json();
       var movies=(d.results||[]).slice(0,10).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"",type:"Película",mediaType:"movie",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});
       var enriched=await Promise.all(movies.map(enrichItem));
-      setTkFilms(enriched.filter(function(m){return m.trailerKey;}));
+      setTkFilms(enriched.filter(function(m){return m.trailerKey;}));setTimeout(function(){if(window.initYTPlayers)window.initYTPlayers();},800);
     }catch{}
     setTkLoading(false);
   }
@@ -984,15 +984,16 @@ function App(){
             </div>
           )}
           {!tkLoading && (
-            <div className="tk-feed" onScroll={function(e){setTkIdx(Math.round(e.target.scrollTop/window.innerHeight));}}>
+            <div className="tk-feed" onScroll={function(e){var idx=Math.round(e.target.scrollTop/window.innerHeight);setTkIdx(idx);setTimeout(function(){if(window.initYTPlayers)window.initYTPlayers();},300);}}>
               {tkFilms.map(function(f,i){
                 var bg=f.backdrop||f.poster;
-                var trailerSrc="https://www.youtube.com/embed/"+f.trailerKey+"?autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&playsinline=1&rel=0&enablejsapi=1&playlist="+f.trailerKey;
+                var ytThumb=f.trailerKey?"https://img.youtube.com/vi/"+f.trailerKey+"/maxresdefault.jpg":null;
+                var trailerSrc="https://www.youtube.com/embed/"+f.trailerKey+"?autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&playsinline=1&rel=0&enablejsapi=1&origin="+encodeURIComponent("https://paulaconsproyectos.github.io")+"&playlist="+f.trailerKey;
                 return (
                   <div key={i} className="tk-card">
-                    {bg && <img className="tk-bg" src={bg} alt=""/>}
-                    {!bg && <div className="tk-bg" style={{background:"linear-gradient(135deg,#1a1a2e,#16213e)"}}/>}
-                    {f.trailerKey && i===tkIdx && <iframe key={"yt-"+i+"-"+tkIdx} className="tk-iframe" src={trailerSrc} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen/>}
+                    {(ytThumb||bg) && <img className="tk-bg" src={ytThumb||bg} alt=""/>}
+                    {!ytThumb && !bg && <div className="tk-bg" style={{background:"linear-gradient(135deg,#1a1a2e,#16213e)"}}/>}
+                    {f.trailerKey && i===tkIdx && <iframe key={"yt-"+i+"-"+tkIdx} id={"ytf-"+i} className="tk-iframe" src={trailerSrc} allow="autoplay; encrypted-media; picture-in-picture; web-share" allowFullScreen/>}
                     <div className="tk-grad"/>
                     <div className="tk-top" style={{background:"none",pointerEvents:"none"}}/>
                     <div className="tk-content">
@@ -1789,16 +1790,47 @@ function App(){
 ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
 </script>
 <script>
-// Force YouTube autoplay via postMessage when slide changes
-function forceYTPlay() {
-  var iframes = document.querySelectorAll('.tk-iframe');
-  iframes.forEach(function(f) {
-    try {
-      f.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-    } catch(e) {}
+// YouTube IFrame API
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+document.head.appendChild(tag);
+
+var ytPlayers = {};
+
+window.onYouTubeIframeAPIReady = function() {
+  initYTPlayers();
+};
+
+function initYTPlayers() {
+  document.querySelectorAll('.tk-iframe').forEach(function(iframe) {
+    var id = iframe.id;
+    if(id && !ytPlayers[id]) {
+      ytPlayers[id] = new YT.Player(id, {
+        events: {
+          onReady: function(e) {
+            try { e.target.mute(); e.target.playVideo(); } catch(err) {}
+          },
+          onStateChange: function(e) {
+            // YT.PlayerState.ENDED = 0, loop manually
+            if(e.data === 0) { try { e.target.playVideo(); } catch(err) {} }
+          }
+        }
+      });
+    }
   });
 }
-setInterval(forceYTPlay, 800);
+
+// Aggressive postMessage fallback - fires every 500ms
+setInterval(function() {
+  document.querySelectorAll('.tk-iframe').forEach(function(f) {
+    try {
+      f.contentWindow.postMessage(JSON.stringify({event:'command',func:'mute',args:[]}), '*');
+      f.contentWindow.postMessage(JSON.stringify({event:'command',func:'playVideo',args:[]}), '*');
+    } catch(e) {}
+  });
+  // Re-init any new iframes
+  if(window.YT && window.YT.Player) initYTPlayers();
+}, 500);
 </script>
 <script>
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
