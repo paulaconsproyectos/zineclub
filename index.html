@@ -13,6 +13,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
@@ -95,6 +96,10 @@ const ini = n => (n||"?").split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCas
 const genCode = () => Math.random().toString(36).substring(2,8).toUpperCase();
 const clamp = (n,a,b) => Math.min(Math.max(n,a),b);
 const enc = s => encodeURIComponent(s||"");
+
+const SUPA_URL = "https://scqoqwmkptyxwpiwhkyk.supabase.co";
+const SUPA_KEY = "sb_publishable_GPGtFCLX8xNSIvyCznVDrg_K3xhtb4N";
+const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
 
 const LS = {
   get:(k,d)=>{try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d;}catch{return d;}},
@@ -577,7 +582,15 @@ function App() {
 
   const t_ = msg => { setToast(msg); setTimeout(()=>setToast(null),2500); };
 
-  useEffect(()=>{if(auth==="app") tmdbWeekly().then(setPotw).catch(()=>{});},[auth]);
+  useEffect(()=>{
+    if(auth==="app"){
+      tmdbWeekly().then(setPotw).catch(()=>{});
+      // Load reviews from Supabase
+      supa.from("reviews").select("*").order("created_at",{ascending:false}).limit(50)
+        .then(({data})=>{if(data&&data.length>0)setReviews(data.map(r=>({...r,userId:r.user_id,userName:r.user_name,likedBy:[]})));})
+        .catch(()=>{});
+    }
+  },[auth]);
   useEffect(()=>{if(screen==="social"&&socTab==="estrenos") tmdbUpcoming().then(setUpcoming).catch(()=>{});},[screen,socTab]);
   useEffect(()=>{
     if(ptab==="all"){setPlatRes([]);return;}
@@ -602,8 +615,17 @@ function App() {
   };
   const toggleNotifF = id => setNotifF(p=>{const n={...p};if(n[id])delete n[id];else n[id]=true;return n;});
 
-  const doLogin = () => {
+  const doLogin = async () => {
     if(!lH.trim()||!lP.trim()){setErr("Rellena todos los campos");return;}
+    // Try Supabase first
+    try {
+      const {data,error} = await supa.from("users").select("*").eq("handle",lH.toLowerCase().trim()).eq("password",lP).single();
+      if(data && !error){
+        setUser({...data,watched:LS.get("rack_w_"+data.id,[]),watchlist:LS.get("rack_l_"+data.id,[])});
+        setAuth("app");setErr("");return;
+      }
+    } catch(e){}
+    // Fallback to demo users
     const saved = LS.get("rack_users",[]);
     const all = [...DEMO_USERS.map(u=>({...u,password:"1234"})),...saved];
     const found = all.find(u=>u.handle===lH.toLowerCase().trim()&&u.password===lP);
@@ -611,11 +633,20 @@ function App() {
     setUser({...found,watched:LS.get("rack_w_"+found.id,[]),watchlist:LS.get("rack_l_"+found.id,[])});
     setAuth("app");setErr("");
   };
-  const doReg = () => {
+  const doReg = async () => {
     if(!rN.trim()||!rH.trim()||!rP.trim()){setErr("Rellena todos los campos");return;}
+    const handle = rH.toLowerCase().trim();
+    // Check if handle exists in Supabase
+    try {
+      const {data} = await supa.from("users").select("id").eq("handle",handle).single();
+      if(data){setErr("Usuario ya existe");return;}
+    } catch(e){}
+    // Also check demo users
     const saved = LS.get("rack_users",[]);
-    if([...DEMO_USERS,...saved].find(u=>u.handle===rH.toLowerCase().trim())){setErr("Usuario ya existe");return;}
-    const nu = {id:"u"+Date.now(),name:rN.trim(),handle:rH.toLowerCase().trim(),password:rP,score:0};
+    if([...DEMO_USERS,...saved].find(u=>u.handle===handle)){setErr("Usuario ya existe");return;}
+    const nu = {id:"u"+Date.now(),name:rN.trim(),handle,password:rP,score:0};
+    // Save to Supabase
+    try { await supa.from("users").insert(nu); } catch(e){}
     LS.set("rack_users",[...saved,nu]);
     setUser({...nu,watched:[],watchlist:[]});setAuth("app");setErr("");
   };
@@ -643,16 +674,27 @@ function App() {
 
   const isW = f => !!(user?.watched||[]).find(w=>w.id===f.id);
   const isL = f => !!(user?.watchlist||[]).find(w=>w.id===f.id);
-  const markW = f => {
+  const markW = async f => {
     if(!user||isW(f))return;
     const pts = Math.round((parseFloat(f.score)||5)*10);
-    setUser(p=>({...p,watched:[...(p.watched||[]),f],score:p.score+pts}));t_(`+${pts} pts`);
+    setUser(p=>({...p,watched:[...(p.watched||[]),f],score:p.score+pts}));
+    t_(`+${pts} pts`);
+    try {
+      await supa.from("watched").insert({user_id:user.id,film_id:String(f.id),film_title:f.titleEs||f.title,film_data:f});
+      await supa.from("users").update({score:user.score+pts}).eq("id",user.id);
+    } catch(e){}
   };
-  const addL = f => {if(!user||isL(f))return;setUser(p=>({...p,watchlist:[...(p.watchlist||[]),f]}));t_("Guardada");};
-  const submitRev = f => {
+  const addL = async f => {
+    if(!user||isL(f))return;
+    setUser(p=>({...p,watchlist:[...(p.watchlist||[]),f]}));
+    t_("Guardada");
+    try { await supa.from("watchlist").insert({user_id:user.id,film_id:String(f.id),film_title:f.titleEs||f.title,film_data:f}); } catch(e){}
+  };
+  const submitRev = async f => {
     if(!revTxt.trim()||!revSt)return;
     const r={id:"r"+Date.now(),userId:user.id,userName:user.name,handle:user.handle,film:f.titleEs||f.title,text:revTxt,stars:revSt,likes:0,likedBy:[]};
     setReviews(p=>[r,...p]);setUser(p=>({...p,score:p.score+50}));setRevTxt("");setRevSt(0);t_("+50 pts");
+    try { await supa.from("reviews").insert({id:r.id,user_id:user.id,user_name:user.name,handle:user.handle,film:r.film,text:revTxt,stars:revSt,likes:0}); } catch(e){}
   };
   const toggleLike = id => {
     if(!user)return;
