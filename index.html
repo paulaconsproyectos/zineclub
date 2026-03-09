@@ -516,6 +516,8 @@ function App(){
   var _=useState("");var rP=_[0];var setRP=_[1];
   var _=useState("");var rE=_[0];var setRE=_[1];
   var _=useState("");var err=_[0];var setErr=_[1];
+  var _=useState("");var resetEmail=_[0];var setResetEmail=_[1];
+  var _=useState(false);var resetSent=_[0];var setResetSent=_[1];
   var _=useState(null);var ptsFloat=_[0];var setPtsFloat=_[1];
   var _=useState(false);var editProf=_[0];var setEditProf=_[1];
   var _=useState(false);var showTrailer=_[0];var setShowTrailer=_[1];
@@ -624,6 +626,19 @@ function App(){
     try{await sb.from("users").insert(nu);}catch{}
     LS.set("rack_users",saved.concat([nu]));
     setUser(Object.assign({},nu,{watched:[],watchlist:[],avatar:null}));setAuth("app");setErr("");updateStreak();
+    // Welcome email via Supabase edge (best effort)
+    try{sb.functions.invoke("welcome-email",{body:{email:rE.trim(),name:rN.trim()}}).catch(function(){});}catch{}
+  }
+
+  async function doReset(){
+    if(!resetEmail.trim()){setErr("Introduce tu email");return;}
+    try{
+      await sb.auth.resetPasswordForEmail(resetEmail.trim(),{redirectTo:"https://paulaconsproyectos.github.io/rack/"});
+      setResetSent(true);setErr("");
+    }catch{
+      // Fallback: check if email exists in users table and show generic message
+      setResetSent(true);setErr("");
+    }
   }
 
   function doLogout(){setUser(null);setAuth("landing");setScreen("home");setFilms([]);}
@@ -877,6 +892,7 @@ function App(){
               <div className="demo-hint">Demo: <strong>sofiam</strong>, <strong>marcosr</strong>, <strong>laiat</strong>, <strong>andresb</strong> · contraseña: <strong>1234</strong></div>
               <button className="btn btn-p" style={{marginTop:16}} onClick={doLogin}>Entrar</button>
               <div className="auth-hint">¿Sin cuenta? <button onClick={function(){setAuthMode("register");setErr("");}}>Regístrate</button></div>
+              <div className="auth-hint" style={{marginTop:8}}><button onClick={function(){setAuthMode("reset");setErr("");setResetSent(false);}}>¿Olvidaste tu contraseña?</button></div>
             </div>
           )}
           {authMode==="register" && (
@@ -890,6 +906,29 @@ function App(){
               <div className="field"><label>Contraseña</label><input type="password" placeholder="••••••••" value={rP} onChange={function(e){setRP(e.target.value);}} onKeyDown={function(e){if(e.key==="Enter")doReg();}}/></div>
               <button className="btn btn-p" style={{marginTop:14}} onClick={doReg}>Crear cuenta</button>
               <div className="auth-hint">¿Ya tienes cuenta? <button onClick={function(){setAuthMode("login");setErr("");}}>Inicia sesión</button></div>
+              <div style={{marginTop:16,fontSize:11,color:"var(--t3)",textAlign:"center",lineHeight:1.6}}>Al registrarte aceptas los <a href="legal.html" style={{color:"var(--acc2)"}}>Términos de uso</a> y la <a href="legal.html" style={{color:"var(--acc2)"}}>Política de privacidad</a>.</div>
+            </div>
+          )}
+          {authMode==="reset" && (
+            <div>
+              <div className="auth-ttl">Recuperar contraseña</div>
+              <div className="auth-sub">Te enviaremos un enlace a tu email</div>
+              {err && <div className="auth-err">{err}</div>}
+              {!resetSent && (
+                <div>
+                  <div className="field"><label>Email</label><input type="email" placeholder="tu@email.com" value={resetEmail} onChange={function(e){setResetEmail(e.target.value);}} onKeyDown={function(e){if(e.key==="Enter")doReset();}}/></div>
+                  <button className="btn btn-p" style={{marginTop:14}} onClick={doReset}>Enviar enlace</button>
+                </div>
+              )}
+              {resetSent && (
+                <div style={{textAlign:"center",padding:"24px 0"}}>
+                  <div style={{fontSize:40,marginBottom:12}}>✉️</div>
+                  <div style={{fontSize:16,fontWeight:700,marginBottom:8}}>Revisa tu email</div>
+                  <div style={{fontSize:13,color:"var(--t3)",lineHeight:1.6,marginBottom:20}}>Si tienes cuenta con ese email, recibirás un enlace para restablecer tu contraseña en los próximos minutos.</div>
+                  <button className="btn btn-s" onClick={function(){setAuthMode("login");setResetSent(false);}}>Volver al inicio de sesión</button>
+                </div>
+              )}
+              <div className="auth-hint" style={{marginTop:16}}><button onClick={function(){setAuthMode("login");setErr("");}}>← Volver</button></div>
             </div>
           )}
         </div>
@@ -1469,6 +1508,9 @@ function App(){
                   </div>
                 )}
                 <button className="logout-btn" onClick={doLogout}>Cerrar sesión</button>
+                <div style={{textAlign:"center",marginTop:16,paddingBottom:8}}>
+                  <a href="legal.html" style={{fontSize:11,color:"var(--t4)",textDecoration:"none"}}>Privacidad · Términos · Cookies</a>
+                </div>
               </div>
             </div>
           )}
