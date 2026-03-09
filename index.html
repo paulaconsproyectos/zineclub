@@ -731,7 +731,7 @@ function App() {
           <div className="auth-top">
             <button className="back-btn" onClick={()=>{setAuth("landing");setErr("");}}>←</button>
           </div>
-          {authMode==="login" ? <>
+          {authMode==="login" ? <React.Fragment>
             <div className="auth-ttl">Bienvenido de vuelta</div>
             <div className="auth-sub">Entra en tu cuenta de Rack</div>
             {err&&<div className="auth-err">{err}</div>}
@@ -740,7 +740,7 @@ function App() {
             <div className="demo-hint">Demo: <strong>sofiam</strong>, <strong>marcosr</strong>, <strong>laiat</strong>, <strong>andresb</strong> · pass: <strong>1234</strong></div>
             <button className="btn btn-p" style={{marginTop:16}} onClick={doLogin}>Entrar</button>
             <div className="auth-hint">¿Sin cuenta? <button onClick={()=>{setAuthMode("register");setErr("");}}>Regístrate</button></div>
-          </> : <>
+          </React.Fragment> : <React.Fragment>
             <div className="auth-ttl">Únete a Rack</div>
             <div className="auth-sub">Crea tu perfil de cinéfilo</div>
             {err&&<div className="auth-err">{err}</div>}
@@ -749,7 +749,7 @@ function App() {
             <div className="field"><label>Contraseña</label><input type="password" placeholder="••••••••" value={rP} onChange={e=>setRP(e.target.value)} onKeyDown={e=>e.key==="Enter"&&doReg()}/></div>
             <button className="btn btn-p" style={{marginTop:14}} onClick={doReg}>Crear cuenta</button>
             <div className="auth-hint">¿Ya tienes cuenta? <button onClick={()=>{setAuthMode("login");setErr("");}}>Inicia sesión</button></div>
-          </>}
+          </React.Fragment>}
         </div>
       )}
 
@@ -832,7 +832,7 @@ function App() {
             </div>
           </div>
           <div className="page" style={{paddingTop:8}}>
-            {ptab==="all" ? <>
+            {ptab==="all" ? <React.Fragment>
               {searching&&<div style={{textAlign:"center",padding:"32px 0",color:"var(--t3)"}}>Buscando...</div>}
               {!searching&&searchRes.length>0&&searchRes.map((f,i)=>(
                 <div key={i} className="fli" onClick={()=>goDetail(f,"search")}>
@@ -850,7 +850,7 @@ function App() {
               ))}
               {!searching&&!searchQ&&<div className="empty"><div className="empty-i">🍿</div><div className="empty-t">Busca cualquier peli o serie</div></div>}
               {!searching&&searchQ&&searchRes.length===0&&<div className="empty"><div className="empty-i">🔎</div><div className="empty-t">Sin resultados para "{searchQ}"</div></div>}
-            </> : <>
+            </React.Fragment> : <React.Fragment>
               {loadingPlat&&<div style={{textAlign:"center",padding:"32px 0",color:"var(--t3)"}}>Cargando {ptab}...</div>}
               {!loadingPlat&&platRes.map((f,i)=>(
                 <div key={i} className="fli" onClick={()=>goDetail(f,"search")}>
@@ -866,7 +866,7 @@ function App() {
                   </div>
                 </div>
               ))}
-            </>}
+            </React.Fragment>}
           </div>
         </>}
 
@@ -879,7 +879,7 @@ function App() {
             <div className="quiz-body">
               <div className="q-step">{quizStep+1} / {QUESTIONS.length}</div>
               <h2 className="q-q">{q.q}</h2>
-              {q.multi ? <>
+              {q.multi ? <React.Fragment>
                 <div className="opts-2">
                   {q.opts.map(o=>(
                     <button key={o} className={`opt${multi.includes(o)?" sel":""}`} onClick={()=>pickOpt(o)}>
@@ -888,7 +888,7 @@ function App() {
                   ))}
                 </div>
                 <button className="quiz-next" onClick={nextMulti} disabled={multi.length===0}>Continuar →</button>
-              </> : (
+              </React.Fragment> : (
                 <div className="opts">
                   {q.opts.map(o=>(
                     <button key={o} className={`opt${answers[q.id]===o?" sel":""}`} onClick={()=>pickOpt(o)}>{o}</button>
