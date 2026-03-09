@@ -550,21 +550,51 @@ function App(){
   var stRef=useRef(null);
   var editNameRef=useRef(null);
 
-  async function sendChat(){
+  function sendChat(){
     if(!chatInput.trim()||chatLoading)return;
     var msg=chatInput.trim();setChatInput("");
-    var newMsgs=chatMsgs.concat([{role:"user",content:msg}]);
-    setChatMsgs(newMsgs);setChatLoading(true);
-    try{
-      var sysPrompt="Eres el asistente de soporte de Rack, una app de recomendaciones de cine y series. Responde en español, de forma concisa y amable. El usuario se llama "+user.name+". Rack tiene: test de humor para recomendaciones, modo maratón, modo trailer/scroll, sistema de puntos y badges, lista personal, reseñas, retos semanales, y ranking social. Si no sabes algo, deriva al email hola@rack.io.";
-      var res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:300,system:sysPrompt,messages:newMsgs.map(function(m){return {role:m.role,content:m.content};})})});
-      var d=await res.json();
-      var reply=d.content&&d.content[0]?d.content[0].text:"Lo siento, no pude responder. Escríbenos a hola@rack.io";
+    setChatMsgs(function(p){return p.concat([{role:"user",content:msg}]);});
+    setChatLoading(true);
+    setTimeout(function(){
+      var q=msg.toLowerCase();
+      var reply="";
+      if(q.match(/punt|score|nivel|badge|xp/))
+        reply="Los puntos se ganan marcando películas como vistas (×10 tu puntuación TMDB), publicando reseñas (+50 pts), completando retos semanales y manteniendo la racha diaria. Los niveles van de Espectador hasta Leyenda.";
+      else if(q.match(/test|quiz|humor|recomiend|recomendaci/))
+        reply="El test de humor tiene 6 preguntas sobre tu estado de ánimo, formato, compañía, tiempo disponible, plataformas y lo que buscas. Al terminar te muestra recomendaciones personalizadas y las abre en modo scroll con tráiler.";
+      else if(q.match(/trailer|tiktok|scroll|modo/))
+        reply="El Modo Trailer es un feed vertical tipo TikTok donde puedes deslizar entre trailers. Puedes acceder desde el botón 'Trailers' en el inicio, o al terminar el test. Desliza hacia arriba para pasar al siguiente.";
+      else if(q.match(/maratón|marato|sesion|sesión/))
+        reply="El Modo Maratón te da hasta 12 recomendaciones de una vez, mezclando películas y series. Perfecto para cuando tienes todo el día libre.";
+      else if(q.match(/lista|watchlist|guardar/))
+        reply="Puedes guardar cualquier título en tu lista con el botón '+ Lista' o el icono de marcador. La encuentras en tu perfil y en el inicio.";
+      else if(q.match(/reseña|review|comentar|opini/))
+        reply="Entra en la ficha de cualquier película o serie, baja hasta 'Tu reseña', pon estrellas y escribe tu comentario. Cada reseña publicada te da +50 puntos.";
+      else if(q.match(/reto|challenge|semana/))
+        reply="Los retos semanales están en la pestaña Social → Retos, o en el botón del inicio. Hay 6 retos cada semana (película de los 70, documental, terror…). Se renuevan automáticamente cada lunes.";
+      else if(q.match(/wrapped|resumen|estadistic/))
+        reply="Tu Wrapped está en el botón ✨ del inicio. Muestra cuántos títulos has visto, tus puntos totales, géneros favoritos y más. Se va llenando a medida que marcas cosas como vistas.";
+      else if(q.match(/contraseña|password|olvidé|olvide|recuperar/))
+        reply="En la pantalla de inicio de sesión hay un enlace '¿Olvidaste tu contraseña?'. Introduce tu email y te mandaremos un enlace para restablecerla.";
+      else if(q.match(/cuenta|registr|perfil/))
+        reply="Puedes editar tu nombre y foto de perfil desde la pestaña Perfil (icono de persona abajo a la derecha). Toca el botón 'Editar' junto a tu nombre o el '+' sobre tu avatar.";
+      else if(q.match(/notif|aviso|estrenos/))
+        reply="Activa las notificaciones desde el banner en el inicio o desde Social → Estrenos. Puedes activar el aviso para películas concretas con el toggle que aparece junto a cada estreno.";
+      else if(q.match(/invit|código|codigo|amig/))
+        reply="Tu código de invitación está en el inicio (tarjeta 'Invitar amigos') y en tu perfil. Compártelo con amigos — cuando se registren con él, ambos ganáis 100 puntos.";
+      else if(q.match(/plataforma|netflix|hbo|disney|prime|filmin/))
+        reply="En el buscador puedes filtrar por plataforma con las pestañas de arriba (Netflix, HBO Max, Disney+…). En la ficha de cada título también aparecen los links directos a donde verlo.";
+      else if(q.match(/bug|error|fallo|funciona|roto|problema/))
+        reply="Vaya, lo sentimos. Prueba a recargar la página. Si el problema persiste, escríbenos a hola@rack.io con una descripción de lo que pasó y te ayudamos lo antes posible.";
+      else if(q.match(/graci|gracias|ok|bien|perfecto|genial/))
+        reply="¡De nada! Si tienes más dudas, aquí estaré. Disfruta del cine 🎬";
+      else if(q.match(/hola|buenas|hey|ola/))
+        reply="¡Hola! ¿En qué puedo ayudarte? Puedo explicarte cómo funcionan los puntos, el test, los retos, tu lista… o cualquier otra cosa de Rack.";
+      else
+        reply="No estoy seguro de cómo ayudarte con eso. Puedo resolver dudas sobre el test, puntos y niveles, retos, tu lista, reseñas o problemas técnicos. Para cualquier otra cosa escríbenos a hola@rack.io y te respondemos en menos de 24h.";
       setChatMsgs(function(p){return p.concat([{role:"assistant",content:reply}]);});
-    }catch{
-      setChatMsgs(function(p){return p.concat([{role:"assistant",content:"Algo fue mal. Escríbenos a hola@rack.io y te ayudamos enseguida."}]);});
-    }
-    setChatLoading(false);
+      setChatLoading(false);
+    }, 600);
   }
 
   function completeReto(reto){
