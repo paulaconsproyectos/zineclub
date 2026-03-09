@@ -413,7 +413,6 @@ async function enrichItem(item){
 }
 
 async function tmdbDiscover(answers, watchedHistory){
-  // Weight genres from watched history
   var histGenres=[];
   if(watchedHistory&&watchedHistory.length>0){
     watchedHistory.slice(-10).forEach(function(f){(f.genres||[]).forEach(function(g){histGenres.push(g);});});
@@ -427,7 +426,14 @@ async function tmdbDiscover(answers, watchedHistory){
   const fetches=[];
   if(wM)fetches.push(fetch(B+"/discover/movie?api_key="+TMDB_KEY+"&language=es-ES&sort_by=vote_average.desc&vote_count.gte=500&with_genres="+genres+"&page="+page).then(function(r){return r.json();}).then(function(d){return (d.results||[]).slice(0,isMarathon?6:5).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"—",type:"Película",mediaType:"movie",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});}));
   if(wT)fetches.push(fetch(B+"/discover/tv?api_key="+TMDB_KEY+"&language=es-ES&sort_by=vote_average.desc&vote_count.gte=200&with_genres="+genres+"&page="+page).then(function(r){return r.json();}).then(function(d){return (d.results||[]).slice(0,isMarathon?4:3).map(function(m){return {id:m.id,title:m.name,titleEs:m.name,year:m.first_air_date?m.first_air_date.slice(0,4):"—",type:"Serie",mediaType:"tv",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});}));
-  const results=(await Promise.all(fetches)).reduce(function(a,b){return a.concat(b);}).slice(0,isMarathon?12:8);
+  var raw=(await Promise.all(fetches)).reduce(function(a,b){return a.concat(b);},[]);
+  // If empty, retry with popular films ignoring genre filter
+  if(raw.length===0){
+    var fallback=await fetch(B+"/movie/popular?api_key="+TMDB_KEY+"&language=es-ES&page="+Math.floor(Math.random()*5+1));
+    var fd=await fallback.json();
+    raw=(fd.results||[]).slice(0,isMarathon?12:8).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"—",type:"Película",mediaType:"movie",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});
+  }
+  var results=raw.slice(0,isMarathon?12:8);
   return Promise.all(results.map(enrichItem));
 }
 
@@ -501,6 +507,8 @@ function App(){
   var _=useState(false);var loading=_[0];var setLoading=_[1];
   var _=useState(null);var sel=_[0];var setSel=_[1];
   var _=useState(false);var marathon=_[0];var setMarathon=_[1];
+  var _=useState(false);var refineMode=_[0];var setRefineMode=_[1];
+  var _=useState({});var refineAnswers=_[0];var setRefineAnswers=_[1];
   var _=useState(null);var potw=_[0];var setPotw=_[1];
   var _=useState(0);var quizStep=_[0];var setQuizStep=_[1];
   var _=useState({});var answers=_[0];var setAnswers=_[1];
@@ -741,12 +749,16 @@ function App(){
   function exitQuiz(){setQuizStep(0);setAnswers({});setMulti([]);setScreen("home");}
   function goQuiz(isM){setScreen("quiz");setQuizStep(0);setAnswers({});setMulti([]);setMarathon(isM||false);}
 
-  async function doFetch(ans){
+  async function doFetch(ans, isRetry){
     var isM=ans.time==="Modo Maratón"||marathon;
-    setMarathon(isM);setLoading(true);setScreen("results");
+    setMarathon(isM);setLoading(true);setScreen("results");setRefineMode(false);
     try{
       var r=await tmdbDiscover(ans, user&&user.watched||[]);
       setFilms(r);
+      // If very few results and not already a retry, ask to refine
+      if(r.length<3&&!isRetry){
+        setRefineMode(true);setLoading(false);return;
+      }
       setTkFilms(r);setTkIdx(0);setTkMode(true);
     }catch{t_("Error al conectar");}
     setLoading(false);
@@ -1422,7 +1434,31 @@ function App(){
                 <div className="res-title">{films.length} recomendaciones</div>
               </div>
               <div className="page" style={{paddingTop:0}}>
-                {films.length===0 && (
+                {refineMode && (
+                  <div style={{padding:"8px 0 24px"}}>
+                    <div style={{fontSize:22,fontWeight:700,letterSpacing:"-0.02em",marginBottom:6}}>Afina un poco más</div>
+                    <div style={{fontSize:13,color:"var(--t3)",marginBottom:20,lineHeight:1.6}}>No encontramos suficiente con esos criterios. Responde un par de preguntas más para dar en el clavo.</div>
+                    <div style={{marginBottom:16}}>
+                      <div style={{fontSize:13,fontWeight:600,marginBottom:10}}>¿Qué década prefieres?</div>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:7}}>
+                        {["Años 60-70","Años 80","Años 90","Años 2000","Reciente (2010+)","Sin preferencia"].map(function(d){
+                          return <button key={d} onClick={function(){setRefineAnswers(function(p){return Object.assign({},p,{decade:d});});}} style={{padding:"9px 14px",borderRadius:10,border:"1.5px solid",borderColor:refineAnswers.decade===d?"var(--acc)":"var(--b2)",background:refineAnswers.decade===d?"var(--acc3)":"var(--s2)",color:refineAnswers.decade===d?"var(--t)":"var(--t2)",fontSize:13,fontWeight:500,cursor:"pointer"}}>{d}</button>;
+                        })}
+                      </div>
+                    </div>
+                    <div style={{marginBottom:20}}>
+                      <div style={{fontSize:13,fontWeight:600,marginBottom:10}}>¿De qué parte del mundo?</div>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:7}}>
+                        {["Hollywood","Europa","Asia","Latinoamérica","España","Sin preferencia"].map(function(o){
+                          return <button key={o} onClick={function(){setRefineAnswers(function(p){return Object.assign({},p,{origin:o});});}} style={{padding:"9px 14px",borderRadius:10,border:"1.5px solid",borderColor:refineAnswers.origin===o?"var(--acc)":"var(--b2)",background:refineAnswers.origin===o?"var(--acc3)":"var(--s2)",color:refineAnswers.origin===o?"var(--t)":"var(--t2)",fontSize:13,fontWeight:500,cursor:"pointer"}}>{o}</button>;
+                        })}
+                      </div>
+                    </div>
+                    <button onClick={function(){doFetch(Object.assign({},answers,refineAnswers),true);}} disabled={!refineAnswers.decade&&!refineAnswers.origin} style={{width:"100%",padding:"14px",background:"var(--acc)",color:"#fff",border:"none",borderRadius:12,fontSize:14,fontWeight:600,cursor:"pointer",opacity:(!refineAnswers.decade&&!refineAnswers.origin)?0.3:1}}>Buscar de nuevo →</button>
+                    <button onClick={function(){setRefineMode(false);doFetch(Object.assign({},answers,{decade:"Sin preferencia",origin:"Sin preferencia"}),true);}} style={{width:"100%",padding:"12px",background:"none",border:"none",color:"var(--t3)",fontSize:13,cursor:"pointer",marginTop:6}}>Dame cualquier cosa</button>
+                  </div>
+                )}
+                {!refineMode && films.length===0 && (
                   <div className="empty">
                     <div className="empty-t">No encontramos resultados.</div>
                     <button className="empty-cta" onClick={function(){goQuiz(marathon);}}>Nuevo test</button>
