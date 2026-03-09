@@ -489,6 +489,7 @@ function StreamLinks(props){
   return React.createElement("div",{className:"stream-sec"},React.createElement("div",{className:"stream-lbl"},known.length>0?"Ver ahora en":"Buscar en"),React.createElement("div",{className:"stream-links"},links));
 }
 
+
 function App(){
   var _=useState(function(){return LS.get("rack_auth","onboarding");});var auth=_[0];var setAuth=_[1];
   var _=useState(function(){return LS.get("rack_user",null);});var user=_[0];var setUser=_[1];
@@ -539,6 +540,7 @@ function App(){
   var _=useState([]);var tkFilms=_[0];var setTkFilms=_[1];
   var _=useState(0);var tkIdx=_[0];var setTkIdx=_[1];
   var _=useState(false);var tkLoading=_[0];var setTkLoading=_[1];
+  var _=useState(null);var tkPlaying=_[0];var setTkPlaying=_[1];
   var _=useState(false);var showSupport=_[0];var setShowSupport=_[1];
   var _=useState([]);var chatMsgs=_[0];var setChatMsgs=_[1];
   var _=useState("");var chatInput=_[0];var setChatInput=_[1];
@@ -664,7 +666,7 @@ function App(){
       var d=await r.json();
       var movies=(d.results||[]).slice(0,10).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"",type:"Película",mediaType:"movie",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});
       var enriched=await Promise.all(movies.map(enrichItem));
-      setTkFilms(enriched.filter(function(m){return m.trailerKey;}));
+      setTkFilms(enriched.filter(function(m){return m.trailerKey;}));setTkPlaying(null);
     }catch{}
     setTkLoading(false);
   }
@@ -984,21 +986,24 @@ function App(){
             </div>
           )}
           {!tkLoading && (
-            <div className="tk-feed" onScroll={function(e){var idx=Math.round(e.target.scrollTop/window.innerHeight);setTkIdx(idx);}}>
+            <div className="tk-feed" onScroll={function(e){var idx=Math.round(e.target.scrollTop/window.innerHeight);setTkIdx(idx);setTkPlaying(null);}}>
               {tkFilms.map(function(f,i){
                 var bg=f.backdrop||f.poster;
                 var ytThumb=f.trailerKey?"https://img.youtube.com/vi/"+f.trailerKey+"/maxresdefault.jpg":null;
-                var ytUrl=f.trailerKey?"https://www.youtube.com/watch?v="+f.trailerKey:null;
+
                 return (
                   <div key={i} className="tk-card">
                     {(ytThumb||bg) && <img className="tk-bg" src={ytThumb||bg} alt=""/>}
                     {!ytThumb && !bg && <div className="tk-bg" style={{background:"linear-gradient(135deg,#1a1a2e,#16213e)"}}/>}
                     <div className="tk-grad"/>
                     <div className="tk-top" style={{background:"none",pointerEvents:"none"}}/>
-                    {ytUrl && i===tkIdx && (
-                      <a href={ytUrl} target="_blank" rel="noopener" style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:68,height:68,borderRadius:"50%",background:"rgba(0,0,0,0.75)",border:"2px solid rgba(255,255,255,0.4)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:4,textDecoration:"none"}}>
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                      </a>
+                    {f.trailerKey && i===tkIdx && tkPlaying===i && (
+                      <iframe style={{position:"absolute",inset:0,width:"100%",height:"100%",border:"none",zIndex:3}} src={"https://www.youtube.com/embed/"+f.trailerKey+"?autoplay=1&mute=0&controls=1&playsinline=1&rel=0&modestbranding=1"} allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowFullScreen/>
+                    )}
+                    {f.trailerKey && i===tkIdx && tkPlaying!==i && (
+                      <button onClick={function(){setTkPlaying(i);}} style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:72,height:72,borderRadius:"50%",background:"rgba(0,0,0,0.72)",border:"2px solid rgba(255,255,255,0.5)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:4,cursor:"pointer"}}>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                      </button>
                     )}
                     <div className="tk-content">
                       <div className="tk-type">{f.type||"Película"}</div>
