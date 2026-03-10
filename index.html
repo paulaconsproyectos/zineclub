@@ -559,10 +559,51 @@ button,input,textarea{font-family:'DM Sans',sans-serif;}
 .auth-film-credit{position:fixed;bottom:100px;left:0;right:0;text-align:center;font-size:11px;color:rgba(255,255,255,0.2);z-index:2;letter-spacing:0.05em;}
 
 .estren-hero{position:relative;width:100%;height:200px;border-radius:18px;overflow:hidden;cursor:pointer;background:#1a1a2e;}
+
+/* ── APP LOADER SPINNER ── */
+.app-loader{position:fixed;inset:0;z-index:9999;background:#09090B;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .5s ease;}
+.app-loader.fade-out{opacity:0;pointer-events:none;}
+.app-loader-logo{font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:0.04em;color:rgba(255,255,255,0.9);}
+.app-loader-logo span{color:#818CF8;}
+.zc-spinner{position:relative;width:40px;height:40px;}
+.zc-spinner-bar{position:absolute;inset:0;display:flex;justify-content:center;animation:zc-spin 1s linear infinite;}
+.zc-spinner-bar div{width:3px;height:10px;border-radius:9999px;background:#818CF8;}
+@keyframes zc-spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
 <div id="root"></div>
+<div id="appLoader" class="app-loader">
+  <div class="zc-spinner" id="zcSpinner"></div>
+  <div class="app-loader-logo">Zine <span>Club</span></div>
+</div>
+<script>
+  // Build the 5-bar spinner
+  var sp = document.getElementById('zcSpinner');
+  for(var i=0;i<5;i++){
+    var bar = document.createElement('div');
+    bar.className = 'zc-spinner-bar';
+    bar.style.animationDelay = (i*150)+'ms';
+    var inner = document.createElement('div');
+    bar.appendChild(inner);
+    sp.appendChild(bar);
+  }
+  // Hide loader once React has mounted (listen for root to have children)
+  var loaderObs = new MutationObserver(function(){
+    var root = document.getElementById('root');
+    if(root && root.children.length > 0){
+      loaderObs.disconnect();
+      setTimeout(function(){
+        var loader = document.getElementById('appLoader');
+        if(loader){
+          loader.classList.add('fade-out');
+          setTimeout(function(){loader.remove();},600);
+        }
+      }, 300);
+    }
+  });
+  loaderObs.observe(document.getElementById('root'),{childList:true,subtree:true});
+</script>
 <script type="text/babel">
 const {useState,useEffect,useRef} = React;
 const SUPA_URL="https://scqoqwmkptyxwpiwhkyk.supabase.co";
