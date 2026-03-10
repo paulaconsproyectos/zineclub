@@ -1,181 +1,99 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Legal · Rack</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{--bg:#09090B;--s1:#0F0F12;--s2:#18181B;--b:rgba(255,255,255,0.06);--t:#F4F4F5;--t2:#A1A1AA;--t3:#71717A;--acc:#6366F1;--acc2:#818CF8;}
-body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;}
-.wrap{max-width:680px;margin:0 auto;padding:60px 24px 80px;}
-.back{display:inline-flex;align-items:center;gap:6px;color:var(--t3);font-size:13px;text-decoration:none;margin-bottom:40px;padding:8px 14px;background:var(--s2);border:1px solid var(--b);border-radius:8px;}
-.logo{font-family:'DM Serif Display',serif;font-size:28px;color:var(--t);margin-bottom:6px;}
-.logo span{color:var(--acc2);}
-.update{font-size:12px;color:var(--t3);margin-bottom:48px;}
-.tabs{display:flex;gap:4px;background:var(--s2);border-radius:10px;padding:4px;margin-bottom:40px;}
-.tab{flex:1;padding:9px;border:none;border-radius:7px;font-size:13px;font-weight:600;color:var(--t3);background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;}
-.tab.active{background:var(--s1);color:var(--t);border:1px solid var(--b);}
-.section{display:none;}
-.section.active{display:block;}
-h2{font-size:20px;font-weight:700;letter-spacing:-0.02em;margin:36px 0 10px;color:var(--t);}
-h2:first-child{margin-top:0;}
-p{font-size:14px;color:var(--t2);margin-bottom:14px;font-weight:300;}
-ul{padding-left:18px;margin-bottom:14px;}
-li{font-size:14px;color:var(--t2);margin-bottom:6px;font-weight:300;}
-strong{color:var(--t);font-weight:600;}
-.highlight{background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:10px;padding:14px 16px;margin-bottom:16px;}
-.highlight p{margin:0;color:var(--t2);}
-a{color:var(--acc2);text-decoration:none;}
-hr{border:none;border-top:1px solid var(--b);margin:30px 0;}
-</style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Política de Privacidad — Zine Club</title>
+  <link rel="icon" href="icon-192.png"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#09090b;color:#e4e4e7;font-family:'DM Sans','Helvetica Neue',sans-serif;line-height:1.7;padding:0 0 80px;}
+    header{padding:48px 24px 32px;border-bottom:1px solid rgba(255,255,255,0.07);}
+    .logo{font-family:'DM Serif Display',Georgia,serif;font-size:18px;letter-spacing:0.04em;color:rgba(255,255,255,0.5);display:block;margin-bottom:32px;text-decoration:none;}
+    .logo span{color:#6366f1;}
+    h1{font-family:'DM Serif Display',Georgia,serif;font-size:32px;font-weight:400;letter-spacing:-0.02em;color:#fff;margin-bottom:8px;}
+    .date{font-size:12px;color:rgba(255,255,255,0.3);letter-spacing:0.05em;}
+    main{max-width:680px;margin:0 auto;padding:40px 24px 0;}
+    h2{font-size:16px;font-weight:700;color:#fff;margin:36px 0 12px;letter-spacing:-0.01em;}
+    p{font-size:14px;color:rgba(255,255,255,0.55);margin-bottom:14px;}
+    ul{padding-left:20px;margin-bottom:14px;}
+    li{font-size:14px;color:rgba(255,255,255,0.55);margin-bottom:6px;}
+    a{color:#6366f1;text-decoration:none;}
+    .back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:24px;text-decoration:none;}
+    .back:hover{color:#fff;}
+    .pill{display:inline-block;background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.3);color:#a5b4fc;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:20px;}
+    hr{border:none;border-top:1px solid rgba(255,255,255,0.07);margin:32px 0;}
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
-<div class="wrap">
-  <a class="back" href="index.html">← Volver a Rack</a>
-  <div class="logo">ra<span>ck</span></div>
-  <div class="update">Última actualización: marzo 2026</div>
+  <header>
+    <a href="/rack/" class="logo">Zine <span>Club</span></a>
+    <div class="pill">Documento legal</div>
+    <h1>Política de Privacidad</h1>
+    <div class="date">Última actualización: marzo 2026</div>
+  </header>
+  <main>
+    <a href="/rack/" class="back">← Volver a Zine Club</a>
 
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('privacy')">Política de privacidad</button>
-    <button class="tab" onclick="showTab('terms')">Términos de uso</button>
-    <button class="tab" onclick="showTab('cookies')">Cookies</button>
-  </div>
-
-  <!-- PRIVACIDAD -->
-  <div id="privacy" class="section active">
-    <div class="highlight"><p><strong>Resumen:</strong> Rack recoge solo los datos necesarios para funcionar. No vendemos tu información a nadie. Puedes pedir que eliminemos tu cuenta y todos tus datos en cualquier momento.</p></div>
-
-    <h2>1. Quién somos</h2>
-    <p>Rack es una aplicación de recomendaciones cinematográficas desarrollada por Paula Cons. Puedes contactarnos en <a href="mailto:hola@rack.io">hola@rack.io</a>.</p>
+    <h2>1. Responsable del tratamiento</h2>
+    <p>Zine Club es un proyecto de aplicación web desarrollado de forma independiente. El responsable del tratamiento de los datos personales recogidos a través de esta plataforma es el equipo de Zine Club.</p>
 
     <h2>2. Qué datos recogemos</h2>
+    <p>Zine Club recoge únicamente los datos estrictamente necesarios para el funcionamiento del servicio:</p>
     <ul>
-      <li><strong>Datos de registro:</strong> nombre, nombre de usuario, email y contraseña (cifrada). El email es opcional si te registras con usuario.</li>
-      <li><strong>Actividad en la app:</strong> películas y series que marcas como vistas, tu lista, reseñas que publicas y puntuaciones.</li>
-      <li><strong>Preferencias:</strong> géneros favoritos, resultados del test de humor (solo se usan para recomendarte contenido).</li>
-      <li><strong>Datos técnicos:</strong> tipo de dispositivo y navegador, para garantizar que la app funciona correctamente. No recogemos tu IP ni tu ubicación.</li>
+      <li><strong>Email y nombre de usuario</strong> — para crear y gestionar tu cuenta</li>
+      <li><strong>Preferencias cinematográficas</strong> — respuestas al test de mood, películas vistas, lista de seguimiento y reseñas</li>
+      <li><strong>Datos técnicos</strong> — tipo de dispositivo y navegador, exclusivamente para mejorar la experiencia</li>
     </ul>
 
-    <h2>3. Para qué usamos tus datos</h2>
+    <h2>3. Finalidad del tratamiento</h2>
+    <p>Utilizamos tus datos para:</p>
     <ul>
-      <li>Mostrarte recomendaciones personalizadas según tu estado de ánimo y gustos</li>
-      <li>Guardar tu historial de películas vistas y tu lista</li>
-      <li>Calcular tus puntos y nivel cinéfilo</li>
-      <li>Enviarte notificaciones de estrenos si las activas (solo con tu permiso explícito)</li>
-      <li>Mejorar la app con datos agregados y anónimos</li>
+      <li>Personalizar las recomendaciones cinematográficas según tu estado de ánimo y preferencias</li>
+      <li>Guardar tu historial de vistas y lista de películas</li>
+      <li>Mostrarte tu actividad en la sección de perfil</li>
+      <li>Mejorar el algoritmo de recomendaciones de forma agregada y anónima</li>
+    </ul>
+    <p>En ningún caso utilizamos tus datos con fines publicitarios ni los cedemos a terceros con fines comerciales.</p>
+
+    <h2>4. Base legal</h2>
+    <p>El tratamiento se realiza con tu consentimiento explícito, que otorgas al aceptar esta política durante el registro. Puedes retirar tu consentimiento en cualquier momento eliminando tu cuenta.</p>
+
+    <h2>5. Almacenamiento y seguridad</h2>
+    <p>Los datos se almacenan de forma segura a través de <strong>Supabase</strong>, plataforma con certificación SOC 2 y cifrado en tránsito (HTTPS/TLS) y en reposo. Los datos de sesión locales se guardan en el almacenamiento de tu propio dispositivo (localStorage) y nunca se transmiten a terceros.</p>
+
+    <h2>6. Tus derechos (RGPD)</h2>
+    <p>De acuerdo con el Reglamento General de Protección de Datos (RGPD), tienes derecho a:</p>
+    <ul>
+      <li><strong>Acceder</strong> a los datos que tenemos sobre ti</li>
+      <li><strong>Rectificar</strong> datos inexactos desde tu perfil</li>
+      <li><strong>Eliminar</strong> tu cuenta y todos tus datos asociados</li>
+      <li><strong>Portabilidad</strong> — solicitar una copia de tus datos</li>
+      <li><strong>Oponerte</strong> al tratamiento en cualquier momento</li>
+    </ul>
+    <p>Para ejercer estos derechos, contacta con nosotros a través del perfil de la aplicación o en <a href="mailto:hola@zineclub.io">hola@zineclub.io</a>.</p>
+
+    <h2>7. Cookies y almacenamiento local</h2>
+    <p>Zine Club no utiliza cookies de seguimiento ni publicidad. Únicamente usamos <strong>localStorage</strong> para mantener tu sesión activa y guardar tus preferencias de forma local en tu dispositivo.</p>
+
+    <h2>8. Servicios de terceros</h2>
+    <p>La aplicación utiliza los siguientes servicios externos:</p>
+    <ul>
+      <li><strong>TMDB (The Movie Database)</strong> — para datos de películas, series, pósters y trailers. Su política de privacidad está disponible en <a href="https://www.themoviedb.org/privacy-policy" target="_blank">themoviedb.org</a></li>
+      <li><strong>YouTube</strong> — para la reproducción de trailers dentro de la app</li>
+      <li><strong>Supabase</strong> — para almacenamiento de datos de usuario</li>
     </ul>
 
-    <h2>4. Con quién compartimos tus datos</h2>
-    <p>Rack <strong>no vende ni alquila</strong> tus datos personales a terceros. Trabajamos con los siguientes proveedores técnicos:</p>
-    <ul>
-      <li><strong>Supabase</strong> — base de datos y autenticación. Datos alojados en servidores de la UE.</li>
-      <li><strong>TMDB API</strong> — para obtener información de películas y series. No les enviamos tus datos personales.</li>
-      <li><strong>YouTube</strong> — para reproducir trailers. Se aplica la <a href="https://policies.google.com/privacy" target="_blank">política de privacidad de Google</a>.</li>
-    </ul>
+    <h2>9. Menores de edad</h2>
+    <p>Zine Club no está dirigida a menores de 14 años. Si detectamos que un usuario es menor de esta edad, procederemos a eliminar su cuenta y datos.</p>
 
-    <h2>5. Tus derechos (RGPD)</h2>
-    <p>Al ser usuario en España tienes derecho a:</p>
-    <ul>
-      <li><strong>Acceso:</strong> saber qué datos tenemos sobre ti</li>
-      <li><strong>Rectificación:</strong> corregir datos incorrectos desde tu perfil</li>
-      <li><strong>Supresión:</strong> eliminar tu cuenta y todos tus datos</li>
-      <li><strong>Portabilidad:</strong> recibir tus datos en formato legible</li>
-      <li><strong>Oposición:</strong> oponerte a ciertos usos de tus datos</li>
-    </ul>
-    <p>Para ejercer cualquiera de estos derechos escríbenos a <a href="mailto:privacidad@rack.io">privacidad@rack.io</a>. Respondemos en un máximo de 30 días.</p>
-
-    <h2>6. Seguridad</h2>
-    <p>Las contraseñas se almacenan cifradas. Las comunicaciones con nuestros servidores usan HTTPS. Realizamos copias de seguridad periódicas.</p>
-
-    <h2>7. Menores</h2>
-    <p>Rack no está dirigida a menores de 14 años. Si eres menor de 14, necesitas el consentimiento de tus padres o tutores para registrarte.</p>
-
-    <h2>8. Cambios en esta política</h2>
-    <p>Si realizamos cambios importantes, te lo notificaremos en la app con al menos 15 días de antelación.</p>
-  </div>
-
-  <!-- TÉRMINOS -->
-  <div id="terms" class="section">
-    <div class="highlight"><p><strong>Resumen:</strong> Usa Rack para descubrir y compartir cine. No hagas spam ni publiques contenido inapropiado. Nos reservamos el derecho de suspender cuentas que incumplan estas normas.</p></div>
-
-    <h2>1. Aceptación</h2>
-    <p>Al crear una cuenta en Rack aceptas estos Términos de Uso. Si no estás de acuerdo, no puedes usar el servicio.</p>
-
-    <h2>2. Descripción del servicio</h2>
-    <p>Rack es una plataforma gratuita de recomendaciones de películas y series que usa inteligencia artificial y datos de TMDB para personalizar sugerencias. El servicio se presta "tal cual" y puede cambiar o interrumpirse en cualquier momento.</p>
-
-    <h2>3. Tu cuenta</h2>
-    <ul>
-      <li>Eres responsable de mantener la confidencialidad de tu contraseña</li>
-      <li>No puedes tener más de una cuenta por persona</li>
-      <li>Debes tener al menos 14 años para registrarte</li>
-      <li>Debes proporcionar información veraz en tu perfil</li>
-    </ul>
-
-    <h2>4. Conducta en la plataforma</h2>
-    <p>Al publicar reseñas u otro contenido en Rack, aceptas <strong>no</strong>:</p>
-    <ul>
-      <li>Publicar contenido ofensivo, discriminatorio o que incite al odio</li>
-      <li>Hacer spam o publicidad no solicitada</li>
-      <li>Hacerse pasar por otra persona</li>
-      <li>Intentar acceder a cuentas ajenas o a nuestros sistemas</li>
-      <li>Usar la app con fines comerciales sin autorización</li>
-    </ul>
-
-    <h2>5. Contenido generado por usuarios</h2>
-    <p>Las reseñas que publicas son tuyas. Al publicarlas, nos das permiso para mostrarlas a otros usuarios de Rack. Podemos eliminar contenido que incumpla estas normas sin previo aviso.</p>
-
-    <h2>6. Propiedad intelectual</h2>
-    <p>El diseño, código y marca de Rack son propiedad de sus creadores. La información sobre películas y series proviene de TMDB y está sujeta a sus propios términos. Los trailers son propiedad de sus respectivos estudios.</p>
-
-    <h2>7. Limitación de responsabilidad</h2>
-    <p>Rack no se hace responsable de decisiones tomadas en base a sus recomendaciones (aunque esperamos que todas sean buenas). No garantizamos la disponibilidad ininterrumpida del servicio.</p>
-
-    <h2>8. Suspensión de cuentas</h2>
-    <p>Podemos suspender o eliminar cuentas que incumplan estos términos, con o sin previo aviso dependiendo de la gravedad.</p>
-
-    <h2>9. Legislación aplicable</h2>
-    <p>Estos términos se rigen por la legislación española. Cualquier disputa se resolverá en los tribunales de España.</p>
-
-    <h2>10. Contacto</h2>
-    <p>Para cualquier consulta legal: <a href="mailto:legal@rack.io">legal@rack.io</a></p>
-  </div>
-
-  <!-- COOKIES -->
-  <div id="cookies" class="section">
-    <div class="highlight"><p><strong>Resumen:</strong> Rack usa solo cookies técnicas necesarias para funcionar. No usamos cookies de publicidad ni de seguimiento de terceros.</p></div>
-
-    <h2>¿Qué son las cookies?</h2>
-    <p>Las cookies son pequeños archivos que se guardan en tu dispositivo cuando visitas una web o app. Permiten que la app te recuerde entre sesiones.</p>
-
-    <h2>Cookies que usamos</h2>
-    <ul>
-      <li><strong>Sesión de usuario</strong> — guarda que has iniciado sesión para que no tengas que hacerlo cada vez. Esencial para el funcionamiento.</li>
-      <li><strong>Preferencias</strong> — recuerda tu idioma y ajustes. Esencial para la experiencia.</li>
-      <li><strong>localStorage</strong> — guardamos en tu dispositivo tu historial local de búsquedas y caché de películas para que la app vaya más rápida. No se envía a ningún servidor.</li>
-    </ul>
-
-    <h2>Cookies de terceros</h2>
-    <p>Cuando reproduces un tráiler, YouTube puede establecer sus propias cookies. Consulta la <a href="https://policies.google.com/privacy" target="_blank">política de Google</a> para más información.</p>
-
-    <h2>Cómo gestionar las cookies</h2>
-    <p>Puedes eliminar las cookies desde los ajustes de tu navegador o dispositivo en cualquier momento. Ten en cuenta que si eliminas las cookies de sesión tendrás que volver a iniciar sesión.</p>
+    <h2>10. Cambios en esta política</h2>
+    <p>Nos reservamos el derecho a actualizar esta política cuando sea necesario. Te notificaremos dentro de la aplicación ante cambios significativos.</p>
 
     <hr/>
-    <p style="font-size:13px;">Para más información: <a href="mailto:privacidad@rack.io">privacidad@rack.io</a></p>
-  </div>
-</div>
-
-<script>
-function showTab(name) {
-  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
-  document.getElementById(name).classList.add('active');
-  event.target.classList.add('active');
-}
-</script>
+    <p style="font-size:12px;color:rgba(255,255,255,0.25);text-align:center;">Zine Club &mdash; Todo lo que mereces ver &mdash; 2026</p>
+  </main>
 </body>
 </html>
