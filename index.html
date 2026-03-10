@@ -360,6 +360,17 @@ button,input,textarea{font-family:'DM Sans',sans-serif;}
 .qopt-label{font-size:13px;font-weight:600;color:var(--t);text-align:center;line-height:1.3;}
 .qopt-sel .qopt-label{color:var(--acc);}
 .quiz-next:disabled{opacity:0.4;}
+
+.gdpr-row{display:flex;align-items:flex-start;gap:8px;margin:12px 0 4px;padding:10px;background:var(--s2);border-radius:10px;}
+.platform-logo{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;font-size:11px;font-weight:900;margin-bottom:6px;}
+.qopt[data-platform="Netflix"] .platform-logo{background:#E50914;color:#fff;}
+.qopt[data-platform="HBO Max"] .platform-logo{background:#5822B4;color:#fff;}
+.qopt[data-platform="Disney+"] .platform-logo{background:#0C3B8B;color:#fff;}
+.qopt[data-platform="Prime Video"] .platform-logo{background:#00A8E1;color:#fff;}
+.qopt[data-platform="Filmin"] .platform-logo{background:#F5A623;color:#fff;}
+.qopt[data-platform="Apple TV+"] .platform-logo{background:#000;color:#fff;border:1px solid #333;}
+.qopt[data-platform="Movistar+"] .platform-logo{background:#009FE3;color:#fff;}
+.qopt[data-platform="Todo me vale"] .platform-logo{background:var(--acc);color:#fff;}
 </style>
 </head>
 <body>
@@ -373,9 +384,21 @@ const TMDB_KEY="10f1051018046e4262a70010b517415c";
 const B="https://api.themoviedb.org/3";
 const IMG="https://image.tmdb.org/t/p/w500";
 const ORIG="https://image.tmdb.org/t/p/original";
-const MOOD_GENRES={"Eufórico":[28,12,35],"Melancólico":[18,10749,9648],"Curioso":[99,878,9648],"Relajado":[35,10751,16],"Intenso":[53,80,27],"Romántico":[10749,18,35]};
+const MOOD_GENRES={"Euforico":[28,12,35],"Melancolico":[18,10749,9648],"Curioso":[99,878,9648],"Relajado":[35,10751,16],"Intenso":[53,80,27],"Romantico":[10749,18,35]};
 const BADGES=[{min:0,label:"Espectador"},{min:100,label:"Aficionado"},{min:300,label:"Cinéfilo"},{min:600,label:"Auteur"},{min:1000,label:"Crítico"},{min:2000,label:"Maestro"},{min:5000,label:"Leyenda"}];
-const PLATFORMS={"Netflix":{color:"#E50914",url:"https://www.netflix.com/search?q="},"HBO Max":{color:"#B012FF",url:"https://www.max.com/search?q="},"Disney+":{color:"#0063E5",url:"https://www.disneyplus.com/search?q="},"Prime Video":{color:"#00A8E1",url:"https://www.amazon.es/s?k="},"Filmin":{color:"#F5A623",url:"https://www.filmin.es/buscar?query="},"Apple TV+":{color:"#555",url:"https://tv.apple.com/search?term="},"Movistar+":{color:"#019FE3",url:"https://ver.movistar.es/search?q="}};
+const PLATFORMS={
+  "Netflix":{color:"#E50914",url:"https://www.netflix.com/search?q=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/120px-Netflix_2015_logo.svg.png"},
+  "HBO Max":{color:"#5822B4",url:"https://www.max.com/search?q=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/HBO_Max_Logo.svg/120px-HBO_Max_Logo.svg.png"},
+  "Max":{color:"#5822B4",url:"https://www.max.com/search?q=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/HBO_Max_Logo.svg/120px-HBO_Max_Logo.svg.png"},
+  "Disney+":{color:"#0063E5",url:"https://www.disneyplus.com/search?q=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/120px-Disney%2B_logo.svg.png"},
+  "Prime Video":{color:"#00A8E1",url:"https://www.amazon.es/s?k=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/120px-Amazon_Prime_Video_logo.svg.png"},
+  "Amazon Prime Video":{color:"#00A8E1",url:"https://www.amazon.es/s?k=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/120px-Amazon_Prime_Video_logo.svg.png"},
+  "Filmin":{color:"#F5A623",url:"https://www.filmin.es/buscar?query=",logo:"https://www.filmin.es/images/favicon.ico"},
+  "Apple TV+":{color:"#000000",url:"https://tv.apple.com/search?term=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Apple_TV_Plus_Logo.svg/120px-Apple_TV_Plus_Logo.svg.png"},
+  "Movistar+":{color:"#019FE3",url:"https://ver.movistar.es/search?q=",logo:"https://www.movistarplus.es/favicon.ico"},
+  "SkyShowtime":{color:"#0066CC",url:"https://www.skyshowtime.com/search?q=",logo:"https://www.skyshowtime.com/favicon.ico"},
+  "Paramount+":{color:"#0064FF",url:"https://www.paramountplus.com/search?q=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Paramount_Plus_logo.svg/120px-Paramount_Plus_logo.svg.png"}
+};
 const QUESTIONS=[
   {id:"format",q:"Pelicula o serie?",grid:true,opts:[
     {label:"Pelicula"},
@@ -470,9 +493,9 @@ async function tmdbDiscover(answers){
   const genres=(MOOD_GENRES[answers.mood]||[18]).slice(0,2).join(",");
   const page=Math.floor(Math.random()*8)+1;
   const fmt=answers.format||"Lo que sea";
-  const isMarathon=answers.time==="Modo Maratón";
-  const wM=fmt==="Película"||fmt==="Lo que sea"||isMarathon;
-  const wT=fmt!=="Película";
+  const isMarathon=answers.time==="Toda la noche";
+  const wM=fmt==="Pelicula"||fmt==="Me da igual"||isMarathon;
+  const wT=fmt!=="Pelicula";
   const fetches=[];
   if(wM)fetches.push(fetch(B+"/discover/movie?api_key="+TMDB_KEY+"&language=es-ES&sort_by=vote_average.desc&vote_count.gte=500&with_genres="+genres+"&page="+page).then(function(r){return r.json();}).then(function(d){return (d.results||[]).slice(0,isMarathon?6:5).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"—",type:"Película",mediaType:"movie",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});}));
   if(wT)fetches.push(fetch(B+"/discover/tv?api_key="+TMDB_KEY+"&language=es-ES&sort_by=vote_average.desc&vote_count.gte=200&with_genres="+genres+"&page="+page).then(function(r){return r.json();}).then(function(d){return (d.results||[]).slice(0,isMarathon?4:3).map(function(m){return {id:m.id,title:m.name,titleEs:m.name,year:m.first_air_date?m.first_air_date.slice(0,4):"—",type:"Serie",mediaType:"tv",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});}));
@@ -526,12 +549,16 @@ function StreamLinks(props){
   if(known.length>0){
     known.forEach(function(name){
       var p=PLATFORMS[name];if(!p)return;
-      links.push(React.createElement("a",{key:name,href:p.url+enc(title),target:"_blank",rel:"noopener",style:{display:"inline-flex",alignItems:"center",padding:"8px 12px",borderRadius:9,background:p.color,color:"#fff",fontSize:12,fontWeight:600,textDecoration:"none"}},name));
+      links.push(React.createElement("a",{key:name,href:p.url+enc(title),target:"_blank",rel:"noopener",style:{display:"inline-flex",alignItems:"center",justifyContent:"center",width:56,height:56,borderRadius:12,background:p.color,textDecoration:"none",flexShrink:0,overflow:"hidden"}},
+      React.createElement("img",{src:p.logo,alt:name,style:{width:"80%",height:"80%",objectFit:"contain"},onError:function(e){e.target.style.display="none";e.target.parentNode.style.color="#fff";e.target.parentNode.style.fontSize="10px";e.target.parentNode.style.fontWeight="700";e.target.parentNode.textContent=name.slice(0,3).toUpperCase();}})
+    ));
     });
   } else {
     Object.keys(PLATFORMS).slice(0,4).forEach(function(name){
       var p=PLATFORMS[name];
-      links.push(React.createElement("a",{key:name,href:p.url+enc(title),target:"_blank",rel:"noopener",style:{display:"inline-flex",alignItems:"center",padding:"7px 11px",borderRadius:9,border:"1px solid var(--b2)",background:"var(--s2)",color:"var(--t2)",fontSize:12,fontWeight:500,textDecoration:"none"}},name));
+      links.push(React.createElement("a",{key:name,href:p.url+enc(title),target:"_blank",rel:"noopener",style:{display:"inline-flex",alignItems:"center",justifyContent:"center",width:56,height:56,borderRadius:12,background:p.color,textDecoration:"none",flexShrink:0,overflow:"hidden"}},
+      React.createElement("img",{src:p.logo,alt:name,style:{width:"80%",height:"80%",objectFit:"contain"},onError:function(e){e.target.style.display="none";e.target.parentNode.style.color="#fff";e.target.parentNode.style.fontSize="10px";e.target.parentNode.style.fontWeight="700";e.target.parentNode.textContent=name.slice(0,3).toUpperCase();}})
+    ));
     });
   }
   links.push(React.createElement("a",{key:"jw",href:"https://www.justwatch.com/es/buscar?q="+enc(title),target:"_blank",rel:"noopener",style:{display:"inline-flex",alignItems:"center",padding:"7px 11px",borderRadius:9,border:"1px solid var(--b2)",background:"var(--s2)",color:"var(--t2)",fontSize:12,fontWeight:500,textDecoration:"none"}},"JustWatch"));
@@ -550,6 +577,7 @@ function App(){
   var _=useState(null);var sel=_[0];var setSel=_[1];
   var _=useState(false);var marathon=_[0];var setMarathon=_[1];
   var _=useState(null);var potw=_[0];var setPotw=_[1];
+  var _=useState([]);var trending=_[0];var setTrending=_[1];
   var _=useState(0);var quizStep=_[0];var setQuizStep=_[1];
   var _=useState({});var answers=_[0];var setAnswers=_[1];
   var _=useState([]);var multi=_[0];var setMulti=_[1];
@@ -609,7 +637,8 @@ function App(){
 
   useEffect(function(){
     if(auth==="app"){
-      tmdbWeekly().then(setPotw).catch(function(){});
+      tmdbWeekly().then(function(f){setPotw(f);}).catch(function(){});
+      fetch(B+"/movie/now_playing?api_key="+TMDB_KEY+"&language=es-ES&region=ES&page=1").then(function(r){return r.json();}).then(function(d){var res=(d.results||[]).slice(0,8).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"",type:"Pelicula",mediaType:"movie",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});setTrending(res);}).catch(function(){});
       sb.from("reviews").select("*").order("created_at",{ascending:false}).limit(50).then(function(res){
         if(res.data&&res.data.length>0)setReviews(res.data.map(function(r){return Object.assign({},r,{userId:r.user_id,userName:r.user_name,likedBy:[]});}));
       }).catch(function(){});
@@ -677,7 +706,9 @@ function App(){
   }
 
   async function doReg(){
-    if(!rN.trim()||!rH.trim()||!rP.trim()){setErr("Rellena todos los campos");return;}
+    if(!rN.trim()||!rH.trim()||!rP.trim()||!rE.trim()){setErr("Rellena todos los campos");return;}
+    if(!/^[^@]+@[^@]+\.[^@]+$/.test(rE)){setErr("Email no valido");return;}
+    if(!gdprOk){setErr("Acepta la politica de privacidad");return;}
     var handle=rH.toLowerCase().trim();
     try{var res=await sb.from("users").select("id").eq("handle",handle).single();if(res.data){setErr("Usuario ya existe");return;}}catch{}
     var saved=LS.get("rack_users",[]);
@@ -709,7 +740,7 @@ function App(){
   function goQuiz(isM){setScreen("quiz");setQuizStep(0);setAnswers({});setMulti([]);setMarathon(isM||false);}
 
   async function doFetch(ans){
-    var isM=ans.time==="Modo Maratón"||marathon;
+    var isM=ans.time==="Toda la noche"||marathon;
     setMarathon(isM);setLoading(true);setScreen("results");
     try{
       var r=await tmdbDiscover(ans);
@@ -936,7 +967,7 @@ function App(){
               {err && <div className="auth-err">{err}</div>}
               <div className="field"><label>Usuario</label><input placeholder="tu_usuario" value={lH} onChange={function(e){setLH(e.target.value);}} onKeyDown={function(e){if(e.key==="Enter")doLogin();}}/></div>
               <div className="field"><label>Contraseña</label><input type="password" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" value={lP} onChange={function(e){setLP(e.target.value);}} onKeyDown={function(e){if(e.key==="Enter")doLogin();}}/></div>
-              <div className="demo-hint">Demo: <strong>sofiam</strong>, <strong>marcosr</strong>, <strong>laiat</strong>, <strong>andresb</strong> · contraseña: <strong>1234</strong></div>
+              
               <button className="btn btn-p" style={{marginTop:16}} onClick={doLogin}>Entrar</button>
               <div className="auth-hint">¿Sin cuenta? <button onClick={function(){setAuthMode("register");setErr("");}}>Regístrate</button></div>
             </div>
@@ -977,12 +1008,7 @@ function App(){
                   <div className="hero-card-sub">Test de estado de animo</div>
                   <div className="hero-card-btn">Hacer Test de Mood</div>
                 </div>
-                {!notif && (
-                  <div className="notif-ban">
-                    <div style={{flex:1}}><div style={{fontSize:13,fontWeight:600,color:"var(--acc2)",marginBottom:2}}>Activa las notificaciones</div><div style={{fontSize:11,color:"var(--t3)"}}>Enterate de estrenos</div></div>
-                    <button className="notif-ban-btn" onClick={reqNotif}>Activar</button>
-                  </div>
-                )}
+                
               </div>
               <div className="page" style={{paddingTop:8}}>
                 {films.length>0 && (
@@ -1035,10 +1061,24 @@ function App(){
                   <div><div style={{fontSize:15,fontWeight:700}}>Modo Maraton</div><div style={{fontSize:12,opacity:.75,fontWeight:300}}>Tengo tiempo. Dame todo.</div></div>
                   <div style={{fontSize:13,fontWeight:600,opacity:.8}}>-&gt;</div>
                 </button>
-                <div className="invite-row" onClick={function(){setShowInv(true);}}>
-                  <div><div className="ir-t">Invitar amigos</div><div className="ir-s">+100 pts con tu codigo</div></div>
-                  <span style={{color:"var(--acc2)"}}>-&gt;</span>
-                </div>
+
+                {/* ESTRENOS */}
+                {trending.length>0 && (
+                  <div>
+                    <div className="sec">Estrenos</div>
+                    <div className="mood-reel">
+                      {trending.map(function(f,i){
+                        return (
+                          <div key={i} className={"mood-item"+(i===0?" mood-item-main":"")} onClick={function(){goDetail(f,"home");}}>
+                            {f.poster ? <img src={f.poster} alt={f.title} className="mood-poster"/> : <div className="mood-poster-empty"/>}
+                            {i===0 && <div className="mood-poster-title">{(f.titleEs||f.title).toUpperCase()}</div>}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+                
                 {(user.watchlist||[]).length===0 && (user.watched||[]).length===0 && (
                   <div className="empty">
                     <div className="empty-t">Empieza a descubrir cine</div>
@@ -1144,7 +1184,8 @@ function App(){
                     var val=typeof o==="object"?o.label:o;
                     var sel=q.multi?multi.includes(val):answers[q.id]===val;
                     return (
-                      <button key={val} className={"qopt"+(sel?" qopt-sel":"")} onClick={function(){pickOpt(val);}}>
+                      <button key={val} className={"qopt"+(sel?" qopt-sel":"")} data-platform={q.id==="platform"?val:""} onClick={function(){pickOpt(val);}}>
+                        {q.id==="platform" && <div className="platform-logo">{val==="Netflix"?"N":val==="HBO Max"?"H":val==="Disney+"?"D+":val==="Prime Video"?"P":val==="Filmin"?"F":val==="Apple TV+"?"A+":val==="Movistar+"?"M+":"OK"}</div>}
                         <div className="qopt-label">{val}</div>
                       </button>
                     );
@@ -1228,7 +1269,7 @@ function App(){
                   {sel.tagline && <div className="det-tagline">"{sel.tagline}"</div>}
                   <div className="scores-row">
                     {sel.score && <div className="spill"><div className="spill-n">\u2b50{sel.score}</div><div className="spill-l">TMDB</div></div>}
-                    {filmRevs.length>0 && <div className="spill"><div className="spill-n">{(filmRevs.reduce(function(a,r){return a+r.stars;},0)/filmRevs.length).toFixed(1)}</div><div className="spill-l">Rack</div></div>}
+                    {filmRevs.length>0 && <div className="spill"><div className="spill-n">{(filmRevs.reduce(function(a,r){return a+r.stars;},0)/filmRevs.length).toFixed(1)}</div><div className="spill-l">Zine Club</div></div>}
                   </div>
                   {sel.description && <p className="det-desc">{sel.description}</p>}
                   {sel.trailerKey && !showTrailer && (
