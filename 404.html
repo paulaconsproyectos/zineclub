@@ -1,32 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>404 · Rack</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{--bg:#09090B;--s2:#18181B;--b:rgba(255,255,255,0.06);--t:#F4F4F5;--t2:#A1A1AA;--t3:#71717A;--acc:#6366F1;--acc2:#818CF8;}
-body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;align-items:center;justify-content:center;}
-.wrap{max-width:340px;margin:0 auto;padding:40px 24px;text-align:center;}
-.num{font-family:'DM Serif Display',serif;font-size:120px;line-height:1;color:var(--acc2);opacity:0.15;margin-bottom:-20px;}
-.icon{font-size:52px;margin-bottom:18px;}
-h1{font-size:24px;font-weight:700;letter-spacing:-0.02em;margin-bottom:10px;}
-p{font-size:14px;color:var(--t3);line-height:1.7;margin-bottom:32px;font-weight:300;}
-.btn{display:inline-block;padding:14px 28px;background:var(--acc);color:#fff;border-radius:12px;text-decoration:none;font-size:15px;font-weight:600;margin-bottom:12px;width:100%;}
-.btn-s{display:inline-block;padding:12px 28px;background:var(--s2);color:var(--t2);border:1px solid var(--b);border-radius:12px;text-decoration:none;font-size:14px;font-weight:500;width:100%;}
-</style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>404 — Zine Club</title>
+  <link rel="icon" href="icon-192.png"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#09090b;color:#fff;font-family:'DM Sans','Helvetica Neue',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;}
+    .logo{font-family:'DM Serif Display',Georgia,serif;font-size:22px;letter-spacing:0.04em;color:rgba(255,255,255,0.4);margin-bottom:48px;}
+    .logo span{color:#6366f1;}
+    .big{font-family:'DM Serif Display',Georgia,serif;font-size:96px;font-weight:400;line-height:1;color:#fff;margin-bottom:8px;opacity:0.15;}
+    .title{font-size:22px;font-weight:700;letter-spacing:-0.03em;margin-bottom:10px;}
+    .sub{font-size:14px;color:rgba(255,255,255,0.4);margin-bottom:36px;line-height:1.6;}
+    .btn{display:inline-block;padding:14px 32px;background:#6366f1;color:#fff;border-radius:50px;font-size:14px;font-weight:700;text-decoration:none;transition:opacity .2s;}
+    .btn:hover{opacity:0.85;}
+    .film-strip{position:fixed;top:0;left:0;right:0;height:32px;display:flex;gap:0;overflow:hidden;opacity:0.06;}
+    .film-strip-b{position:fixed;bottom:0;left:0;right:0;height:32px;display:flex;gap:0;overflow:hidden;opacity:0.06;}
+    .hole{width:24px;height:18px;background:#fff;border-radius:3px;margin:7px 8px;flex-shrink:0;}
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
-<div class="wrap">
-  <div class="num">404</div>
-  <div class="icon">🎬</div>
-  <h1>Esta escena no existe</h1>
-  <p>La página que buscas no está en nuestra cinemateca. Igual está en otra plataforma.</p>
-  <a class="btn" href="index.html">Volver a Rack</a>
-  <a class="btn-s" href="index.html#search">Buscar una película</a>
-</div>
+  <div class="film-strip" id="ft"></div>
+  <div class="logo">Zine <span>Club</span></div>
+  <div class="big">404</div>
+  <div class="title">Esta película no existe</div>
+  <div class="sub">La página que buscas no está en nuestra cinemateca.<br/>Quizá fue retirada de cartelera.</div>
+  <a href="/rack/" class="btn">Volver al inicio</a>
+  <div class="film-strip-b" id="fb"></div>
+  <script>
+    var h='';for(var i=0;i<40;i++)h+='<div class="hole"></div>';
+    document.getElementById('ft').innerHTML=h;
+    document.getElementById('fb').innerHTML=h;
+  </script>
 </body>
 </html>
