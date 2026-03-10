@@ -680,10 +680,6 @@ const QUESTIONS=[
     {label:"Me da igual"}
   ]},
 ];
-const DEMO_REVIEWS=[
-  {id:"dr1",userId:"u2",userName:"Marcos Ruiz",handle:"marcosr",film:"Dune: Parte Dos",text:"Villeneuve lo vuelve a hacer.",stars:5,likes:34,likedBy:[]},
-  {id:"dr2",userId:"u3",userName:"Laia Torres",handle:"laiat",film:"Pobres Criaturas",text:"Yorgos en estado puro.",stars:5,likes:28,likedBy:[]},
-];
 const MOODS_POST=["Impactado","Emocionado","Reflexivo","Entretenido","Decepcionado","Sorprendido","Inspirado","Triste"];
 const getBadge=s=>[...BADGES].reverse().find(b=>s>=b.min)||BADGES[0];
 const getNext=s=>BADGES.find(b=>b.min>s);
@@ -990,7 +986,7 @@ function App(){
   var _=useState([]);var upcoming=_[0];var setUpcoming=_[1];
   var _=useState(function(){return LS.get("rack_notif",false);});var notif=_[0];var setNotif=_[1];
   var _=useState(function(){return LS.get("rack_notifF",{});});var notifF=_[0];var setNotifF=_[1];
-  var _=useState(function(){return LS.get("rack_reviews",DEMO_REVIEWS);});var reviews=_[0];var setReviews=_[1];
+  var _=useState(function(){return LS.get("rack_reviews",[]);});var reviews=_[0];var setReviews=_[1];
   var _=useState("");var revTxt=_[0];var setRevTxt=_[1];
   var _=useState(0);var revSt=_[0];var setRevSt=_[1];
   var _=useState(null);var postMood=_[0];var setPostMood=_[1];
@@ -1050,7 +1046,7 @@ function App(){
       }
     };
   },[]);
-  useEffect(function(){LS.set("rack_reviews",reviews);},[reviews]);
+  // reviews persisted in Supabase, not localStorage
   useEffect(function(){LS.set("rack_streak",streak);},[streak]);
 
   function t_(msg){setToast(msg);setTimeout(function(){setToast(null);},2500);}
@@ -1164,13 +1160,32 @@ function App(){
 
   async function loadProfile(authUser){
     try{
-      var res=await sb.from("profiles").select("*").eq("id",authUser.id).single();
-      if(res.data){
-        setUser(Object.assign({},res.data,{
+      // Load profile, watched, watchlist and reviews in parallel
+      var [profileRes, watchedRes, watchlistRes, reviewsRes] = await Promise.all([
+        sb.from("profiles").select("*").eq("id",authUser.id).single(),
+        sb.from("watched").select("film_data").eq("user_id",authUser.id),
+        sb.from("watchlist").select("film_data").eq("user_id",authUser.id),
+        sb.from("reviews").select("*").eq("user_id",authUser.id).order("created_at",{ascending:false})
+      ]);
+      if(profileRes.data){
+        var watchedFilms=(watchedRes.data||[]).map(function(r){return r.film_data;});
+        var watchlistFilms=(watchlistRes.data||[]).map(function(r){return r.film_data;});
+        var userReviews=(reviewsRes.data||[]).map(function(r){
+          return {id:r.id,userId:r.user_id,userName:r.user_name,handle:r.handle,
+                  film:r.film,text:r.text,stars:r.stars,likes:r.likes||0,likedBy:r.liked_by||[]};
+        });
+        // Merge with any locally cached reviews not yet synced
+        var cachedRevs=LS.get("rack_reviews",[]);
+        var mergedRevs=userReviews.concat(cachedRevs.filter(function(cr){
+          return !userReviews.find(function(ur){return ur.id===cr.id;});
+        }));
+        setReviews(mergedRevs);
+        var avatar=LS.get("rack_av_"+profileRes.data.id, profileRes.data.avatar||null);
+        setUser(Object.assign({},profileRes.data,{
           email:authUser.email,
-          watched:LS.get("rack_w_"+res.data.id,[]),
-          watchlist:LS.get("rack_l_"+res.data.id,[]),
-          avatar:LS.get("rack_av_"+res.data.id,res.data.avatar||null)
+          watched:watchedFilms,
+          watchlist:watchlistFilms,
+          avatar:avatar
         }));
         setAuth("app");
         updateStreak();
@@ -1341,7 +1356,10 @@ function App(){
     try{if(navigator.vibrate)navigator.vibrate([30,20,60]);}catch{}
     setUser(function(p){return Object.assign({},p,{watched:(p.watched||[]).concat([f]),score:(p.score||0)+pts});});
     showPts("+"+pts);updateStreak();
-    try{await sb.from("watched").insert({user_id:user.id,film_id:String(f.id),film_title:f.titleEs||f.title,film_data:f});await sb.from("users").update({score:(user.score||0)+pts}).eq("id",user.id);}catch{}
+    try{
+      await sb.from("watched").insert({user_id:user.id,film_id:String(f.id),film_title:f.titleEs||f.title,film_data:f});
+      await sb.from("profiles").update({score:(user.score||0)+pts}).eq("id",user.id);
+    }catch{}
   }
 
   async function addL(f){
@@ -1356,7 +1374,10 @@ function App(){
     var r={id:"r"+Date.now(),userId:user.id,userName:user.name,handle:user.handle,film:f.titleEs||f.title,text:revTxt,stars:revSt,likes:0,likedBy:[]};
     setReviews(function(p){return [r].concat(p);});setUser(function(p){return Object.assign({},p,{score:(p.score||0)+50});});
     setRevTxt("");setRevSt(0);showPts("+50");
-    try{await sb.from("reviews").insert({id:r.id,user_id:user.id,user_name:user.name,handle:user.handle,film:r.film,text:revTxt,stars:revSt,likes:0});}catch{}
+    try{
+      await sb.from("reviews").insert({id:r.id,user_id:user.id,user_name:user.name,handle:user.handle,film:r.film,text:revTxt,stars:revSt,likes:0});
+      await sb.from("profiles").update({score:(user.score||0)+50}).eq("id",user.id);
+    }catch{}
   }
 
   function toggleLike(id){
