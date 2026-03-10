@@ -1,21 +1,18 @@
-<
-const IcoFilm=()=><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="17" y1="7" x2="22" y2="7"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="2" y1="17" x2="7" y2="17"/></svg>;
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-<title>Rack</title>
+<title>Zine Club</title>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="theme-color" content="#09090B"/>
 <link rel="manifest" href="manifest.json"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
@@ -25,9 +22,9 @@ const IcoFilm=()=><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
   --acc:#6366F1;--acc2:#818CF8;--acc3:rgba(99,102,241,0.15);--acc4:rgba(99,102,241,0.08);
   --grn:#22C55E;--red:#EF4444;--ylw:#F59E0B;--prp:#A855F7;--blu:#3B82F6;--org:#F97316;
 }
-html,body{background:var(--bg);color:var(--t);font-family:'Barlow',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
+html,body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
 #root{max-width:430px;margin:0 auto;min-height:100vh;}
-button,input,textarea{font-family:'Barlow',sans-serif;}
+button,input,textarea{font-family:'DM Sans',sans-serif;}
 ::-webkit-scrollbar{width:0;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -41,7 +38,7 @@ button,input,textarea{font-family:'Barlow',sans-serif;}
 .app{max-width:430px;margin:0 auto;min-height:100vh;background:var(--bg);}
 .page{padding:0 18px 110px;}
 .ph{padding:52px 18px 14px;display:flex;justify-content:space-between;align-items:center;}
-.logo{font-family:'Barlow Condensed',sans-serif;font-size:22px;color:var(--t);}
+.logo{font-family:'DM Serif Display',serif;font-size:22px;color:var(--t);}
 .logo span{color:var(--acc2);}
 .sec{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);margin-bottom:11px;margin-top:22px;}
 /* ONBOARDING */
@@ -51,7 +48,7 @@ button,input,textarea{font-family:'Barlow',sans-serif;}
 .ob-slide.active{opacity:1;transform:translateX(0);}
 .ob-slide.prev{opacity:0;transform:translateX(-32px);}
 .ob-slide.next{opacity:0;transform:translateX(32px);}
-.ob-logo{font-family:'Barlow Condensed',sans-serif;font-size:56px;color:var(--t);}
+.ob-logo{font-family:'DM Serif Display',serif;font-size:56px;color:var(--t);}
 .ob-logo span{color:var(--acc2);}
 .ob-title{font-size:24px;font-weight:700;text-align:center;line-height:1.2;letter-spacing:-0.02em;}
 .ob-sub{font-size:14px;color:var(--t2);text-align:center;line-height:1.7;max-width:280px;font-weight:300;}
@@ -62,7 +59,7 @@ button,input,textarea{font-family:'Barlow',sans-serif;}
 /* LANDING */
 .land{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(ellipse at 50% -10%,rgba(99,102,241,0.22) 0%,transparent 65%),var(--bg);}
 .land-hero{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:80px 28px 40px;}
-.land-logo{font-family:'Barlow Condensed',sans-serif;font-size:72px;letter-spacing:-0.03em;line-height:1;margin-bottom:10px;color:var(--t);}
+.land-logo{font-family:'DM Serif Display',serif;font-size:72px;letter-spacing:-0.03em;line-height:1;margin-bottom:10px;color:var(--t);}
 .land-logo span{color:var(--acc2);}
 .land-tag{font-size:16px;color:var(--t2);max-width:260px;line-height:1.6;font-weight:300;}
 .land-bottom{padding:24px 28px 52px;display:flex;flex-direction:column;gap:10px;}
@@ -102,7 +99,7 @@ button,input,textarea{font-family:'Barlow',sans-serif;}
 .trailer-cta{width:100%;padding:14px 18px;background:var(--s2);border:1px solid var(--b2);border-radius:14px;display:flex;align-items:center;justify-content:space-between;color:var(--t);margin-bottom:10px;cursor:pointer;}
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px;}
 .stat-card{background:var(--s1);border:1px solid var(--b);border-radius:12px;padding:14px 10px;text-align:center;}
-.stat-n{font-family:'Barlow Condensed',sans-serif;font-size:26px;line-height:1;}
+.stat-n{font-family:'DM Serif Display',serif;font-size:26px;line-height:1;}
 .stat-l{font-size:9px;color:var(--t3);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-top:3px;}
 .potw-card{border-radius:14px;overflow:hidden;margin-bottom:10px;position:relative;cursor:pointer;}
 .potw-bg{width:100%;height:170px;object-fit:cover;display:block;}
@@ -115,7 +112,7 @@ button,input,textarea{font-family:'Barlow',sans-serif;}
 .notif-ban{background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .notif-ban-btn{background:var(--acc);color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;font-weight:600;flex-shrink:0;cursor:pointer;}
 .streak-card{background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(245,158,11,0.05));border:1px solid rgba(245,158,11,0.25);border-radius:13px;padding:13px 15px;display:flex;align-items:center;gap:12px;margin-bottom:10px;}
-.streak-n{font-family:'Barlow Condensed',sans-serif;font-size:34px;color:var(--ylw);line-height:1;}
+.streak-n{font-family:'DM Serif Display',serif;font-size:34px;color:var(--ylw);line-height:1;}
 .streak-label{font-size:13px;font-weight:700;margin-bottom:2px;}
 .streak-sub{font-size:11px;color:var(--t3);}
 /* QUIZ */
@@ -220,7 +217,7 @@ button,input,textarea{font-family:'Barlow',sans-serif;}
 .det-tagline{font-size:13px;color:var(--acc2);font-style:italic;font-weight:300;margin-bottom:12px;}
 .scores-row{display:flex;gap:6px;margin-bottom:14px;}
 .spill{padding:9px 12px;border-radius:9px;background:var(--s2);border:1px solid var(--b);text-align:center;min-width:58px;}
-.spill-n{font-family:'Barlow Condensed',sans-serif;font-size:19px;color:var(--ylw);line-height:1;}
+.spill-n{font-family:'DM Serif Display',serif;font-size:19px;color:var(--ylw);line-height:1;}
 .spill-l{font-size:9px;color:var(--t3);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:1px;}
 .det-desc{font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:14px;font-weight:300;}
 .det-btns{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:18px;}
@@ -277,23 +274,23 @@ button,input,textarea{font-family:'Barlow',sans-serif;}
 .act-time{font-size:10px;color:var(--t4);margin-top:1px;}
 .rank-row{display:flex;align-items:center;gap:9px;padding:11px 0;border-bottom:1px solid var(--b);}
 .rank-row.me{background:var(--acc4);border-radius:10px;padding:11px 10px;}
-.rank-n{font-family:'Barlow Condensed',sans-serif;font-size:17px;color:var(--t3);width:20px;text-align:center;flex-shrink:0;}
+.rank-n{font-family:'DM Serif Display',serif;font-size:17px;color:var(--t3);width:20px;text-align:center;flex-shrink:0;}
 .rank-n.gold{color:var(--ylw);}
 .rank-av{width:32px;height:32px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--t2);flex-shrink:0;}
 .rank-info{flex:1;}
 .rank-name{font-size:13px;font-weight:600;margin-bottom:1px;}
 .rank-badge{font-size:10px;color:var(--t3);}
-.rank-score{font-family:'Barlow Condensed',sans-serif;font-size:18px;color:var(--acc2);}
+.rank-score{font-family:'DM Serif Display',serif;font-size:18px;color:var(--acc2);}
 .up-item{display:flex;gap:9px;padding:11px 0;border-bottom:1px solid var(--b);}
 .up-p{width:42px;height:63px;border-radius:7px;object-fit:cover;flex-shrink:0;}
 .up-pe{width:42px;height:63px;border-radius:7px;background:var(--s3);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .up-title{font-size:13px;font-weight:600;margin-bottom:2px;}
 .up-date{font-size:11px;color:var(--acc2);margin-bottom:2px;}
 .up-desc{font-size:11px;color:var(--t3);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.tog-track{width:34px;height:19px;border-radius:10px;background:var(--s4);position:relative;cursor:pointer;display:inline-block;}
-.tog-track.on{background:var(--acc);}
+.tog-tzineclub{width:34px;height:19px;border-radius:10px;background:var(--s4);position:relative;cursor:pointer;display:inline-block;}
+.tog-tzineclub.on{background:var(--acc);}
 .tog-thumb{width:15px;height:15px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .18s;}
-.tog-track.on .tog-thumb{left:17px;}
+.tog-tzineclub.on .tog-thumb{left:17px;}
 /* PROFILE */
 .prof-hd{padding:52px 18px 18px;}
 .prof-av{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--acc),#7C3AED);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;}
@@ -301,7 +298,7 @@ button,input,textarea{font-family:'Barlow',sans-serif;}
 .prof-handle{font-size:12px;color:var(--t3);margin-bottom:7px;}
 .prof-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;background:var(--acc3);color:var(--acc2);font-size:11px;font-weight:600;}
 .score-blk{background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(124,58,237,0.06));border:1px solid rgba(99,102,241,0.2);border-radius:14px;padding:16px;margin-bottom:12px;}
-.score-big{font-family:'Barlow Condensed',sans-serif;font-size:50px;color:var(--acc2);line-height:1;margin-bottom:2px;}
+.score-big{font-family:'DM Serif Display',serif;font-size:50px;color:var(--acc2);line-height:1;margin-bottom:2px;}
 .score-lbl{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:12px;}
 .prog-bar{height:3px;background:var(--s4);border-radius:2px;margin-bottom:6px;position:relative;overflow:hidden;}
 .prog-fill{position:absolute;top:0;left:0;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:2px;}
@@ -321,7 +318,7 @@ button,input,textarea{font-family:'Barlow',sans-serif;}
 .stream-lbl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);margin-bottom:10px;margin-top:20px;}
 .stream-links{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
 .share-row{display:flex;gap:6px;margin-bottom:18px;}
-.pts-float{position:fixed;font-family:'Barlow Condensed',sans-serif;font-size:22px;color:var(--grn);font-weight:700;pointer-events:none;z-index:999;animation:floatPts 1.2s ease forwards;top:45%;left:50%;transform:translateX(-50%);}
+.pts-float{position:fixed;font-family:'DM Serif Display',serif;font-size:22px;color:var(--grn);font-weight:700;pointer-events:none;z-index:999;animation:floatPts 1.2s ease forwards;top:45%;left:50%;transform:translateX(-50%);}
 .toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:var(--s2);color:var(--t);border:1px solid var(--b2);border-radius:20px;padding:8px 16px;font-size:13px;font-weight:500;z-index:999;white-space:nowrap;animation:tin .22s ease;box-shadow:0 8px 24px rgba(0,0,0,.5);pointer-events:none;}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.87);z-index:200;display:flex;align-items:flex-end;backdrop-filter:blur(6px);}
 .modal{background:var(--s1);border-top:1px solid var(--b2);border-radius:22px 22px 0 0;padding:22px 22px 48px;width:100%;max-width:430px;margin:0 auto;}
@@ -330,13 +327,13 @@ button,input,textarea{font-family:'Barlow',sans-serif;}
 .modal-sub{font-size:13px;color:var(--t2);margin-bottom:18px;line-height:1.6;}
 .code-box{background:var(--s3);border:1px solid var(--b2);border-radius:11px;padding:16px;text-align:center;margin-bottom:16px;}
 .code-lbl{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:6px;}
-.code-val{font-family:'Barlow Condensed',sans-serif;font-size:38px;letter-spacing:.1em;color:var(--acc2);}
+.code-val{font-family:'DM Serif Display',serif;font-size:38px;letter-spacing:.1em;color:var(--acc2);}
 .stream-sec{margin-bottom:18px;}
 </style>
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel"><script type="text/babel">
+<script type="text/babel">
 const {useState,useEffect,useRef} = React;
 const SUPA_URL="https://scqoqwmkptyxwpiwhkyk.supabase.co";
 const SUPA_KEY="sb_publishable_GPGtFCLX8xNSIvyCznVDrg_K3xhtb4N";
@@ -345,22 +342,22 @@ const TMDB_KEY="10f1051018046e4262a70010b517415c";
 const B="https://api.themoviedb.org/3";
 const IMG="https://image.tmdb.org/t/p/w500";
 const ORIG="https://image.tmdb.org/t/p/original";
-const MOOD_GENRES={"Euf\u00f3rico":[28,12,35],"Melanc\u00f3lico":[18,10749,9648],"Curioso":[99,878,9648],"Relajado":[35,10751,16],"Intenso":[53,80,27],"Rom\u00e1ntico":[10749,18,35]};
-const BADGES=[{min:0,label:"Espectador"},{min:100,label:"Aficionado"},{min:300,label:"Cin\u00e9filo"},{min:600,label:"Auteur"},{min:1000,label:"Cr\u00edtico"},{min:2000,label:"Maestro"},{min:5000,label:"Leyenda"}];
+const MOOD_GENRES={"Eufórico":[28,12,35],"Melancólico":[18,10749,9648],"Curioso":[99,878,9648],"Relajado":[35,10751,16],"Intenso":[53,80,27],"Romántico":[10749,18,35]};
+const BADGES=[{min:0,label:"Espectador"},{min:100,label:"Aficionado"},{min:300,label:"Cinéfilo"},{min:600,label:"Auteur"},{min:1000,label:"Crítico"},{min:2000,label:"Maestro"},{min:5000,label:"Leyenda"}];
 const PLATFORMS={"Netflix":{color:"#E50914",url:"https://www.netflix.com/search?q="},"HBO Max":{color:"#B012FF",url:"https://www.max.com/search?q="},"Disney+":{color:"#0063E5",url:"https://www.disneyplus.com/search?q="},"Prime Video":{color:"#00A8E1",url:"https://www.amazon.es/s?k="},"Filmin":{color:"#F5A623",url:"https://www.filmin.es/buscar?query="},"Apple TV+":{color:"#555",url:"https://tv.apple.com/search?term="},"Movistar+":{color:"#019FE3",url:"https://ver.movistar.es/search?q="}};
 const QUESTIONS=[
-  {id:"format",q:"\u00bfPel\u00edcula o serie?",opts:["Pel\u00edcula","Serie","Me da igual"]},
-  {id:"mood",q:"\u00bfC\u00f3mo est\u00e1s ahora?",opts:["Euf\u00f3rico","Melanc\u00f3lico","Curioso","Relajado","Intenso","Rom\u00e1ntico"]},
-  {id:"time",q:"\u00bfCu\u00e1nto tiempo tienes?",opts:["Menos de 1h","1\u20132 horas","M\u00e1s de 2h","Modo Marat\u00f3n"]},
-  {id:"vibe",q:"\u00bfQu\u00e9 buscas?",opts:["Que me impacte","Que me evada","Que me haga re\u00edr","Que me asuste","Arte puro","Buena historia"]},
-  {id:"platform",q:"\u00bfEn qu\u00e9 plataformas est\u00e1s?",multi:true,opts:["Netflix","HBO Max","Disney+","Prime Video","Filmin","Apple TV+","Movistar+","Todo me vale"]},
+  {id:"format",q:"¿Película o serie?",opts:["Película","Serie","Me da igual"]},
+  {id:"mood",q:"¿Cómo estás ahora?",opts:["Eufórico","Melancólico","Curioso","Relajado","Intenso","Romántico"]},
+  {id:"time",q:"¿Cuánto tiempo tienes?",opts:["Menos de 1h","1–2 horas","Más de 2h","Modo Maratón"]},
+  {id:"vibe",q:"¿Qué buscas?",opts:["Que me impacte","Que me evada","Que me haga reír","Que me asuste","Arte puro","Buena historia"]},
+  {id:"platform",q:"¿Qué plataformas tienes?",multi:true,opts:["Netflix","HBO Max","Disney+","Prime Video","Filmin","Apple TV+","Movistar+","Todo me vale"]},
 ];
 const DEMO_REVIEWS=[
   {id:"dr1",userId:"u2",userName:"Marcos Ruiz",handle:"marcosr",film:"Dune: Parte Dos",text:"Villeneuve lo vuelve a hacer.",stars:5,likes:34,likedBy:[]},
   {id:"dr2",userId:"u3",userName:"Laia Torres",handle:"laiat",film:"Pobres Criaturas",text:"Yorgos en estado puro.",stars:5,likes:28,likedBy:[]},
 ];
-const DEMO_USERS=[{id:"u1",name:"Sof\u00eda Mart\u00edn",handle:"sofiam",score:847},{id:"u2",name:"Marcos Ruiz",handle:"marcosr",score:1204},{id:"u3",name:"Laia Torres",handle:"laiat",score:563},{id:"u4",name:"Andr\u00e9s Bernal",handle:"andresb",score:2891}];
-const DEMO_FEED=[{u:"Andr\u00e9s Bernal",a:"ha visto",f:"La Zona de Inter\u00e9s",t:"12 min"},{u:"Marcos Ruiz",a:"ha a\u00f1adido",f:"Challengers",t:"1h"},{u:"Laia Torres",a:"ha rese\u00f1ado",f:"Vidas Pasadas",t:"3h"}];
+const DEMO_USERS=[{id:"u1",name:"Sofía Martín",handle:"sofiam",score:847},{id:"u2",name:"Marcos Ruiz",handle:"marcosr",score:1204},{id:"u3",name:"Laia Torres",handle:"laiat",score:563},{id:"u4",name:"Andrés Bernal",handle:"andresb",score:2891}];
+const DEMO_FEED=[{u:"Andrés Bernal",a:"ha visto",f:"La Zona de Interés",t:"12 min"},{u:"Marcos Ruiz",a:"ha añadido",f:"Challengers",t:"1h"},{u:"Laia Torres",a:"ha reseñado",f:"Vidas Pasadas",t:"3h"}];
 const MOODS_POST=["Impactado","Emocionado","Reflexivo","Entretenido","Decepcionado","Sorprendido","Inspirado","Triste"];
 const getBadge=s=>[...BADGES].reverse().find(b=>s>=b.min)||BADGES[0];
 const getNext=s=>BADGES.find(b=>b.min>s);
@@ -410,12 +407,12 @@ async function tmdbDiscover(answers){
   const genres=(MOOD_GENRES[answers.mood]||[18]).slice(0,2).join(",");
   const page=Math.floor(Math.random()*8)+1;
   const fmt=answers.format||"Lo que sea";
-  const isMarathon=answers.time==="Modo Marat\u00f3n";
-  const wM=fmt==="Pel\u00edcula"||fmt==="Lo que sea"||isMarathon;
-  const wT=fmt!=="Pel\u00edcula";
+  const isMarathon=answers.time==="Modo Maratón";
+  const wM=fmt==="Película"||fmt==="Lo que sea"||isMarathon;
+  const wT=fmt!=="Película";
   const fetches=[];
-  if(wM)fetches.push(fetch(B+"/discover/movie?api_key="+TMDB_KEY+"&language=es-ES&sort_by=vote_average.desc&vote_count.gte=500&with_genres="+genres+"&page="+page).then(function(r){return r.json();}).then(function(d){return (d.results||[]).slice(0,isMarathon?6:5).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"\u2014",type:"Pel\u00edcula",mediaType:"movie",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});}));
-  if(wT)fetches.push(fetch(B+"/discover/tv?api_key="+TMDB_KEY+"&language=es-ES&sort_by=vote_average.desc&vote_count.gte=200&with_genres="+genres+"&page="+page).then(function(r){return r.json();}).then(function(d){return (d.results||[]).slice(0,isMarathon?4:3).map(function(m){return {id:m.id,title:m.name,titleEs:m.name,year:m.first_air_date?m.first_air_date.slice(0,4):"\u2014",type:"Serie",mediaType:"tv",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});}));
+  if(wM)fetches.push(fetch(B+"/discover/movie?api_key="+TMDB_KEY+"&language=es-ES&sort_by=vote_average.desc&vote_count.gte=500&with_genres="+genres+"&page="+page).then(function(r){return r.json();}).then(function(d){return (d.results||[]).slice(0,isMarathon?6:5).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"—",type:"Película",mediaType:"movie",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});}));
+  if(wT)fetches.push(fetch(B+"/discover/tv?api_key="+TMDB_KEY+"&language=es-ES&sort_by=vote_average.desc&vote_count.gte=200&with_genres="+genres+"&page="+page).then(function(r){return r.json();}).then(function(d){return (d.results||[]).slice(0,isMarathon?4:3).map(function(m){return {id:m.id,title:m.name,titleEs:m.name,year:m.first_air_date?m.first_air_date.slice(0,4):"—",type:"Serie",mediaType:"tv",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});}));
   const results=(await Promise.all(fetches)).reduce(function(a,b){return a.concat(b);}).slice(0,isMarathon?12:8);
   return Promise.all(results.map(enrichItem));
 }
@@ -424,14 +421,14 @@ async function tmdbWeekly(){
   const r=await fetch(B+"/trending/all/week?api_key="+TMDB_KEY+"&language=es-ES");
   const d=await r.json();
   const top=(d.results||[])[0];if(!top)return null;
-  const item={id:top.id,title:top.title||top.name,titleEs:top.title||top.name,year:(top.release_date||top.first_air_date||"").slice(0,4),type:top.media_type==="movie"?"Pel\u00edcula":"Serie",mediaType:top.media_type,tmdbId:top.id,poster:top.poster_path?IMG+top.poster_path:null,backdrop:top.backdrop_path?ORIG+top.backdrop_path:null,description:top.overview||"",score:top.vote_average?top.vote_average.toFixed(1):"",streaming:[],genres:[]};
+  const item={id:top.id,title:top.title||top.name,titleEs:top.title||top.name,year:(top.release_date||top.first_air_date||"").slice(0,4),type:top.media_type==="movie"?"Película":"Serie",mediaType:top.media_type,tmdbId:top.id,poster:top.poster_path?IMG+top.poster_path:null,backdrop:top.backdrop_path?ORIG+top.backdrop_path:null,description:top.overview||"",score:top.vote_average?top.vote_average.toFixed(1):"",streaming:[],genres:[]};
   return enrichItem(item);
 }
 
 async function tmdbSearch(q){
   const r=await fetch(B+"/search/multi?api_key="+TMDB_KEY+"&language=es-ES&query="+enc(q));
   const d=await r.json();
-  return (d.results||[]).filter(function(m){return m.media_type==="movie"||m.media_type==="tv";}).slice(0,12).map(function(m){return {id:m.id,title:m.title||m.name,titleEs:m.title||m.name,year:(m.release_date||m.first_air_date||"").slice(0,4),type:m.media_type==="movie"?"Pel\u00edcula":"Serie",poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",mediaType:m.media_type,tmdbId:m.id,streaming:[],genres:[]};});
+  return (d.results||[]).filter(function(m){return m.media_type==="movie"||m.media_type==="tv";}).slice(0,12).map(function(m){return {id:m.id,title:m.title||m.name,titleEs:m.title||m.name,year:(m.release_date||m.first_air_date||"").slice(0,4),type:m.media_type==="movie"?"Película":"Serie",poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",mediaType:m.media_type,tmdbId:m.id,streaming:[],genres:[]};});
 }
 
 async function tmdbPlatform(platform){
@@ -439,19 +436,19 @@ async function tmdbPlatform(platform){
   const pid=PIDS[platform];if(!pid)return[];
   const r=await fetch(B+"/discover/movie?api_key="+TMDB_KEY+"&language=es-ES&sort_by=popularity.desc&watch_region=ES&with_watch_providers="+pid);
   const d=await r.json();
-  return (d.results||[]).slice(0,8).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"\u2014",type:"Pel\u00edcula",mediaType:"movie",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[platform],genres:[]};});
+  return (d.results||[]).slice(0,8).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"—",type:"Película",mediaType:"movie",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[platform],genres:[]};});
 }
 
 async function tmdbUpcoming(){
   const r=await fetch(B+"/movie/upcoming?api_key="+TMDB_KEY+"&language=es-ES&region=ES");
   const d=await r.json();
-  return (d.results||[]).slice(0,8).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"\u2014",releaseDate:m.release_date||"",poster:m.poster_path?IMG+m.poster_path:null,description:m.overview||"",score:"",mediaType:"movie",streaming:[],genres:[],type:"Pel\u00edcula"};});
+  return (d.results||[]).slice(0,8).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"—",releaseDate:m.release_date||"",poster:m.poster_path?IMG+m.poster_path:null,description:m.overview||"",score:"",mediaType:"movie",streaming:[],genres:[],type:"Película"};});
 }
 
 function TypePill(props){
   var item=props.item;
   if(!item)return null;
-  if(item.mediaType==="movie")return React.createElement("span",{className:"type-pill",style:{background:"rgba(99,102,241,0.15)",color:"var(--acc2)"}},"Pel\u00edcula");
+  if(item.mediaType==="movie")return React.createElement("span",{className:"type-pill",style:{background:"rgba(99,102,241,0.15)",color:"var(--acc2)"}},"Película");
   var t=item.seriesType||"Serie";
   var styles={"Miniserie":{bg:"rgba(168,85,247,0.15)",col:"var(--prp)"},"Serie corta":{bg:"rgba(59,130,246,0.15)",col:"var(--blu)"},"Serie larga":{bg:"rgba(249,115,22,0.15)",col:"var(--org)"},"Serie":{bg:"rgba(59,130,246,0.15)",col:"var(--blu)"}};
   var st=styles[t]||styles["Serie"];
@@ -479,8 +476,8 @@ function StreamLinks(props){
 }
 
 function App(){
-  var _=useState(function(){return LS.get("rack_auth","onboarding");});var auth=_[0];var setAuth=_[1];
-  var _=useState(function(){return LS.get("rack_user",null);});var user=_[0];var setUser=_[1];
+  var _=useState(function(){return LS.get("zc_auth","onboarding");});var auth=_[0];var setAuth=_[1];
+  var _=useState(function(){return LS.get("zc_user",null);});var user=_[0];var setUser=_[1];
   var _=useState(0);var obStep=_[0];var setObStep=_[1];
   var _=useState("login");var authMode=_[0];var setAuthMode=_[1];
   var _=useState("home");var screen=_[0];var setScreen=_[1];
@@ -488,7 +485,6 @@ function App(){
   var _=useState([]);var films=_[0];var setFilms=_[1];
   var _=useState(false);var loading=_[0];var setLoading=_[1];
   var _=useState(null);var sel=_[0];var setSel=_[1];
-  var _=useState("vistas");var mpTab=_[0];var setMpTab=_[1];
   var _=useState(false);var marathon=_[0];var setMarathon=_[1];
   var _=useState(null);var potw=_[0];var setPotw=_[1];
   var _=useState(0);var quizStep=_[0];var setQuizStep=_[1];
@@ -497,21 +493,21 @@ function App(){
   var _=useState("");var searchQ=_[0];var setSearchQ=_[1];
   var _=useState([]);var searchRes=_[0];var setSearchRes=_[1];
   var _=useState(false);var searching=_[0];var setSearching=_[1];
-  var _=useState(function(){return LS.get("rack_sh",[]);});var searchHistory=_[0];var setSearchHistory=_[1];
+  var _=useState(function(){return LS.get("zc_sh",[]);});var searchHistory=_[0];var setSearchHistory=_[1];
   var _=useState("all");var ptab=_[0];var setPtab=_[1];
   var _=useState([]);var platRes=_[0];var setPlatRes=_[1];
   var _=useState(false);var loadingPlat=_[0];var setLoadingPlat=_[1];
   var _=useState([]);var upcoming=_[0];var setUpcoming=_[1];
-  var _=useState(function(){return LS.get("rack_notif",false);});var notif=_[0];var setNotif=_[1];
-  var _=useState(function(){return LS.get("rack_notifF",{});});var notifF=_[0];var setNotifF=_[1];
-  var _=useState(function(){return LS.get("rack_reviews",DEMO_REVIEWS);});var reviews=_[0];var setReviews=_[1];
+  var _=useState(function(){return LS.get("zc_notif",false);});var notif=_[0];var setNotif=_[1];
+  var _=useState(function(){return LS.get("zc_notifF",{});});var notifF=_[0];var setNotifF=_[1];
+  var _=useState(function(){return LS.get("zc_reviews",DEMO_REVIEWS);});var reviews=_[0];var setReviews=_[1];
   var _=useState("");var revTxt=_[0];var setRevTxt=_[1];
   var _=useState(0);var revSt=_[0];var setRevSt=_[1];
   var _=useState(null);var postMood=_[0];var setPostMood=_[1];
   var _=useState("feed");var socTab=_[0];var setSocTab=_[1];
   var _=useState(null);var toast=_[0];var setToast=_[1];
   var _=useState(false);var showInv=_[0];var setShowInv=_[1];
-  var _=useState(function(){return LS.get("rack_inv",genCode());});var invCode=_[0];
+  var _=useState(function(){return LS.get("zc_inv",genCode());});var invCode=_[0];
   var _=useState("");var lH=_[0];var setLH=_[1];
   var _=useState("");var lP=_[0];var setLP=_[1];
   var _=useState("");var rN=_[0];var setRN=_[1];
@@ -526,14 +522,14 @@ function App(){
   var _=useState([]);var tkFilms=_[0];var setTkFilms=_[1];
   var _=useState(0);var tkIdx=_[0];var setTkIdx=_[1];
   var _=useState(false);var tkLoading=_[0];var setTkLoading=_[1];
-  var _=useState(function(){return LS.get("rack_streak",{count:0,lastDate:""});});var streak=_[0];var setStreak=_[1];
+  var _=useState(function(){return LS.get("zc_streak",{count:0,lastDate:""});});var streak=_[0];var setStreak=_[1];
   var stRef=useRef(null);
   var editNameRef=useRef(null);
 
-  useEffect(function(){LS.set("rack_auth",auth);},[auth]);
-  useEffect(function(){LS.set("rack_user",user);},[user]);
-  useEffect(function(){LS.set("rack_reviews",reviews);},[reviews]);
-  useEffect(function(){LS.set("rack_streak",streak);},[streak]);
+  useEffect(function(){LS.set("zc_auth",auth);},[auth]);
+  useEffect(function(){LS.set("zc_user",user);},[user]);
+  useEffect(function(){LS.set("zc_reviews",reviews);},[reviews]);
+  useEffect(function(){LS.set("zc_streak",streak);},[streak]);
 
   function t_(msg){setToast(msg);setTimeout(function(){setToast(null);},2500);}
   function showPts(pts){setPtsFloat(pts);setTimeout(function(){setPtsFloat(null);},1300);}
@@ -574,7 +570,7 @@ function App(){
     stRef.current=setTimeout(async function(){
       try{
         var r=await tmdbSearch(searchQ);setSearchRes(r);
-        if(searchQ.trim().length>2){var h=[searchQ].concat(searchHistory.filter(function(x){return x!==searchQ;})).slice(0,8);setSearchHistory(h);LS.set("rack_sh",h);}
+        if(searchQ.trim().length>2){var h=[searchQ].concat(searchHistory.filter(function(x){return x!==searchQ;})).slice(0,8);setSearchHistory(h);LS.set("zc_sh",h);}
       }catch{}
       setSearching(false);
     },450);
@@ -585,7 +581,7 @@ function App(){
     try{
       var r=await fetch(B+"/trending/movie/week?api_key="+TMDB_KEY+"&language=es-ES");
       var d=await r.json();
-      var movies=(d.results||[]).slice(0,10).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"",type:"Pel\u00edcula",mediaType:"movie",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});
+      var movies=(d.results||[]).slice(0,10).map(function(m){return {id:m.id,title:m.title,titleEs:m.title,year:m.release_date?m.release_date.slice(0,4):"",type:"Película",mediaType:"movie",tmdbId:m.id,poster:m.poster_path?IMG+m.poster_path:null,backdrop:m.backdrop_path?ORIG+m.backdrop_path:null,description:m.overview||"",score:m.vote_average?m.vote_average.toFixed(1):"",streaming:[],genres:[]};});
       var enriched=await Promise.all(movies.map(enrichItem));
       setTkFilms(enriched.filter(function(m){return m.trailerKey;}));
     }catch{}
@@ -595,7 +591,7 @@ function App(){
   async function reqNotif(){
     if(!("Notification" in window)){t_("Navegador no compatible");return;}
     var p=await Notification.requestPermission();
-    if(p==="granted"){setNotif(true);t_("Notificaciones activadas");try{new Notification("Rack",{body:"Te avisaremos de estrenos."});}catch{}}
+    if(p==="granted"){setNotif(true);t_("Notificaciones activadas");try{new Notification("Zine Club",{body:"Te avisaremos de estrenos."});}catch{}}
     else t_("Permisos denegados");
   }
 
@@ -604,16 +600,16 @@ function App(){
     try{
       var res=await sb.from("users").select("*").eq("handle",lH.toLowerCase().trim()).eq("password",lP).single();
       if(res.data&&!res.error){
-        var av=LS.get("rack_av_"+res.data.id,res.data.avatar||null);
-        setUser(Object.assign({},res.data,{watched:LS.get("rack_w_"+res.data.id,[]),watchlist:LS.get("rack_l_"+res.data.id,[]),avatar:av}));
+        var av=LS.get("zc_av_"+res.data.id,res.data.avatar||null);
+        setUser(Object.assign({},res.data,{watched:LS.get("zc_w_"+res.data.id,[]),watchlist:LS.get("zc_l_"+res.data.id,[]),avatar:av}));
         setAuth("app");setErr("");updateStreak();return;
       }
     }catch{}
-    var saved=LS.get("rack_users",[]);
+    var saved=LS.get("zc_users",[]);
     var all=DEMO_USERS.map(function(u){return Object.assign({},u,{password:"1234"});}).concat(saved);
     var found=all.find(function(u){return u.handle===lH.toLowerCase().trim()&&u.password===lP;});
-    if(!found){setErr("Usuario o contrase\u00f1a incorrectos");return;}
-    setUser(Object.assign({},found,{watched:LS.get("rack_w_"+found.id,[]),watchlist:LS.get("rack_l_"+found.id,[]),avatar:null}));
+    if(!found){setErr("Usuario o contraseña incorrectos");return;}
+    setUser(Object.assign({},found,{watched:LS.get("zc_w_"+found.id,[]),watchlist:LS.get("zc_l_"+found.id,[]),avatar:null}));
     setAuth("app");setErr("");updateStreak();
   }
 
@@ -621,11 +617,11 @@ function App(){
     if(!rN.trim()||!rH.trim()||!rP.trim()){setErr("Rellena todos los campos");return;}
     var handle=rH.toLowerCase().trim();
     try{var res=await sb.from("users").select("id").eq("handle",handle).single();if(res.data){setErr("Usuario ya existe");return;}}catch{}
-    var saved=LS.get("rack_users",[]);
+    var saved=LS.get("zc_users",[]);
     if(DEMO_USERS.concat(saved).find(function(u){return u.handle===handle;})){setErr("Usuario ya existe");return;}
     var nu={id:"u"+Date.now(),name:rN.trim(),handle:handle,password:rP,email:rE.trim(),score:0};
     try{await sb.from("users").insert(nu);}catch{}
-    LS.set("rack_users",saved.concat([nu]));
+    LS.set("zc_users",saved.concat([nu]));
     setUser(Object.assign({},nu,{watched:[],watchlist:[],avatar:null}));setAuth("app");setErr("");updateStreak();
   }
 
@@ -650,7 +646,7 @@ function App(){
   function goQuiz(isM){setScreen("quiz");setQuizStep(0);setAnswers({});setMulti([]);setMarathon(isM||false);}
 
   async function doFetch(ans){
-    var isM=ans.time==="Modo Marat\u00f3n"||marathon;
+    var isM=ans.time==="Modo Maratón"||marathon;
     setMarathon(isM);setLoading(true);setScreen("results");
     try{
       var r=await tmdbDiscover(ans);
@@ -702,7 +698,7 @@ function App(){
     reader.onload=function(ev){
       var dataUrl=ev.target.result;
       setUser(function(p){return Object.assign({},p,{avatar:dataUrl});});
-      LS.set("rack_av_"+user.id,dataUrl);t_("Foto actualizada");
+      LS.set("zc_av_"+user.id,dataUrl);t_("Foto actualizada");
     };
     reader.readAsDataURL(file);
   }
@@ -720,7 +716,7 @@ function App(){
   var nextB=user?getNext(user.score||0):null;
   var prog=badge&&nextB?clamp(((user.score-badge.min)/(nextB.min-badge.min))*100,0,100):100;
   var filmRevs=sel?reviews.filter(function(r){return r.film===(sel.titleEs||sel.title);}):[];
-  var allUsers=DEMO_USERS.concat(LS.get("rack_users",[]));
+  var allUsers=DEMO_USERS.concat(LS.get("zc_users",[]));
 
   return (
     <div className="app">
@@ -733,9 +729,9 @@ function App(){
           <div className="modal" onClick={function(e){e.stopPropagation();}}>
             <div className="modal-handle"/>
             <div className="modal-title">Invita a tus amigos</div>
-            <div className="modal-sub">Cuando se registren con tu c\u00f3digo, ambos gan\u00e1is 100 puntos.</div>
-            <div className="code-box"><div className="code-lbl">Tu c\u00f3digo</div><div className="code-val">{invCode}</div></div>
-            <button className="btn btn-p" onClick={function(){try{navigator.clipboard.writeText("\u00danete a Rack con mi c\u00f3digo "+invCode+" \u2192 https://paulaconsproyectos.github.io/rack/");}catch{}t_("Copiado");setShowInv(false);}}>Copiar enlace</button>
+            <div className="modal-sub">Cuando se registren con tu código, ambos ganáis 100 puntos.</div>
+            <div className="code-box"><div className="code-lbl">Tu código</div><div className="code-val">{invCode}</div></div>
+            <button className="btn btn-p" onClick={function(){try{navigator.clipboard.writeText("\u00danete a Zine Club con mi código "+invCode+" → https://paulaconsproyectos.github.io/zineclub/");}catch{}t_("Copiado");setShowInv(false);}}>Copiar enlace</button>
             <button className="btn btn-s" style={{marginTop:8}} onClick={function(){setShowInv(false);}}>Cerrar</button>
           </div>
         </div>
@@ -770,9 +766,9 @@ function App(){
                     <div className="tk-grad"/>
                     <div className="tk-top" style={{background:"none",pointerEvents:"none"}}/>
                     <div className="tk-content">
-                      <div className="tk-type">{f.type||"Pel\u00edcula"}</div>
+                      <div className="tk-type">{f.type||"Película"}</div>
                       <div className="tk-title">{f.titleEs||f.title}</div>
-                      <div className="tk-meta">{f.year}{f.score?" \u00b7 "+f.score:""}{f.genres&&f.genres[0]?" \u00b7 "+f.genres[0]:""}</div>
+                      <div className="tk-meta">{f.year}{f.score?" · "+f.score:""}{f.genres&&f.genres[0]?" · "+f.genres[0]:""}</div>
                       <div className="tk-desc">{f.description}</div>
                       <div className="tk-row">
                         <button className="tk-btn" style={{background:"var(--acc)",color:"#fff"}} onClick={function(){setTkMode(false);goDetail(f,"results");}}>Ver ficha</button>
@@ -797,7 +793,7 @@ function App(){
                         </div>
                         <span className="tk-lbl">{isL(f)?"Guardado":"Guardar"}</span>
                       </button>
-                      <button className="tk-action" onClick={function(){try{navigator.clipboard.writeText('"'+(f.titleEs||f.title)+'" en Rack');}catch{}t_("Copiado");}}>
+                      <button className="tk-action" onClick={function(){try{navigator.clipboard.writeText('"'+(f.titleEs||f.title)+'" en Zine Club');}catch{}t_("Copiado");}}>
                         <div className="tk-ic">
                           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
@@ -829,7 +825,7 @@ function App(){
               <div className="ob-logo">ra<span>ck</span></div>
               <div className="ob-sub" style={{marginTop:6}}>El cine exacto para este momento.</div>
             </div>
-            {[{title:"Descubre tu pr\u00f3xima peli",sub:"Test de humor en 30 segundos."},{title:"Pel\u00edculas y series",sub:"Distingue formatos autom\u00e1ticamente."},{title:"Modo Marat\u00f3n",sub:"\u00bfTienes todo el d\u00eda? Rack te arma una sesi\u00f3n \u00e9pica."},{title:"Modo Trailer",sub:"Desliza trailers. Decide qu\u00e9 ver al instante."}].map(function(sl,i){
+            {[{title:"Descubre tu próxima peli",sub:"Test de humor en 30 segundos."},{title:"Películas y series",sub:"Distingue formatos automáticamente."},{title:"Modo Maratón",sub:"¿Tienes todo el día? Zine Club te arma una sesión épica."},{title:"Modo Trailer",sub:"Desliza trailers. Decide qué ver al instante."}].map(function(sl,i){
               return (
                 <div key={i} className={"ob-slide "+(obStep===i+1?"active":obStep>i+1?"prev":"next")}>
                   <div className="ob-title">{sl.title}</div>
@@ -859,7 +855,7 @@ function App(){
           </div>
           <div className="land-bottom">
             <button className="btn btn-p" onClick={function(){setAuthMode("register");setAuth("auth");}}>Crear cuenta</button>
-            <button className="btn btn-s" onClick={function(){setAuthMode("login");setAuth("auth");}}>Iniciar sesi\u00f3n</button>
+            <button className="btn btn-s" onClick={function(){setAuthMode("login");setAuth("auth");}}>Iniciar sesión</button>
           </div>
         </div>
       )}
@@ -873,26 +869,26 @@ function App(){
           {authMode==="login" && (
             <div>
               <div className="auth-ttl">Bienvenido de vuelta</div>
-              <div className="auth-sub">Entra en tu cuenta de Rack</div>
+              <div className="auth-sub">Entra en tu cuenta de Zine Club</div>
               {err && <div className="auth-err">{err}</div>}
               <div className="field"><label>Usuario</label><input placeholder="tu_usuario" value={lH} onChange={function(e){setLH(e.target.value);}} onKeyDown={function(e){if(e.key==="Enter")doLogin();}}/></div>
-              <div className="field"><label>Contrase\u00f1a</label><input type="password" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" value={lP} onChange={function(e){setLP(e.target.value);}} onKeyDown={function(e){if(e.key==="Enter")doLogin();}}/></div>
-              <div className="demo-hint">Demo: <strong>sofiam</strong>, <strong>marcosr</strong>, <strong>laiat</strong>, <strong>andresb</strong> \u00b7 contrase\u00f1a: <strong>1234</strong></div>
+              <div className="field"><label>Contraseña</label><input type="password" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" value={lP} onChange={function(e){setLP(e.target.value);}} onKeyDown={function(e){if(e.key==="Enter")doLogin();}}/></div>
+              <div className="demo-hint">Demo: <strong>sofiam</strong>, <strong>marcosr</strong>, <strong>laiat</strong>, <strong>andresb</strong> · contraseña: <strong>1234</strong></div>
               <button className="btn btn-p" style={{marginTop:16}} onClick={doLogin}>Entrar</button>
-              <div className="auth-hint">\u00bfSin cuenta? <button onClick={function(){setAuthMode("register");setErr("");}}>Reg\u00edstrate</button></div>
+              <div className="auth-hint">¿Sin cuenta? <button onClick={function(){setAuthMode("register");setErr("");}}>Regístrate</button></div>
             </div>
           )}
           {authMode==="register" && (
             <div>
-              <div className="auth-ttl">\u00danete a Rack</div>
-              <div className="auth-sub">Crea tu perfil de cin\u00e9filo</div>
+              <div className="auth-ttl">\u00danete a Zine Club</div>
+              <div className="auth-sub">Crea tu perfil de cinéfilo</div>
               {err && <div className="auth-err">{err}</div>}
               <div className="field"><label>Nombre completo</label><input placeholder="Tu nombre" value={rN} onChange={function(e){setRN(e.target.value);}}/></div>
               <div className="field"><label>Email</label><input type="email" placeholder="tu@email.com" value={rE} onChange={function(e){setRE(e.target.value);}}/></div>
               <div className="field"><label>Usuario</label><input placeholder="tu_usuario" value={rH} onChange={function(e){setRH(e.target.value);}}/></div>
-              <div className="field"><label>Contrase\u00f1a</label><input type="password" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" value={rP} onChange={function(e){setRP(e.target.value);}} onKeyDown={function(e){if(e.key==="Enter")doReg();}}/></div>
+              <div className="field"><label>Contraseña</label><input type="password" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" value={rP} onChange={function(e){setRP(e.target.value);}} onKeyDown={function(e){if(e.key==="Enter")doReg();}}/></div>
               <button className="btn btn-p" style={{marginTop:14}} onClick={doReg}>Crear cuenta</button>
-              <div className="auth-hint">\u00bfYa tienes cuenta? <button onClick={function(){setAuthMode("login");setErr("");}}>Inicia sesi\u00f3n</button></div>
+              <div className="auth-hint">¿Ya tienes cuenta? <button onClick={function(){setAuthMode("login");setErr("");}}>Inicia sesión</button></div>
             </div>
           )}
         </div>
@@ -910,26 +906,26 @@ function App(){
                 {streak.count>1 && (
                   <div className="streak-card">
                     <div className="streak-n">{streak.count}</div>
-                    <div><div className="streak-label">d\u00edas seguidos en Rack</div><div className="streak-sub">Sigue viendo para mantener la racha</div></div>
+                    <div><div className="streak-label">días seguidos en Zine Club</div><div className="streak-sub">Sigue viendo para mantener la racha</div></div>
                   </div>
                 )}
                 {!notif && (
                   <div className="notif-ban">
-                    <div style={{flex:1}}><div style={{fontSize:13,fontWeight:600,color:"var(--acc2)",marginBottom:2}}>Activa las notificaciones</div><div style={{fontSize:11,color:"var(--t3)"}}>Ent\u00e9rate de estrenos</div></div>
+                    <div style={{flex:1}}><div style={{fontSize:13,fontWeight:600,color:"var(--acc2)",marginBottom:2}}>Activa las notificaciones</div><div style={{fontSize:11,color:"var(--t3)"}}>Entérate de estrenos</div></div>
                     <button className="notif-ban-btn" onClick={reqNotif}>Activar</button>
                   </div>
                 )}
                 <button className="quiz-cta" onClick={function(){goQuiz(false);}}>
-                  <div><div style={{fontSize:17,fontWeight:700,marginBottom:2}}>\u00bfQu\u00e9 veo hoy?</div><div style={{fontSize:12,opacity:.75,fontWeight:300}}>Test de estado de \u00e1nimo</div></div>
-                  <div style={{fontSize:13,fontWeight:600,opacity:.8}}>Empezar \u2192</div>
+                  <div><div style={{fontSize:17,fontWeight:700,marginBottom:2}}>¿Qué veo hoy?</div><div style={{fontSize:12,opacity:.75,fontWeight:300}}>Test de estado de ánimo</div></div>
+                  <div style={{fontSize:13,fontWeight:600,opacity:.8}}>Empezar →</div>
                 </button>
                 <button className="marathon-cta" onClick={function(){goQuiz(true);}}>
-                  <div><div style={{fontSize:15,fontWeight:700}}>Modo Marat\u00f3n</div><div style={{fontSize:12,opacity:.75,fontWeight:300}}>Tengo tiempo. Dame todo.</div></div>
-                  <div style={{fontSize:13,fontWeight:600,opacity:.8}}>\u2192</div>
+                  <div><div style={{fontSize:15,fontWeight:700}}>Modo Maratón</div><div style={{fontSize:12,opacity:.75,fontWeight:300}}>Tengo tiempo. Dame todo.</div></div>
+                  <div style={{fontSize:13,fontWeight:600,opacity:.8}}>→</div>
                 </button>
                 <button className="trailer-cta" onClick={openTiktok}>
-                  <div><div style={{fontSize:15,fontWeight:700,marginBottom:2}}>Modo Trailer</div><div style={{fontSize:12,color:"var(--t3)",fontWeight:300}}>Desliza trailers. Decide qu\u00e9 ver.</div></div>
-                  <div style={{fontSize:13,color:"var(--t3)"}}>\u2192</div>
+                  <div><div style={{fontSize:15,fontWeight:700,marginBottom:2}}>Modo Trailer</div><div style={{fontSize:12,color:"var(--t3)",fontWeight:300}}>Desliza trailers. Decide qué ver.</div></div>
+                  <div style={{fontSize:13,color:"var(--t3)"}}>→</div>
                 </button>
               </div>
               <div className="page" style={{paddingTop:8}}>
@@ -940,8 +936,8 @@ function App(){
                       {potw.backdrop && <img className="potw-bg" src={potw.backdrop} alt="" loading="lazy"/>}
                       {!potw.backdrop && <div style={{width:"100%",height:170,background:"var(--s2)"}}/>}
                       <div className="potw-ov">
-                        <div className="potw-tag">Trending \u00b7 semana</div>
-                        <div className="potw-title">{potw.titleEs||potw.title}{potw.score?" \u00b7 \u2b50"+potw.score:""}</div>
+                        <div className="potw-tag">Trending · semana</div>
+                        <div className="potw-title">{potw.titleEs||potw.title}{potw.score?" · \u2b50"+potw.score:""}</div>
                       </div>
                     </div>
                   </div>
@@ -949,12 +945,12 @@ function App(){
                 <div className="stats-row">
                   <div className="stat-card"><div className="stat-n">{user.score||0}</div><div className="stat-l">Puntos</div></div>
                   <div className="stat-card"><div className="stat-n">{(user.watched||[]).length}</div><div className="stat-l">Vistas</div></div>
-                  <div className="stat-card"><div className="stat-n">{reviews.filter(function(r){return r.userId===user.id;}).length}</div><div className="stat-l">Rese\u00f1as</div></div>
+                  <div className="stat-card"><div className="stat-n">{reviews.filter(function(r){return r.userId===user.id;}).length}</div><div className="stat-l">Reseñas</div></div>
                 </div>
-                {films.length>0 && <button className="btn btn-s" style={{marginBottom:10}} onClick={function(){setScreen("results");}}>Ver \u00faltimas recomendaciones \u2192</button>}
+                {films.length>0 && <button className="btn btn-s" style={{marginBottom:10}} onClick={function(){setScreen("results");}}>Ver últimas recomendaciones →</button>}
                 <div className="invite-row" onClick={function(){setShowInv(true);}}>
-                  <div><div className="ir-t">Invitar amigos</div><div className="ir-s">+100 pts con tu c\u00f3digo</div></div>
-                  <span style={{color:"var(--acc2)"}}>\u2192</span>
+                  <div><div className="ir-t">Invitar amigos</div><div className="ir-s">+100 pts con tu código</div></div>
+                  <span style={{color:"var(--acc2)"}}>→</span>
                 </div>
                 {(user.watchlist||[]).length>0 && (
                   <div>
@@ -966,7 +962,7 @@ function App(){
                           {!f.poster && <div className="wl-pe"/>}
                           <div style={{flex:1,minWidth:0}}>
                             <div className="wl-title">{f.titleEs||f.title}</div>
-                            <div className="wl-meta">{f.type||""} \u00b7 {f.year}</div>
+                            <div className="wl-meta">{f.type||""} · {f.year}</div>
                           </div>
                         </div>
                       );
@@ -990,7 +986,7 @@ function App(){
                 <div className="logo" style={{marginBottom:14}}>ra<span>ck</span></div>
                 <div className="search-box">
                   <span className="si-ic">\u21b3</span>
-                  <input className="search-input" placeholder="Busca pel\u00edculas o series..." value={searchQ} onChange={function(e){setSearchQ(e.target.value);}} autoFocus/>
+                  <input className="search-input" placeholder="Busca películas o series..." value={searchQ} onChange={function(e){setSearchQ(e.target.value);}} autoFocus/>
                   {searchQ && <button className="si-cl" onClick={function(){setSearchQ("");setSearchRes([]);}}>\u2715</button>}
                 </div>
                 <div className="ptabs">
@@ -1006,7 +1002,7 @@ function App(){
                       return (
                         <div key={i} className="fli" onClick={function(){goDetail(f,"search");}}>
                           {f.poster && <img className="fli-p" src={f.poster} alt="" loading="lazy"/>}
-                          {!f.poster && <div className="fli-pe">\u2014</div>}
+                          {!f.poster && <div className="fli-pe">—</div>}
                           <div className="fli-info">
                             <div className="fli-title">{f.titleEs||f.title}</div>
                             <div className="fli-meta"><TypePill item={f}/>{f.year&&<span>{f.year}</span>}{f.score&&<span className="fli-sc">\u2b50{f.score}</span>}</div>
@@ -1021,19 +1017,19 @@ function App(){
                     })}
                     {!searching && !searchQ && searchHistory.length>0 && (
                       <div>
-                        <div className="sec" style={{marginTop:8}}>B\u00fasquedas recientes</div>
+                        <div className="sec" style={{marginTop:8}}>Búsquedas recientes</div>
                         {searchHistory.map(function(h,i){
                           return (
                             <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 0",borderBottom:"1px solid var(--b)",cursor:"pointer"}} onClick={function(){setSearchQ(h);}}>
                               <span style={{fontSize:12,color:"var(--t3)"}}>\u21ba</span>
                               <span style={{fontSize:13,color:"var(--t2)"}}>{h}</span>
-                              <button style={{marginLeft:"auto",background:"none",border:"none",color:"var(--t4)",fontSize:12,cursor:"pointer"}} onClick={function(e){e.stopPropagation();var nh=searchHistory.filter(function(x){return x!==h;});setSearchHistory(nh);LS.set("rack_sh",nh);}}>\u2715</button>
+                              <button style={{marginLeft:"auto",background:"none",border:"none",color:"var(--t4)",fontSize:12,cursor:"pointer"}} onClick={function(e){e.stopPropagation();var nh=searchHistory.filter(function(x){return x!==h;});setSearchHistory(nh);LS.set("zc_sh",nh);}}>\u2715</button>
                             </div>
                           );
                         })}
                       </div>
                     )}
-                    {!searching && !searchQ && searchHistory.length===0 && <div className="empty"><div className="empty-t">Busca cualquier pel\u00edcula o serie</div></div>}
+                    {!searching && !searchQ && searchHistory.length===0 && <div className="empty"><div className="empty-t">Busca cualquier película o serie</div></div>}
                     {!searching && searchQ && searchRes.length===0 && <div className="empty"><div className="empty-t">Sin resultados para "{searchQ}"</div></div>}
                   </div>
                 )}
@@ -1044,7 +1040,7 @@ function App(){
                       return (
                         <div key={i} className="fli" onClick={function(){goDetail(f,"search");}}>
                           {f.poster && <img className="fli-p" src={f.poster} alt="" loading="lazy"/>}
-                          {!f.poster && <div className="fli-pe">\u2014</div>}
+                          {!f.poster && <div className="fli-pe">—</div>}
                           <div className="fli-info">
                             <div className="fli-title">{f.titleEs||f.title}</div>
                             <div className="fli-meta"><TypePill item={f}/>{f.year&&<span>{f.year}</span>}</div>
@@ -1103,7 +1099,7 @@ function App(){
           {screen==="results" && loading && (
             <div className="loading-page">
               <div className="spinner"/>
-              <div style={{fontSize:14,color:"var(--t2)",fontWeight:300}}>{marathon?"Armando tu marat\u00f3n...":"Buscando en la cinemateca..."}</div>
+              <div style={{fontSize:14,color:"var(--t2)",fontWeight:300}}>{marathon?"Armando tu maratón...":"Buscando en la cinemateca..."}</div>
             </div>
           )}
 
@@ -1111,7 +1107,7 @@ function App(){
           {screen==="results" && !loading && (
             <div>
               <div className="res-hd">
-                <div className="res-lbl">{marathon?"Modo Marat\u00f3n":"Solo para ti"}</div>
+                <div className="res-lbl">{marathon?"Modo Maratón":"Solo para ti"}</div>
                 <div className="res-title">{films.length} recomendaciones</div>
               </div>
               <div className="page" style={{paddingTop:0}}>
@@ -1123,13 +1119,13 @@ function App(){
                 )}
                 {films.length>0 && (
                   <div>
-                    <button className="btn btn-p" style={{marginBottom:14}} onClick={function(){setTkFilms(films);setTkIdx(0);setTkMode(true);}}>Ver en modo scroll \u2192</button>
+                    <button className="btn btn-p" style={{marginBottom:14}} onClick={function(){setTkFilms(films);setTkIdx(0);setTkMode(true);}}>Ver en modo scroll →</button>
                     <div className="fgrid">
                       {films.map(function(f,i){
                         return (
                           <div key={i} className="fthumb" onClick={function(){goDetail(f,"results");}}>
                             {f.poster && <img src={f.poster} alt="" loading="lazy"/>}
-                            {!f.poster && <div className="fthumb-e">\u2014</div>}
+                            {!f.poster && <div className="fthumb-e">—</div>}
                             <div className="fthumb-info">
                               <div style={{marginBottom:3}}><TypePill item={f}/></div>
                               <div className="fti-t">{f.titleEs||f.title}</div>
@@ -1162,7 +1158,7 @@ function App(){
                       <div className="det-title">{sel.titleEs||sel.title}</div>
                       <div className="det-info">
                         {sel.director && <div>{sel.director}</div>}
-                        <div>{sel.year}{sel.duration?" \u00b7 "+sel.duration:""}</div>
+                        <div>{sel.year}{sel.duration?" · "+sel.duration:""}</div>
                         {sel.genres&&sel.genres.length>0 && <div>{sel.genres.join(", ")}</div>}
                       </div>
                     </div>
@@ -1170,13 +1166,13 @@ function App(){
                   {sel.tagline && <div className="det-tagline">"{sel.tagline}"</div>}
                   <div className="scores-row">
                     {sel.score && <div className="spill"><div className="spill-n">\u2b50{sel.score}</div><div className="spill-l">TMDB</div></div>}
-                    {filmRevs.length>0 && <div className="spill"><div className="spill-n">{(filmRevs.reduce(function(a,r){return a+r.stars;},0)/filmRevs.length).toFixed(1)}</div><div className="spill-l">Rack</div></div>}
+                    {filmRevs.length>0 && <div className="spill"><div className="spill-n">{(filmRevs.reduce(function(a,r){return a+r.stars;},0)/filmRevs.length).toFixed(1)}</div><div className="spill-l">Zine Club</div></div>}
                   </div>
                   {sel.description && <p className="det-desc">{sel.description}</p>}
                   {sel.trailerKey && !showTrailer && (
                     <div className="trailer-ph" onClick={function(){setShowTrailer(true);}}>
                       <div className="trailer-play">\u25b6</div>
-                      <div style={{fontSize:13,color:"var(--t3)"}}>Ver tr\u00e1iler</div>
+                      <div style={{fontSize:13,color:"var(--t3)"}}>Ver tráiler</div>
                     </div>
                   )}
                   {sel.trailerKey && showTrailer && (
@@ -1200,7 +1196,7 @@ function App(){
                           return (
                             <div key={i} className="sim-card" onClick={function(){goDetail(Object.assign({},s,{streaming:[],genres:[],description:"",score:""}),screen);}}>
                               {s.poster && <img src={s.poster} alt="" loading="lazy"/>}
-                              {!s.poster && <div className="sim-card-e">\u2014</div>}
+                              {!s.poster && <div className="sim-card-e">—</div>}
                               <div className="sim-ttl">{s.title}</div>
                             </div>
                           );
@@ -1214,7 +1210,7 @@ function App(){
                   </div>
                   {isW(sel) && (
                     <div>
-                      <div className="sec">\u00bfC\u00f3mo te dej\u00f3?</div>
+                      <div className="sec">¿Cómo te dejó?</div>
                       <div className="mood-row">
                         {MOODS_POST.map(function(m){return <button key={m} className={"mood-btn"+(postMood===m?" sel":"")} onClick={function(){setPostMood(m);}}>{m}</button>;})}
                       </div>
@@ -1223,26 +1219,26 @@ function App(){
                   <StreamLinks film={sel}/>
                   <div className="stream-lbl">Compartir</div>
                   <div className="share-row">
-                    <a href={"https://twitter.com/intent/tweet?text="+enc('"'+(sel.titleEs||sel.title)+'" en Rack \u2192 https://paulaconsproyectos.github.io/rack/')} target="_blank" rel="noopener" style={{flex:1,padding:"10px 6px",borderRadius:9,background:"#000",color:"#fff",fontSize:12,fontWeight:600,textDecoration:"none",textAlign:"center"}}>Twitter</a>
-                    <a href={"https://wa.me/?text="+enc('"'+(sel.titleEs||sel.title)+'" en Rack \u2192 https://paulaconsproyectos.github.io/rack/')} target="_blank" rel="noopener" style={{flex:1,padding:"10px 6px",borderRadius:9,background:"#25D366",color:"#fff",fontSize:12,fontWeight:600,textDecoration:"none",textAlign:"center"}}>WhatsApp</a>
-                    <button onClick={function(){try{navigator.clipboard.writeText('"'+(sel.titleEs||sel.title)+'" \u2192 https://paulaconsproyectos.github.io/rack/');}catch{}t_("Copiado");}} style={{flex:1,padding:"10px 6px",borderRadius:9,background:"var(--s3)",color:"var(--t2)",border:"1px solid var(--b)",fontSize:12,fontWeight:600,cursor:"pointer"}}>Copiar</button>
+                    <a href={"https://twitter.com/intent/tweet?text="+enc('"'+(sel.titleEs||sel.title)+'" en Zine Club → https://paulaconsproyectos.github.io/zineclub/')} target="_blank" rel="noopener" style={{flex:1,padding:"10px 6px",borderRadius:9,background:"#000",color:"#fff",fontSize:12,fontWeight:600,textDecoration:"none",textAlign:"center"}}>Twitter</a>
+                    <a href={"https://wa.me/?text="+enc('"'+(sel.titleEs||sel.title)+'" en Zine Club → https://paulaconsproyectos.github.io/zineclub/')} target="_blank" rel="noopener" style={{flex:1,padding:"10px 6px",borderRadius:9,background:"#25D366",color:"#fff",fontSize:12,fontWeight:600,textDecoration:"none",textAlign:"center"}}>WhatsApp</a>
+                    <button onClick={function(){try{navigator.clipboard.writeText('"'+(sel.titleEs||sel.title)+'" → https://paulaconsproyectos.github.io/zineclub/');}catch{}t_("Copiado");}} style={{flex:1,padding:"10px 6px",borderRadius:9,background:"var(--s3)",color:"var(--t2)",border:"1px solid var(--b)",fontSize:12,fontWeight:600,cursor:"pointer"}}>Copiar</button>
                   </div>
-                  <div className="sec" style={{marginTop:18}}>Tu rese\u00f1a</div>
+                  <div className="sec" style={{marginTop:18}}>Tu reseña</div>
                   <div className="rev-sec">
-                    <div style={{fontSize:10,fontWeight:700,letterSpacing:".06em",textTransform:"uppercase",color:"var(--t3)",marginBottom:9}}>Punt\u00faa y comenta</div>
-                    <div className="stars">{[1,2,3,4,5].map(function(s){return <button key={s} className={"star"+(s<=revSt?" on":"")} onClick={function(){setRevSt(s);}}>\u2605</button>;})}</div>
-                    <textarea className="rev-ta" placeholder="\u00bfQu\u00e9 te pareci\u00f3?" value={revTxt} onChange={function(e){setRevTxt(e.target.value);}}/>
-                    <button className="rev-sub" disabled={!revTxt.trim()||!revSt} onClick={function(){submitRev(sel);}}>Publicar rese\u00f1a</button>
+                    <div style={{fontSize:10,fontWeight:700,letterSpacing:".06em",textTransform:"uppercase",color:"var(--t3)",marginBottom:9}}>Puntúa y comenta</div>
+                    <div className="stars">{[1,2,3,4,5].map(function(s){return <button key={s} className={"star"+(s<=revSt?" on":"")} onClick={function(){setRevSt(s);}}>★</button>;})}</div>
+                    <textarea className="rev-ta" placeholder="¿Qué te pareció?" value={revTxt} onChange={function(e){setRevTxt(e.target.value);}}/>
+                    <button className="rev-sub" disabled={!revTxt.trim()||!revSt} onClick={function(){submitRev(sel);}}>Publicar reseña</button>
                   </div>
                   {filmRevs.length>0 && (
                     <div>
-                      <div className="sec">Rese\u00f1as \u00b7 {filmRevs.length}</div>
+                      <div className="sec">Reseñas · {filmRevs.length}</div>
                       {filmRevs.map(function(r){
                         return (
                           <div key={r.id} className="rc">
                             <div className="rc-h">
                               <div className="rc-ui"><div className="rc-av">{ini(r.userName)}</div><div><div className="rc-name">{r.userName}</div><div className="rc-handle">@{r.handle}</div></div></div>
-                              <div className="rc-stars">{"\u2605".repeat(r.stars)}</div>
+                              <div className="rc-stars">{"★".repeat(r.stars)}</div>
                             </div>
                             <p className="rc-txt">{r.text}</p>
                             <button className={"rc-like"+(r.likedBy.includes(user.id)?" liked":"")} onClick={function(){toggleLike(r.id);}}>\u2665 {r.likes}</button>
@@ -1262,7 +1258,7 @@ function App(){
               <div className="ph"><div className="logo">ra<span>ck</span></div></div>
               <div className="page" style={{paddingTop:0}}>
                 <div className="tab-row">
-                  {[["feed","Feed"],["ranking","Ranking"],["reviews","Rese\u00f1as"],["upcoming","Estrenos"]].map(function(item){
+                  {[["feed","Feed"],["ranking","Ranking"],["reviews","Reseñas"],["upcoming","Estrenos"]].map(function(item){
                     return <button key={item[0]} className={"tab-btn"+(socTab===item[0]?" active":"")} onClick={function(){setSocTab(item[0]);}}>{item[1]}</button>;
                   })}
                 </div>
@@ -1288,7 +1284,7 @@ function App(){
                           <div key={u.id} className={"rank-row"+(u.id===user.id?" me":"")}>
                             <div className={"rank-n"+(i===0?" gold":"")}>{i+1}</div>
                             <div className="rank-av">{ini(u.name)}</div>
-                            <div className="rank-info"><div className="rank-name">{u.name}{u.id===user.id?" (t\u00fa)":""}</div><div className="rank-badge">{getBadge(u.score||0).label}</div></div>
+                            <div className="rank-info"><div className="rank-name">{u.name}{u.id===user.id?" (tú)":""}</div><div className="rank-badge">{getBadge(u.score||0).label}</div></div>
                             <div style={{textAlign:"right"}}><div className="rank-score">{u.score||0}</div><div style={{fontSize:9,color:"var(--t3)"}}>pts</div></div>
                           </div>
                         );
@@ -1297,14 +1293,14 @@ function App(){
                 )}
                 {socTab==="reviews" && (
                   <div>
-                    {reviews.length===0 && <div className="empty"><div className="empty-t">Sin rese\u00f1as a\u00fan</div><button className="empty-cta" onClick={function(){goQuiz(false);}}>Descubrir</button></div>}
+                    {reviews.length===0 && <div className="empty"><div className="empty-t">Sin reseñas aún</div><button className="empty-cta" onClick={function(){goQuiz(false);}}>Descubrir</button></div>}
                     {reviews.map(function(r){
                       return (
                         <div key={r.id} className="rc" style={{paddingTop:13}}>
                           <div style={{fontSize:10,fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",color:"var(--acc2)",marginBottom:6}}>{r.film}</div>
                           <div className="rc-h">
                             <div className="rc-ui"><div className="rc-av">{ini(r.userName)}</div><div><div className="rc-name">{r.userName}</div><div className="rc-handle">@{r.handle}</div></div></div>
-                            <div className="rc-stars">{"\u2605".repeat(r.stars||0)}</div>
+                            <div className="rc-stars">{"★".repeat(r.stars||0)}</div>
                           </div>
                           <p className="rc-txt" style={{marginTop:7}}>{r.text}</p>
                           <button className={"rc-like"+((r.likedBy&&r.likedBy.includes(user.id))?" liked":"")} onClick={function(){toggleLike(r.id);}}>\u2665 {r.likes||0}</button>
@@ -1326,13 +1322,13 @@ function App(){
                       return (
                         <div key={i} className="up-item">
                           {f.poster && <img className="up-p" src={f.poster} alt="" loading="lazy"/>}
-                          {!f.poster && <div className="up-pe">\u2014</div>}
+                          {!f.poster && <div className="up-pe">—</div>}
                           <div style={{flex:1}}>
                             <div className="up-title">{f.titleEs||f.title}</div>
                             <div className="up-date">{f.releaseDate||f.year}</div>
                             <div className="up-desc">{f.description}</div>
                             <div style={{display:"flex",alignItems:"center",gap:7,marginTop:5}}>
-                              <div className={"tog-track"+(notifF[f.id]?" on":"")} onClick={function(){var nf=Object.assign({},notifF);if(nf[f.id])delete nf[f.id];else nf[f.id]=true;setNotifF(nf);t_(notifF[f.id]?"Cancelado":"Te avisaremos");}}>
+                              <div className={"tog-tzineclub"+(notifF[f.id]?" on":"")} onClick={function(){var nf=Object.assign({},notifF);if(nf[f.id])delete nf[f.id];else nf[f.id]=true;setNotifF(nf);t_(notifF[f.id]?"Cancelado":"Te avisaremos");}}>
                                 <div className="tog-thumb"/>
                               </div>
                               <span style={{fontSize:11,color:"var(--t3)"}}>{notifF[f.id]?"Activada":"Avisarme"}</span>
@@ -1347,170 +1343,7 @@ function App(){
             </div>
           )}
 
-          
-          {/* MOOD TEST */}
-          {screen==="moodtest" && (
-            <div>
-              <div className="page">
-                <div style={{paddingBottom:8,paddingTop:8}}>
-                  <div style={{fontSize:32,fontWeight:700,letterSpacing:"0.04em",textTransform:"uppercase",lineHeight:1,marginBottom:4}}>Mood Test</div>
-                  <div style={{fontSize:13,color:"var(--t3)"}}>Tu recomendación exacta en 5 preguntas</div>
-                </div>
-                <button onClick={function(){goQuiz(false);}} style={{width:"100%",padding:"16px 20px",background:"var(--acc)",color:"#07070F",border:"none",borderRadius:12,display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10,cursor:"pointer"}}>
-                  <div style={{textAlign:"left"}}>
-                    <div style={{fontSize:18,fontWeight:700,letterSpacing:"0.06em",textTransform:"uppercase",color:"#07070F"}}>Empezar Mood Test</div>
-                    <div style={{fontSize:12,opacity:0.55,marginTop:1}}>5 preguntas · recomendación exacta</div>
-                  </div>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#07070F" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </button>
-                <button onClick={function(){goQuiz(true);}} style={{width:"100%",background:"var(--s2)",border:"1px solid var(--b2)",borderRadius:12,padding:"14px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:20,cursor:"pointer"}}>
-                  <div style={{textAlign:"left"}}>
-                    <div style={{fontSize:16,fontWeight:600,letterSpacing:"0.06em",textTransform:"uppercase"}}>Modo Maratón</div>
-                    <div style={{fontSize:12,color:"var(--t3)",marginTop:1}}>Hasta 12 títulos</div>
-                  </div>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </button>
-                {films.length===0 && (
-                  <div style={{textAlign:"center",padding:"40px 0",color:"var(--t3)"}}>
-                    <div style={{fontSize:11,letterSpacing:"0.12em",textTransform:"uppercase"}}>Sin recomendaciones aún</div>
-                    <div style={{fontSize:12,marginTop:6}}>Haz el test para empezar</div>
-                  </div>
-                )}
-                {films.length>0 && (
-                  <div>
-                    <div className="sec">Últimas recomendaciones</div>
-                    <div className="fgrid">
-                      {films.map(function(f,i){
-                        return (
-                          <div key={i} className="fthumb" onClick={function(){goDetail(f,"results");}}>
-                            {f.poster && <img src={f.poster} alt="" loading="lazy"/>}
-                            {!f.poster && <div className="fthumb-e">—</div>}
-                            <div className="fthumb-info">
-                              <div style={{marginBottom:3}}><TypePill item={f}/></div>
-                              <div className="fti-t">{f.titleEs||f.title}</div>
-                              <div className="fti-m"><span className="fti-sc">★{f.score}</span><span>{f.year}</span></div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <button className="btn btn-s" style={{marginTop:14}} onClick={function(){goQuiz(false);}}>Nuevo Mood Test</button>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* MIS PELIS */}
-          {screen==="mypelis" && (
-            <div>
-              <div className="page">
-                <div style={{paddingBottom:8,paddingTop:8}}>
-                  <div style={{fontSize:32,fontWeight:700,letterSpacing:"0.04em",textTransform:"uppercase",lineHeight:1,marginBottom:4}}>Mis Películas</div>
-                  <div style={{fontSize:13,color:"var(--t3)"}}>Tu historial, lista y comunidad</div>
-                </div>
-                <div style={{display:"flex",gap:0,marginBottom:20,background:"var(--s2)",borderRadius:10,padding:3}}>
-                  {[["vistas","Vistas"],["lista","Lista"],["ranking","Ranking"],["resenas","Reseñas"]].map(function(t){
-                    return (
-                      <button key={t[0]} onClick={function(){setMpTab(t[0]);}} style={{flex:1,padding:"8px 4px",borderRadius:8,background:mpTab===t[0]?"var(--s4)":"transparent",border:"none",color:mpTab===t[0]?"var(--t)":"var(--t3)",fontSize:11,fontWeight:500,cursor:"pointer",letterSpacing:"0.06em",textTransform:"uppercase",transition:"all .15s"}}>{t[1]}</button>
-                    );
-                  })}
-                </div>
-                {mpTab==="vistas" && (
-                  <div>
-                    {(!user||!(user.watched||[]).length) && (
-                      <div style={{textAlign:"center",padding:"40px 0",color:"var(--t3)"}}>
-                        <div style={{fontSize:11,letterSpacing:"0.12em",textTransform:"uppercase",marginBottom:6}}>Sin películas vistas</div>
-                        <div style={{fontSize:12}}>Marca títulos como vistos desde su ficha</div>
-                      </div>
-                    )}
-                    <div className="fgrid">
-                      {(user&&user.watched||[]).map(function(f,i){
-                        return (
-                          <div key={i} className="fthumb" onClick={function(){goDetail(f,"results");}}>
-                            {f.poster && <img src={f.poster} alt="" loading="lazy"/>}
-                            {!f.poster && <div className="fthumb-e">—</div>}
-                            <div className="fthumb-info">
-                              <div className="fti-t">{f.titleEs||f.title}</div>
-                              <div className="fti-m"><span>{f.year}</span></div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-                {mpTab==="lista" && (
-                  <div>
-                    {(!user||!(user.watchlist||[]).length) && (
-                      <div style={{textAlign:"center",padding:"40px 0",color:"var(--t3)"}}>
-                        <div style={{fontSize:11,letterSpacing:"0.12em",textTransform:"uppercase",marginBottom:6}}>Lista vacía</div>
-                        <div style={{fontSize:12}}>Guarda títulos para ver más tarde</div>
-                      </div>
-                    )}
-                    {(user&&user.watchlist||[]).map(function(f,i){
-                      return (
-                        <div key={i} style={{display:"flex",gap:12,padding:"12px 0",borderBottom:"1px solid var(--b)"}} onClick={function(){goDetail(f,"results");}}>
-                          {f.poster && <img src={f.poster} style={{width:52,height:78,borderRadius:8,objectFit:"cover",flexShrink:0}} alt="" loading="lazy"/>}
-                          {!f.poster && <div style={{width:52,height:78,borderRadius:8,background:"var(--s3)",flexShrink:0}}/>}
-                          <div style={{flex:1,minWidth:0}}>
-                            <div style={{fontSize:14,fontWeight:500,marginBottom:3,lineHeight:1.3}}>{f.titleEs||f.title}</div>
-                            <div style={{fontSize:12,color:"var(--t3)"}}>{f.year}</div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-                {mpTab==="ranking" && (
-                  <div>
-                    {[].concat(allUsers).sort(function(a,b){return (b.score||0)-(a.score||0);}).slice(0,20).map(function(u,i){
-                      var isMe=user&&u.id===user.id;
-                      return (
-                        <div key={u.id} style={{display:"flex",alignItems:"center",gap:12,padding:"10px 0",borderBottom:"1px solid var(--b)"}}>
-                          <div style={{fontSize:14,fontWeight:600,color:i<3?"var(--acc)":"var(--t3)",width:22,textAlign:"center",flexShrink:0}}>{i+1}</div>
-                          <div style={{width:34,height:34,borderRadius:"50%",background:"var(--s4)",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:600}}>{(u.name||"?")[0].toUpperCase()}</div>
-                          <div style={{flex:1}}>
-                            <div style={{fontSize:13,fontWeight:500}}>{u.name}{isMe&&<span style={{fontSize:10,color:"var(--t3)",marginLeft:4}}> tú</span>}</div>
-                            <div style={{fontSize:11,color:"var(--t3)"}}>{u.handle?"@"+u.handle:""}</div>
-                          </div>
-                          <div style={{fontSize:14,fontWeight:600}}>{u.score||0}<span style={{fontSize:10,color:"var(--t3)",marginLeft:2}}>pts</span></div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-                {mpTab==="resenas" && (
-                  <div>
-                    {reviews.length===0 && (
-                      <div style={{textAlign:"center",padding:"40px 0",color:"var(--t3)"}}>
-                        <div style={{fontSize:11,letterSpacing:"0.12em",textTransform:"uppercase",marginBottom:6}}>Sin reseñas</div>
-                        <div style={{fontSize:12}}>Las reseñas de la comunidad aparecerán aquí</div>
-                      </div>
-                    )}
-                    {reviews.map(function(r,i){
-                      return (
-                        <div key={i} style={{padding:"14px 0",borderBottom:"1px solid var(--b)"}}>
-                          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
-                            <div style={{width:28,height:28,borderRadius:"50%",background:"var(--s4)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:600,flexShrink:0}}>{(r.user_name||"?")[0].toUpperCase()}</div>
-                            <div>
-                              <div style={{fontSize:13,fontWeight:500}}>{r.user_name}</div>
-                              <div style={{fontSize:10,color:"var(--t3)"}}>{r.handle?"@"+r.handle:""}</div>
-                            </div>
-                            <div style={{marginLeft:"auto",fontSize:13,color:"var(--t2)"}}>{"\u2605".repeat(r.stars||0)}</div>
-                          </div>
-                          <div style={{fontSize:12,color:"var(--t2)",fontWeight:500,marginBottom:4}}>{r.film}</div>
-                          <div style={{fontSize:13,lineHeight:1.6}}>{r.text}</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-{/* PROFILE */}
+          {/* PROFILE */}
           {screen==="profile" && (
             <div>
               <div className="prof-hd">
@@ -1544,31 +1377,31 @@ function App(){
               <div className="page" style={{paddingTop:0}}>
                 <div className="score-blk">
                   <div className="score-big">{user.score||0}</div>
-                  <div className="score-lbl">Puntos cin\u00e9filos</div>
+                  <div className="score-lbl">Puntos cinéfilos</div>
                   <div className="prog-bar"><div className="prog-fill" style={{width:prog+"%"}}/></div>
-                  <div className="prog-labels"><span>{badge&&badge.label}</span>{nextB&&<span>{nextB.label} \u00b7 {nextB.min-(user.score||0)} pts</span>}</div>
+                  <div className="prog-labels"><span>{badge&&badge.label}</span>{nextB&&<span>{nextB.label} · {nextB.min-(user.score||0)} pts</span>}</div>
                 </div>
                 <div className="stats-row">
                   <div className="stat-card"><div className="stat-n">{(user.watched||[]).length}</div><div className="stat-l">Vistas</div></div>
-                  <div className="stat-card"><div className="stat-n">{reviews.filter(function(r){return r.userId===user.id;}).length}</div><div className="stat-l">Rese\u00f1as</div></div>
+                  <div className="stat-card"><div className="stat-n">{reviews.filter(function(r){return r.userId===user.id;}).length}</div><div className="stat-l">Reseñas</div></div>
                   <div className="stat-card"><div className="stat-n">{(user.watchlist||[]).length}</div><div className="stat-l">Lista</div></div>
                 </div>
                 <div className="invite-row" onClick={function(){setShowInv(true);}}>
-                  <div><div className="ir-t">C\u00f3digo de invitaci\u00f3n</div><div style={{fontFamily:"'DM Serif Display',serif",fontSize:18,color:"var(--acc2)",marginTop:3}}>{invCode}</div></div>
-                  <span style={{color:"var(--acc2)"}}>\u2192</span>
+                  <div><div className="ir-t">Código de invitación</div><div style={{fontFamily:"'DM Serif Display',serif",fontSize:18,color:"var(--acc2)",marginTop:3}}>{invCode}</div></div>
+                  <span style={{color:"var(--acc2)"}}>→</span>
                 </div>
                 {(user.watched||[]).length===0 && (user.watchlist||[]).length===0 && (
-                  <div className="empty"><div className="empty-t">A\u00fan no has marcado nada</div><button className="empty-cta" onClick={function(){goQuiz(false);}}>Descubrir ahora</button></div>
+                  <div className="empty"><div className="empty-t">Aún no has marcado nada</div><button className="empty-cta" onClick={function(){goQuiz(false);}}>Descubrir ahora</button></div>
                 )}
                 {(user.watched||[]).length>0 && (
                   <div>
-                    <div className="sec">Pel\u00edculas vistas</div>
+                    <div className="sec">Películas vistas</div>
                     {(user.watched||[]).map(function(f,i){
                       return (
                         <div key={i} className="wl-item" onClick={function(){goDetail(f,"profile");}}>
                           {f.poster && <img className="wl-p" src={f.poster} alt="" loading="lazy"/>}
                           {!f.poster && <div className="wl-pe"/>}
-                          <div style={{flex:1,minWidth:0}}><div className="wl-title">{f.titleEs||f.title}</div><div className="wl-meta">{f.type||""} \u00b7 {f.year}</div></div>
+                          <div style={{flex:1,minWidth:0}}><div className="wl-title">{f.titleEs||f.title}</div><div className="wl-meta">{f.type||""} · {f.year}</div></div>
                           <div className="wl-pts">+{Math.round((parseFloat(f.score)||5)*10)}</div>
                         </div>
                       );
@@ -1583,13 +1416,13 @@ function App(){
                         <div key={i} className="wl-item" onClick={function(){goDetail(f,"profile");}}>
                           {f.poster && <img className="wl-p" src={f.poster} alt="" loading="lazy"/>}
                           {!f.poster && <div className="wl-pe"/>}
-                          <div style={{flex:1,minWidth:0}}><div className="wl-title">{f.titleEs||f.title}</div><div className="wl-meta">{f.type||""} \u00b7 {f.year}</div></div>
+                          <div style={{flex:1,minWidth:0}}><div className="wl-title">{f.titleEs||f.title}</div><div className="wl-meta">{f.type||""} · {f.year}</div></div>
                         </div>
                       );
                     })}
                   </div>
                 )}
-                <button className="logout-btn" onClick={doLogout}>Cerrar sesi\u00f3n</button>
+                <button className="logout-btn" onClick={doLogout}>Cerrar sesión</button>
               </div>
             </div>
           )}
@@ -1597,7 +1430,7 @@ function App(){
           {/* NAV */}
           {screen!=="quiz" && (
             <nav className="nav">
-              {[{s:"home",l:"Inicio",I:IcoHome},{s:"mypelis",l:"Mis Pelis",I:IcoFilm},{s:"moodtest",l:"Mood Test",I:IcoStar},{s:"social",l:"Estrenos",I:IcoCal},{s:"profile",l:"Perfil",I:IcoUser}].map(function(item){
+              {[{s:"home",l:"Inicio",I:IcoHome},{s:"search",l:"Buscar",I:IcoSearch},{s:"results",l:"Para ti",I:IcoStar,dis:films.length===0},{s:"social",l:"Social",I:IcoUsers},{s:"profile",l:"Perfil",I:IcoUser}].map(function(item){
                 return (
                   <button key={item.s} className={"nb"+(screen===item.s?" active":"")} style={{opacity:item.dis?0.3:1}} onClick={item.dis?undefined:function(){setScreen(item.s);}}>
                     <div className="nb-ic"><item.I/></div>
