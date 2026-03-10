@@ -362,6 +362,9 @@ button,input,textarea{font-family:'DM Sans',sans-serif;}
 .quiz-grid-3{grid-template-columns:repeat(3,1fr);}
 .quiz-grid-2{grid-template-columns:repeat(2,1fr);}
 .qopt{background:var(--s2);border:1.5px solid var(--s4);border-radius:16px;padding:20px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;transition:all .15s;}
+.qopt-plat{padding:14px 8px;}
+.plat-logo-wrap{width:100%;height:36px;display:flex;align-items:center;justify-content:center;margin-bottom:6px;}
+.plat-svg{width:100%;height:100%;max-width:70px;overflow:visible;}
 .qopt-sel{background:rgba(99,102,241,0.15);border-color:var(--acc);}
 .qopt-label{font-size:13px;font-weight:600;color:var(--t);text-align:center;line-height:1.3;}
 .qopt-sel .qopt-label{color:var(--acc);}
@@ -838,52 +841,55 @@ async function tmdbDiscover(answers){
   if(wT)p1.push(fetchT(allGT.join(","),pParamT,eraTV,pg,50));
   if(p1.length>0){var r1=await Promise.all(p1);all=r1.reduce(function(a,b){return a.concat(b);},[]);}
 
-  // NIVEL 2: Sin filtro de plataforma (pero mantiene mood+vibe+era)
-  if(all.length<4&&pids.length>0){
+  // NIVEL 2: Relajar géneros pero mantener plataforma
+  if(all.length<4){
     var p2=[];
-    if(wM)p2.push(fetchM(allGM.join(","),"",durParam,eraMovie,pg,150));
-    if(wT)p2.push(fetchT(allGT.join(","),"",eraTV,pg,50));
+    if(wM)p2.push(fetchM(moodGM.join(","),pParamM,durParam,eraMovie,pg,80));
+    if(wT)p2.push(fetchT(moodGT.join(","),pParamT,eraTV,pg,20));
     var r2=await Promise.all(p2);
-    var extra2=r2.reduce(function(a,b){return a.concat(b);},[]);
-    all=all.concat(extra2);
+    all=all.concat(r2.reduce(function(a,b){return a.concat(b);},[]));
   }
 
-  // NIVEL 3: Sin vibe, solo mood (mantiene plataforma y era)
+  // NIVEL 3: Solo un género principal, mantener plataforma, quitar era
   if(all.length<4){
     var p3=[];
-    if(wM)p3.push(fetchM(moodGM.join(","),pParamM,durParam,eraMovie,pg,100));
-    if(wT)p3.push(fetchT(moodGT.join(","),pParamT,eraTV,pg,30));
+    if(wM)p3.push(fetchM(String(moodGM[0]||18),pParamM,"","",1,30));
+    if(wT)p3.push(fetchT(String(moodGT[0]||18),pParamT,"",1,10));
     var r3=await Promise.all(p3);
     all=all.concat(r3.reduce(function(a,b){return a.concat(b);},[]));
   }
 
-  // NIVEL 4: Solo mood, sin plataforma ni era
-  if(all.length<4){
-    var p4=[];
-    if(wM)p4.push(fetchM(moodGM.join(","),"","","",1,50));
-    if(wT)p4.push(fetchT(moodGT.join(","),"","",1,20));
-    var r4=await Promise.all(p4);
-    all=all.concat(r4.reduce(function(a,b){return a.concat(b);},[]));
+  // NIVEL 4: Plataforma + sort por popularidad (no por rating)
+  if(all.length<4&&pids.length>0){
+    try{
+      var popPromises=[];
+      if(wM)popPromises.push(fetch(B+"/discover/movie?api_key="+TMDB_KEY+"&language=es-ES&sort_by=popularity.desc"+pParamM+"&watch_region=ES&page=1").then(function(r){return r.json();}).then(function(d){return (d.results||[]).filter(function(x){return x.poster_path;}).slice(0,6).map(mMovie);}));
+      if(wT)popPromises.push(fetch(B+"/discover/tv?api_key="+TMDB_KEY+"&language=es-ES&sort_by=popularity.desc"+pParamT+"&watch_region=ES&page=1").then(function(r){return r.json();}).then(function(d){return (d.results||[]).filter(function(x){return x.poster_path;}).slice(0,6).map(mTV);}));
+      var rPop=await Promise.all(popPromises);
+      all=all.concat(rPop.reduce(function(a,b){return a.concat(b);},[]));
+    }catch{}
   }
 
-  // NIVEL 5: Un solo género, sin restricciones — esto siempre da resultados
-  if(all.length<4){
-    var g1=String(wT?moodGT[0]:moodGM[0]||18);
+  // NIVEL 5: Sin plataforma ni restricciones — solo si no hay plataforma específica o como último recurso
+  if(all.length<6){
     var p5=[];
-    p5.push(fetchM(g1,"","","",1,30));
-    p5.push(fetchT(g1,"","",1,10));
+    if(wM)p5.push(fetchM(String(moodGM[0]||18),"","","",1,30));
+    if(wT)p5.push(fetchT(String(moodGT[0]||18),"","",1,10));
     var r5=await Promise.all(p5);
-    all=all.concat(r5.reduce(function(a,b){return a.concat(b);},[]));
+    // Solo añadir si son de una plataforma que el usuario tiene O si no había filtro
+    var r5filtered=r5.reduce(function(a,b){return a.concat(b);},[]);
+    if(todoMeVale) all=all.concat(r5filtered);
+    else if(all.length<4) all=all.concat(r5filtered); // último recurso
   }
 
-  // NIVEL 6: Trending — garantizado
+  // NIVEL 6: Trending del tipo correcto — garantizado
   if(all.length<4){
     try{
-      var endpoint=wT&&!wM?"/trending/tv/week":"/trending/movie/week";
-      var rt=await fetch(B+endpoint+"?api_key="+TMDB_KEY+"&language=es-ES");
-      var dt=await rt.json();
-      var mapper=wT&&!wM?mTV:mMovie;
-      all=all.concat((dt.results||[]).filter(function(x){return x.poster_path;}).slice(0,8).map(mapper));
+      var trendEndpoints=[];
+      if(wT)trendEndpoints.push(fetch(B+"/trending/tv/week?api_key="+TMDB_KEY+"&language=es-ES").then(function(r){return r.json();}).then(function(d){return (d.results||[]).filter(function(x){return x.poster_path;}).slice(0,6).map(mTV);}));
+      if(wM)trendEndpoints.push(fetch(B+"/trending/movie/week?api_key="+TMDB_KEY+"&language=es-ES").then(function(r){return r.json();}).then(function(d){return (d.results||[]).filter(function(x){return x.poster_path;}).slice(0,6).map(mMovie);}));
+      var rT=await Promise.all(trendEndpoints);
+      all=all.concat(rT.reduce(function(a,b){return a.concat(b);},[]));
     }catch{}
   }
 
