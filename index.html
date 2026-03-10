@@ -423,6 +423,41 @@ button,input,textarea{font-family:'DM Sans',sans-serif;}
 .activ-label{font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;margin-bottom:4px;}
 .activ-n{font-size:22px;font-weight:700;color:#fff;}
 .streak-pill{background:linear-gradient(135deg,rgba(99,102,241,0.3),rgba(139,92,246,0.3));border:1px solid rgba(99,102,241,0.4);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:rgba(180,180,255,0.9);}
+
+.det-page{background:#09090b;min-height:100vh;padding-bottom:80px;}
+.det-backdrop-wrap{position:relative;height:260px;overflow:hidden;}
+.det-backdrop{width:100%;height:260px;object-fit:cover;display:block;}
+.det-bd-e{width:100%;height:260px;background:linear-gradient(135deg,#1a1a2e,#0d0d1a);}
+.det-backdrop-grad{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.2) 0%,rgba(9,9,11,1) 100%);}
+.det-back{position:absolute;top:52px;left:16px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.15);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.det-body{padding:0 18px;}
+.det-top-row{display:flex;gap:14px;margin-top:-60px;margin-bottom:18px;position:relative;}
+.det-poster{width:100px;height:150px;border-radius:12px;object-fit:cover;flex-shrink:0;box-shadow:0 8px 24px rgba(0,0,0,0.7);border:2px solid rgba(255,255,255,0.1);}
+.det-top-info{flex:1;padding-top:70px;}
+.det-title{font-size:22px;font-weight:700;letter-spacing:-0.03em;line-height:1.2;margin-bottom:6px;}
+.det-meta-row{display:flex;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--t3);margin-bottom:8px;align-items:center;}
+.det-meta-row span{display:flex;align-items:center;gap:2px;}
+.det-genres{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px;}
+.genre-pill{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--t2);}
+.det-director{font-size:13px;color:var(--t3);}
+.det-actions{display:flex;gap:8px;margin-bottom:18px;}
+.det-btn{flex:1;padding:13px 16px;border-radius:50px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .2s;}
+.db-p{background:var(--acc);color:#fff;}
+.db-s{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:var(--t);}
+.db-done{background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.4);color:var(--acc);}
+.det-desc{font-size:14px;line-height:1.65;color:var(--t2);margin-bottom:12px;}
+.det-tagline{font-size:13px;font-style:italic;color:var(--acc);margin-bottom:20px;line-height:1.5;}
+.det-section{margin-bottom:24px;}
+.det-sec-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--t4);margin-bottom:12px;}
+.trailer-ph{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;cursor:pointer;}
+.trailer-play-btn{width:44px;height:44px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.trailer-ph-info{flex:1;}
+.trailer-wrap{border-radius:14px;overflow:hidden;aspect-ratio:16/9;}
+.trailer-wrap iframe{width:100%;height:100%;border:none;}
+.cast-av-img{width:44px;height:44px;border-radius:50%;object-fit:cover;}
+.stars-row{display:flex;gap:6px;margin-bottom:12px;}
+.star{background:none;border:none;font-size:24px;color:var(--t4);cursor:pointer;padding:0;}
+.star.on{color:#FACC15;}
 </style>
 </head>
 <body>
@@ -773,26 +808,38 @@ function App(){
   },[screen,socTab]);
 
   useEffect(function(){
-    if(screen==="detail"&&sel&&sel.tmdbId&&(!sel.cast||sel.cast.length===0)){
+    if(screen==="detail"&&sel&&sel.tmdbId){
       var mtype=sel.mediaType||"movie";
-      fetch(B+"/"+mtype+"/"+sel.tmdbId+"?api_key="+TMDB_KEY+"&language=es-ES&append_to_response=credits,watch/providers,videos")
+      var tmdbId=sel.tmdbId;
+      fetch(B+"/"+mtype+"/"+tmdbId+"?api_key="+TMDB_KEY+"&language=es-ES&append_to_response=credits,watch/providers,videos")
         .then(function(r){return r.json();})
         .then(function(d){
           var prov=d["watch/providers"]&&d["watch/providers"].results&&d["watch/providers"].results.ES;
-          var streaming=prov&&prov.flatrate?prov.flatrate.map(function(p){return p.provider_name;}):(prov&&prov.ads?prov.ads.map(function(p){return p.provider_name;}):[]);
-          var cast=d.credits&&d.credits.cast?d.credits.cast.slice(0,8).map(function(c){return c.name;}):[];
+          var flatrate=prov&&prov.flatrate?prov.flatrate:[];
+          var rent=prov&&prov.rent?prov.rent:[];
+          var allProviders=[].concat(flatrate,rent);
+          var seen={};
+          var streaming=allProviders.filter(function(p){if(seen[p.provider_id])return false;seen[p.provider_id]=true;return true;}).map(function(p){return p.provider_name;});
+          var cast=d.credits&&d.credits.cast?d.credits.cast.slice(0,8).map(function(c){return {name:c.name,photo:c.profile_path?"https://image.tmdb.org/t/p/w185"+c.profile_path:null};}):[];
           var genreNames=d.genres?d.genres.map(function(g){return g.name;}):[];
           var vids=d.videos&&d.videos.results?d.videos.results:[];
-          var trailer=vids.find(function(v){return v.type==="Trailer"&&v.site==="YouTube";});
-          var duration=d.runtime?Math.floor(d.runtime/60)+"h "+(d.runtime%60)+"m":d.episode_run_time&&d.episode_run_time[0]?d.episode_run_time[0]+"min ep.":"";
-          var tagline=d.tagline||"";
+          var trailer=vids.find(function(v){return v.type==="Trailer"&&v.site==="YouTube";})||vids.find(function(v){return v.site==="YouTube";});
+          var mins=d.runtime||0;
+          var duration=mins>0?Math.floor(mins/60)+"h "+(mins%60)+"m":(d.episode_run_time&&d.episode_run_time[0]?d.episode_run_time[0]+"min":"");
           var director="";
           if(d.credits&&d.credits.crew){var dir=d.credits.crew.find(function(c){return c.job==="Director";});if(dir)director=dir.name;}
-          setSel(function(prev){return Object.assign({},prev,{cast:cast,streaming:streaming,genres:genreNames,trailerKey:trailer?trailer.key:prev.trailerKey||null,duration:duration,tagline:tagline,director:director});});
+          setSel(function(prev){
+            if(prev.tmdbId!==tmdbId)return prev;
+            return Object.assign({},prev,{
+              cast:cast,streaming:streaming,genres:genreNames,
+              trailerKey:trailer?trailer.key:null,
+              duration:duration,tagline:d.tagline||"",director:director
+            });
+          });
         })
-        .catch(function(){});
+        .catch(function(e){console.log("Detail fetch error:",e);});
     }
-  },[screen,sel&&sel.tmdbId]);
+  },[screen,sel?sel.tmdbId:null]);
 
   useEffect(function(){
     if(ptab==="all"){setPlatRes([]);return;}
@@ -1410,22 +1457,26 @@ function App(){
           {/* DETAIL */}
           {screen==="detail" && sel && (
             <div className="det-page">
-              {/* BACK */}
-              <button className="det-back" onClick={function(){setScreen(prev);}}>&#8592;</button>
 
-              {/* BACKDROP */}
-              {sel.backdrop
-                ? <img className="det-backdrop" src={sel.backdrop} alt=""/>
-                : <div className="det-bd-e"/>
-              }
+              {/* BACKDROP FULLWIDTH */}
+              <div className="det-backdrop-wrap">
+                {sel.backdrop
+                  ? <img className="det-backdrop" src={sel.backdrop} alt=""/>
+                  : <div className="det-bd-e"/>
+                }
+                <div className="det-backdrop-grad"/>
+                <button className="det-back" onClick={function(){setScreen(prev);}}>&#8592;</button>
+              </div>
 
+              {/* BODY */}
               <div className="det-body">
-                {/* POSTER + TITULO + META */}
-                <div className="det-hero">
+
+                {/* POSTER + INFO ROW */}
+                <div className="det-top-row">
                   {sel.poster && <img className="det-poster" src={sel.poster} alt=""/>}
-                  <div className="det-hero-info">
+                  <div className="det-top-info">
                     <div className="det-title">{sel.titleEs||sel.title}</div>
-                    <div className="det-meta">
+                    <div className="det-meta-row">
                       {sel.year && <span>{sel.year}</span>}
                       {sel.duration && <span>{sel.duration}</span>}
                       {sel.score && <span>&#9733; {sel.score}</span>}
@@ -1439,7 +1490,7 @@ function App(){
                   </div>
                 </div>
 
-                {/* ACCIONES */}
+                {/* ACTION BUTTONS */}
                 <div className="det-actions">
                   <button className={"det-btn db-p"+(isW(sel)?" db-done":"")} onClick={function(){markW(sel);}}>
                     {isW(sel)?"&#10003; Vista":"Marcar vista"}
@@ -1454,44 +1505,62 @@ function App(){
                 {sel.tagline && <div className="det-tagline">"{sel.tagline}"</div>}
 
                 {/* TRAILER */}
-                {sel.trailerKey && (
-                  <div>
-                    <div className="sec">Trailer</div>
-                    {!showTrailer
-                      ? <div className="trailer-ph" onClick={function(){setShowTrailer(true);}}>
-                          <div className="trailer-play">&#9654;</div>
-                          <div style={{fontSize:13,color:"var(--t3)"}}>Ver trailer</div>
-                        </div>
-                      : <div className="trailer-wrap">
-                          <iframe src={"https://www.youtube.com/embed/"+sel.trailerKey+"?autoplay=1&rel=0"} allow="autoplay; encrypted-media" allowFullScreen/>
-                        </div>
-                    }
-                  </div>
-                )}
+                {sel.trailerKey
+                  ? <div className="det-section">
+                      <div className="det-sec-lbl">TRAILER</div>
+                      {!showTrailer
+                        ? <div className="trailer-ph" onClick={function(){setShowTrailer(true);}}>
+                            <div className="trailer-play-btn">
+                              <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+                            </div>
+                            <div className="trailer-ph-info">
+                              <div style={{fontWeight:600,fontSize:14}}>Ver tr&#225;iler</div>
+                              <div style={{fontSize:12,opacity:0.5,marginTop:2}}>{sel.titleEs||sel.title}</div>
+                            </div>
+                          </div>
+                        : <div className="trailer-wrap">
+                            <iframe src={"https://www.youtube.com/embed/"+sel.trailerKey+"?autoplay=1&rel=0"} allow="autoplay; encrypted-media" allowFullScreen/>
+                          </div>
+                      }
+                    </div>
+                  : <div className="det-section">
+                      <div className="det-sec-lbl">TRAILER</div>
+                      <div style={{fontSize:13,color:"var(--t4)",padding:"12px 0"}}>Cargando...</div>
+                    </div>
+                }
 
                 {/* REPARTO */}
                 {sel.cast&&sel.cast.length>0 && (
-                  <div>
-                    <div className="sec">Reparto</div>
+                  <div className="det-section">
+                    <div className="det-sec-lbl">REPARTO</div>
                     <div className="cast-row">
-                      {sel.cast.map(function(c,i){return (
-                        <div key={i} className="cast-item">
-                          <div className="cast-av">{ini(c)}</div>
-                          <div className="cast-name">{c.split(" ")[0]}</div>
-                        </div>
-                      );})}
+                      {sel.cast.map(function(c,i){
+                        var name=typeof c==="object"?c.name:c;
+                        var photo=typeof c==="object"?c.photo:null;
+                        return (
+                          <div key={i} className="cast-item">
+                            {photo
+                              ? <img src={photo} alt={name} className="cast-av-img"/>
+                              : <div className="cast-av">{ini(name)}</div>
+                            }
+                            <div className="cast-name">{name.split(" ")[0]}</div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
 
                 {/* DONDE VER */}
-                <div className="sec">Donde ver</div>
-                <StreamLinks film={sel}/>
+                <div className="det-section">
+                  <div className="det-sec-lbl">DONDE VER</div>
+                  <StreamLinks film={sel}/>
+                </div>
 
                 {/* SIMILARES */}
                 {sel.similar&&sel.similar.length>0 && (
-                  <div>
-                    <div className="sec">Te puede gustar</div>
+                  <div className="det-section">
+                    <div className="det-sec-lbl">PUEDE QUE TE GUSTE</div>
                     <div className="sim-row">
                       {sel.similar.map(function(s,i){
                         return (
@@ -1505,20 +1574,20 @@ function App(){
                   </div>
                 )}
 
-                {/* RESENAS COMUNIDAD */}
-                <div className="rev-sec">
-                  <div className="sec">Resenas de la comunidad {filmRevs.length>0&&"("+filmRevs.length+")"}</div>
+                {/* RESENAS */}
+                <div className="det-section">
+                  <div className="det-sec-lbl">RESE&#209;AS {filmRevs.length>0?"("+filmRevs.length+")":""}</div>
                   <div className="stars-row">
                     {[1,2,3,4,5].map(function(s){return (
                       <button key={s} className={"star"+(s<=revSt?" on":"")} onClick={function(){setRevSt(s);}}>&#9733;</button>
                     );})}
                   </div>
-                  <textarea className="rev-ta" placeholder="Que te parecio?" value={revTxt} onChange={function(e){setRevTxt(e.target.value);}}/>
-                  <button className="rev-sub" disabled={!revTxt.trim()||!revSt} onClick={function(){submitRev(sel);}}>Publicar resena</button>
+                  <textarea className="rev-ta" placeholder="&#191;Qu&#233; te pareci&#243;?" value={revTxt} onChange={function(e){setRevTxt(e.target.value);}}/>
+                  <button className="rev-sub" disabled={!revTxt.trim()||!revSt} onClick={function(){submitRev(sel);}}>Publicar rese&#241;a</button>
                 </div>
 
                 {filmRevs.length>0 && (
-                  <div style={{marginTop:8}}>
+                  <div style={{paddingBottom:24}}>
                     {filmRevs.map(function(r){
                       return (
                         <div key={r.id} className="rc">
@@ -1530,7 +1599,7 @@ function App(){
                                 <div className="rc-handle">@{r.handle}</div>
                               </div>
                             </div>
-                            <div className="rc-stars">{"*".repeat(r.stars)}</div>
+                            <div className="rc-stars">{"&#9733;".repeat(r.stars)}</div>
                           </div>
                           <p className="rc-txt">{r.text}</p>
                           <button className={"rc-like"+(r.likedBy.includes(user.id)?" liked":"")} onClick={function(){toggleLike(r.id);}}>&#9829; {r.likes}</button>
