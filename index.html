@@ -549,7 +549,7 @@ button,input,textarea{font-family:'DM Sans',sans-serif;}
 .logo-btn{background:none;border:none;cursor:pointer;padding:0;flex-shrink:0;display:flex;align-items:center;}
 .logo-btn-img{width:36px;height:36px;border-radius:9px;object-fit:cover;display:block;}
 .auth-page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden;}
-.auth-bg{position:fixed;inset:0;z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat;transition:background-image 1.5s ease;}
+.auth-bg{position:fixed;inset:0;z-index:0;background-size:cover;background-position:center top;background-repeat:no-repeat;}
 .auth-bg-overlay{position:fixed;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(0,0,0,0.55) 0%,rgba(9,9,11,0.82) 40%,rgba(9,9,11,0.97) 100%);}
 .auth-top{width:100%;max-width:420px;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:32px;z-index:2;}
 .auth-top .back-btn{position:absolute;left:0;background:none;border:none;color:rgba(255,255,255,0.6);font-size:20px;cursor:pointer;padding:4px;}
@@ -869,14 +869,14 @@ function App(){
   var _=useState("");var rE=_[0];var setRE=_[1];
   var _=useState(false);var gdprOk=_[0];var setGdprOk=_[1];
   var AUTH_BGS=[
-    {url:"https://image.tmdb.org/t/p/original/tM7ObJa8Mh3UEhGEiNbTMiHAHi2.jpg",title:"El Padrino"},
-    {url:"https://image.tmdb.org/t/p/original/gNBCvtYyGPbjPCT1k3MvJuNuXR6.jpg",title:"Pulp Fiction"},
-    {url:"https://image.tmdb.org/t/p/original/xMMrBziwJqrggerqyXfjbKSpCEG.jpg",title:"Goodfellas"},
-    {url:"https://image.tmdb.org/t/p/original/loRmRzQXZeqG78TqZunIbdALteQ.jpg",title:"2001: Odisea en el Espacio"},
-    {url:"https://image.tmdb.org/t/p/original/5M0j0B18abtBI5gi2RhfjjurTqb.jpg",title:"Blade Runner 2049"},
-    {url:"https://image.tmdb.org/t/p/original/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",title:"Mulholland Drive"},
-    {url:"https://image.tmdb.org/t/p/original/hziiv14OpD73u9gApdeiZ9N4Vhz.jpg",title:"Hereditary"},
-    {url:"https://image.tmdb.org/t/p/original/9BBTo108Kgp2BNkdqFAbs4HqPYO.jpg",title:"Dune"},
+    {url:"https://image.tmdb.org/t/p/w1280/tM7ObJa8Mh3UEhGEiNbTMiHAHi2.jpg",title:"El Padrino"},
+    {url:"https://image.tmdb.org/t/p/w1280/gNBCvtYyGPbjPCT1k3MvJuNuXR6.jpg",title:"Pulp Fiction"},
+    {url:"https://image.tmdb.org/t/p/w1280/xMMrBziwJqrggerqyXfjbKSpCEG.jpg",title:"Goodfellas"},
+    {url:"https://image.tmdb.org/t/p/w1280/loRmRzQXZeqG78TqZunIbdALteQ.jpg",title:"2001: Odisea en el Espacio"},
+    {url:"https://image.tmdb.org/t/p/w1280/5M0j0B18abtBI5gi2RhfjjurTqb.jpg",title:"Blade Runner 2049"},
+    {url:"https://image.tmdb.org/t/p/w1280/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",title:"Mulholland Drive"},
+    {url:"https://image.tmdb.org/t/p/w1280/hziiv14OpD73u9gApdeiZ9N4Vhz.jpg",title:"Hereditary"},
+    {url:"https://image.tmdb.org/t/p/w1280/9BBTo108Kgp2BNkdqFAbs4HqPYO.jpg",title:"Dune"},
   ];
   var _=useState(function(){return Math.floor(Math.random()*8);});var authBgIdx=_[0];var setAuthBgIdx=_[1];
   var _=useState("");var err=_[0];var setErr=_[1];
@@ -925,9 +925,10 @@ function App(){
 
   useEffect(function(){
     if(auth==="auth"){
+      setAuthBgIdx(Math.floor(Math.random()*AUTH_BGS.length));
       var interval=setInterval(function(){
         setAuthBgIdx(function(i){return (i+1)%AUTH_BGS.length;});
-      },5000);
+      },6000);
       return function(){clearInterval(interval);};
     }
   },[auth]);
@@ -1142,7 +1143,7 @@ function App(){
             <div className="modal-title">Invita a tus amigos</div>
             <div className="modal-sub">Cuando se registren con tu código, ambos ganáis 100 puntos.</div>
             <div className="code-box"><div className="code-lbl">Tu código</div><div className="code-val">{invCode}</div></div>
-            <button className="btn btn-p" onClick={function(){try{navigator.clipboard.writeText("Únete a Zine Club con mi código "+invCode+" → https://paulaconsproyectos.github.io/rack/");}catch{}t_("Copiado");setShowInv(false);}}>Copiar enlace</button>
+            <button className="btn btn-p" onClick={function(){try{navigator.clipboard.writeText("Únete a Zine Club con mi código "+invCode+" → https://paulaconsproyectos.github.io/zineclub/");}catch{}t_("Copiado");setShowInv(false);}}>Copiar enlace</button>
             <button className="btn btn-s" style={{marginTop:8}} onClick={function(){setShowInv(false);}}>Cerrar</button>
           </div>
         </div>
@@ -1207,7 +1208,7 @@ function App(){
                       <button className="tk-action" onClick={function(){
                           var title=f.titleEs||f.title;
                           var shareText="Mira \""+title+"\" en Zine Club";
-                          var shareUrl="https://paulaconsproyectos.github.io/rack/";
+                          var shareUrl="https://paulaconsproyectos.github.io/zineclub/";
                           if(navigator.share){
                             navigator.share({title:"Zine Club",text:shareText,url:shareUrl}).catch(function(){});
                           } else {
@@ -1290,7 +1291,6 @@ function App(){
 
           <div className="auth-top">
             <button className="back-btn" onClick={function(){setAuth("landing");setErr("");}}>&#8592;</button>
-            <div className="auth-logo">Zine <span>Club</span></div>
           </div>
 
           <div className="auth-form-wrap">
