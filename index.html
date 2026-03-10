@@ -371,6 +371,10 @@ button,input,textarea{font-family:'DM Sans',sans-serif;}
 .qopt[data-platform="Apple TV+"] .platform-logo{background:#000;color:#fff;border:1px solid #333;}
 .qopt[data-platform="Movistar+"] .platform-logo{background:#009FE3;color:#fff;}
 .qopt[data-platform="Todo me vale"] .platform-logo{background:var(--acc);color:#fff;}
+
+.stream-logo-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:72px;gap:5px;text-decoration:none;border-radius:14px;padding:10px 4px 8px;background:var(--s2);border:1px solid var(--s4);}
+.stream-logo-img{width:40px;height:40px;object-fit:contain;border-radius:8px;}
+.stream-logo-name{font-size:9px;color:var(--t3);text-align:center;font-weight:600;line-height:1.2;word-break:break-word;}
 </style>
 </head>
 <body>
@@ -387,17 +391,17 @@ const ORIG="https://image.tmdb.org/t/p/original";
 const MOOD_GENRES={"Euforico":[28,12,35],"Melancolico":[18,10749,9648],"Curioso":[99,878,9648],"Relajado":[35,10751,16],"Intenso":[53,80,27],"Romantico":[10749,18,35]};
 const BADGES=[{min:0,label:"Espectador"},{min:100,label:"Aficionado"},{min:300,label:"Cinéfilo"},{min:600,label:"Auteur"},{min:1000,label:"Crítico"},{min:2000,label:"Maestro"},{min:5000,label:"Leyenda"}];
 const PLATFORMS={
-  "Netflix":{color:"#E50914",url:"https://www.netflix.com/search?q=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/120px-Netflix_2015_logo.svg.png"},
-  "HBO Max":{color:"#5822B4",url:"https://www.max.com/search?q=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/HBO_Max_Logo.svg/120px-HBO_Max_Logo.svg.png"},
-  "Max":{color:"#5822B4",url:"https://www.max.com/search?q=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/HBO_Max_Logo.svg/120px-HBO_Max_Logo.svg.png"},
-  "Disney+":{color:"#0063E5",url:"https://www.disneyplus.com/search?q=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/120px-Disney%2B_logo.svg.png"},
-  "Prime Video":{color:"#00A8E1",url:"https://www.amazon.es/s?k=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/120px-Amazon_Prime_Video_logo.svg.png"},
-  "Amazon Prime Video":{color:"#00A8E1",url:"https://www.amazon.es/s?k=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/120px-Amazon_Prime_Video_logo.svg.png"},
-  "Filmin":{color:"#F5A623",url:"https://www.filmin.es/buscar?query=",logo:"https://www.filmin.es/images/favicon.ico"},
-  "Apple TV+":{color:"#000000",url:"https://tv.apple.com/search?term=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Apple_TV_Plus_Logo.svg/120px-Apple_TV_Plus_Logo.svg.png"},
-  "Movistar+":{color:"#019FE3",url:"https://ver.movistar.es/search?q=",logo:"https://www.movistarplus.es/favicon.ico"},
-  "SkyShowtime":{color:"#0066CC",url:"https://www.skyshowtime.com/search?q=",logo:"https://www.skyshowtime.com/favicon.ico"},
-  "Paramount+":{color:"#0064FF",url:"https://www.paramountplus.com/search?q=",logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Paramount_Plus_logo.svg/120px-Paramount_Plus_logo.svg.png"}
+  "Netflix":{color:"#E50914",url:"https://www.netflix.com/search?q=",logo:"https://image.tmdb.org/t/p/original/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg"},
+  "HBO Max":{color:"#5822B4",url:"https://www.max.com/search?q=",logo:"https://image.tmdb.org/t/p/original/Ajqyt5aNxNGjmF9uOfxArGrdf3X.jpg"},
+  "Max":{color:"#5822B4",url:"https://www.max.com/search?q=",logo:"https://image.tmdb.org/t/p/original/Ajqyt5aNxNGjmF9uOfxArGrdf3X.jpg"},
+  "Disney+":{color:"#0C3B8B",url:"https://www.disneyplus.com/search?q=",logo:"https://image.tmdb.org/t/p/original/7rwgEs15tFwyR9NPQ5vegj9tXbe.jpg"},
+  "Prime Video":{color:"#00A8E1",url:"https://www.amazon.es/s?k=",logo:"https://image.tmdb.org/t/p/original/dQeAar5H991VYporEjUspolDarG.jpg"},
+  "Amazon Prime Video":{color:"#00A8E1",url:"https://www.amazon.es/s?k=",logo:"https://image.tmdb.org/t/p/original/dQeAar5H991VYporEjUspolDarG.jpg"},
+  "Filmin":{color:"#E8A020",url:"https://www.filmin.es/buscar?query=",logo:"https://image.tmdb.org/t/p/original/lECL9UDfnVkgCMnSEBcvSAx8Jxb.jpg"},
+  "Apple TV+":{color:"#1C1C1E",url:"https://tv.apple.com/search?term=",logo:"https://image.tmdb.org/t/p/original/6uhKBfmtzFqOcLousHwZuzcrScK.jpg"},
+  "Movistar+":{color:"#019FE3",url:"https://ver.movistar.es/search?q=",logo:"https://image.tmdb.org/t/p/original/iEAtbJpYcAIRPCEiBoSYBQlbSRm.jpg"},
+  "SkyShowtime":{color:"#0066CC",url:"https://www.skyshowtime.com/",logo:"https://image.tmdb.org/t/p/original/6acagCPv3WnCMek5cbECBFhO5or.jpg"},
+  "Paramount+":{color:"#0064FF",url:"https://www.paramountplus.com/",logo:"https://image.tmdb.org/t/p/original/h5DcR0J2EESLitnhR8xLG1QymTE.jpg"}
 };
 const QUESTIONS=[
   {id:"format",q:"Pelicula o serie?",grid:true,opts:[
@@ -549,15 +553,19 @@ function StreamLinks(props){
   if(known.length>0){
     known.forEach(function(name){
       var p=PLATFORMS[name];if(!p)return;
-      links.push(React.createElement("a",{key:name,href:p.url+enc(title),target:"_blank",rel:"noopener",style:{display:"inline-flex",alignItems:"center",justifyContent:"center",width:56,height:56,borderRadius:12,background:p.color,textDecoration:"none",flexShrink:0,overflow:"hidden"}},
-      React.createElement("img",{src:p.logo,alt:name,style:{width:"80%",height:"80%",objectFit:"contain"},onError:function(e){e.target.style.display="none";e.target.parentNode.style.color="#fff";e.target.parentNode.style.fontSize="10px";e.target.parentNode.style.fontWeight="700";e.target.parentNode.textContent=name.slice(0,3).toUpperCase();}})
+      var abbr=name==="Netflix"?"N":name==="HBO Max"?"HBO":name==="Max"?"HBO":name==="Disney+"?"D+":name==="Prime Video"?"PV":name==="Amazon Prime Video"?"PV":name==="Filmin"?"FIL":name==="Apple TV+"?"ATV":name==="Movistar+"?"M+":name==="SkyShowtime"?"SKY":name==="Paramount+"?"P+":name.slice(0,3).toUpperCase();
+    links.push(React.createElement("a",{key:name,href:p.url+enc(title),target:"_blank",rel:"noopener",className:"stream-logo-btn",style:{background:p.color}},
+      React.createElement("img",{src:p.logo,alt:name,className:"stream-logo-img",onError:function(e){e.target.style.display="none";var span=document.createElement("span");span.textContent=abbr;span.style.cssText="color:#fff;font-size:11px;font-weight:900;";e.target.parentNode.appendChild(span);}}),
+      React.createElement("span",{className:"stream-logo-name"},name)
     ));
     });
   } else {
     Object.keys(PLATFORMS).slice(0,4).forEach(function(name){
       var p=PLATFORMS[name];
-      links.push(React.createElement("a",{key:name,href:p.url+enc(title),target:"_blank",rel:"noopener",style:{display:"inline-flex",alignItems:"center",justifyContent:"center",width:56,height:56,borderRadius:12,background:p.color,textDecoration:"none",flexShrink:0,overflow:"hidden"}},
-      React.createElement("img",{src:p.logo,alt:name,style:{width:"80%",height:"80%",objectFit:"contain"},onError:function(e){e.target.style.display="none";e.target.parentNode.style.color="#fff";e.target.parentNode.style.fontSize="10px";e.target.parentNode.style.fontWeight="700";e.target.parentNode.textContent=name.slice(0,3).toUpperCase();}})
+      var abbr=name==="Netflix"?"N":name==="HBO Max"?"HBO":name==="Max"?"HBO":name==="Disney+"?"D+":name==="Prime Video"?"PV":name==="Amazon Prime Video"?"PV":name==="Filmin"?"FIL":name==="Apple TV+"?"ATV":name==="Movistar+"?"M+":name==="SkyShowtime"?"SKY":name==="Paramount+"?"P+":name.slice(0,3).toUpperCase();
+    links.push(React.createElement("a",{key:name,href:p.url+enc(title),target:"_blank",rel:"noopener",className:"stream-logo-btn",style:{background:p.color}},
+      React.createElement("img",{src:p.logo,alt:name,className:"stream-logo-img",onError:function(e){e.target.style.display="none";var span=document.createElement("span");span.textContent=abbr;span.style.cssText="color:#fff;font-size:11px;font-weight:900;";e.target.parentNode.appendChild(span);}}),
+      React.createElement("span",{className:"stream-logo-name"},name)
     ));
     });
   }
@@ -1247,110 +1255,137 @@ function App(){
 
           {/* DETAIL */}
           {screen==="detail" && sel && (
-            <div>
-              <button className="det-back" onClick={function(){setScreen(prev);}}>\u2190</button>
-              {sel.backdrop && <img className="det-backdrop" src={sel.backdrop} alt=""/>}
-              {!sel.backdrop && <div className="det-bd-e"/>}
+            <div className="det-page">
+              {/* BACK */}
+              <button className="det-back" onClick={function(){setScreen(prev);}}>&#8592;</button>
+
+              {/* BACKDROP */}
+              {sel.backdrop
+                ? <img className="det-backdrop" src={sel.backdrop} alt=""/>
+                : <div className="det-bd-e"/>
+              }
+
               <div className="det-body">
-                <div className="det-over">
-                  <div className="det-row">
-                    {sel.poster && <img className="det-poster" src={sel.poster} alt=""/>}
-                    {!sel.poster && <div className="det-poster-e"/>}
-                    <div style={{flex:1,paddingTop:2}}>
-                      <div style={{marginBottom:5}}><TypePill item={sel}/></div>
-                      <div className="det-title">{sel.titleEs||sel.title}</div>
-                      <div className="det-info">
-                        {sel.director && <div>{sel.director}</div>}
-                        <div>{sel.year}{sel.duration?" · "+sel.duration:""}</div>
-                        {sel.genres&&sel.genres.length>0 && <div>{sel.genres.join(", ")}</div>}
+                {/* POSTER + TITULO + META */}
+                <div className="det-hero">
+                  {sel.poster && <img className="det-poster" src={sel.poster} alt=""/>}
+                  <div className="det-hero-info">
+                    <div className="det-title">{sel.titleEs||sel.title}</div>
+                    <div className="det-meta">
+                      {sel.year && <span>{sel.year}</span>}
+                      {sel.duration && <span>{sel.duration}</span>}
+                      {sel.score && <span>&#9733; {sel.score}</span>}
+                    </div>
+                    {sel.genres&&sel.genres.length>0 && (
+                      <div className="det-genres">
+                        {sel.genres.map(function(g,i){return <span key={i} className="genre-pill">{g}</span>;})}
                       </div>
+                    )}
+                    {sel.director && <div className="det-director">Dir. {sel.director}</div>}
+                  </div>
+                </div>
+
+                {/* ACCIONES */}
+                <div className="det-actions">
+                  <button className={"det-btn db-p"+(isW(sel)?" db-done":"")} onClick={function(){markW(sel);}}>
+                    {isW(sel)?"&#10003; Vista":"Marcar vista"}
+                  </button>
+                  <button className={"det-btn db-s"+(isL(sel)?" db-done":"")} onClick={function(){addL(sel);}}>
+                    {isL(sel)?"En mi lista":"+ Mi lista"}
+                  </button>
+                </div>
+
+                {/* DESCRIPCION */}
+                {sel.description && <p className="det-desc">{sel.description}</p>}
+                {sel.tagline && <div className="det-tagline">"{sel.tagline}"</div>}
+
+                {/* TRAILER */}
+                {sel.trailerKey && (
+                  <div>
+                    <div className="sec">Trailer</div>
+                    {!showTrailer
+                      ? <div className="trailer-ph" onClick={function(){setShowTrailer(true);}}>
+                          <div className="trailer-play">&#9654;</div>
+                          <div style={{fontSize:13,color:"var(--t3)"}}>Ver trailer</div>
+                        </div>
+                      : <div className="trailer-wrap">
+                          <iframe src={"https://www.youtube.com/embed/"+sel.trailerKey+"?autoplay=1&rel=0"} allow="autoplay; encrypted-media" allowFullScreen/>
+                        </div>
+                    }
+                  </div>
+                )}
+
+                {/* REPARTO */}
+                {sel.cast&&sel.cast.length>0 && (
+                  <div>
+                    <div className="sec">Reparto</div>
+                    <div className="cast-row">
+                      {sel.cast.map(function(c,i){return (
+                        <div key={i} className="cast-item">
+                          <div className="cast-av">{ini(c)}</div>
+                          <div className="cast-name">{c.split(" ")[0]}</div>
+                        </div>
+                      );})}
                     </div>
                   </div>
-                  {sel.tagline && <div className="det-tagline">"{sel.tagline}"</div>}
-                  <div className="scores-row">
-                    {sel.score && <div className="spill"><div className="spill-n">\u2b50{sel.score}</div><div className="spill-l">TMDB</div></div>}
-                    {filmRevs.length>0 && <div className="spill"><div className="spill-n">{(filmRevs.reduce(function(a,r){return a+r.stars;},0)/filmRevs.length).toFixed(1)}</div><div className="spill-l">Zine Club</div></div>}
-                  </div>
-                  {sel.description && <p className="det-desc">{sel.description}</p>}
-                  {sel.trailerKey && !showTrailer && (
-                    <div className="trailer-ph" onClick={function(){setShowTrailer(true);}}>
-                      <div className="trailer-play">\u25b6</div>
-                      <div style={{fontSize:13,color:"var(--t3)"}}>Ver tráiler</div>
-                    </div>
-                  )}
-                  {sel.trailerKey && showTrailer && (
-                    <div className="trailer-wrap">
-                      <iframe src={"https://www.youtube.com/embed/"+sel.trailerKey+"?autoplay=1&rel=0"} allow="autoplay; encrypted-media" allowFullScreen/>
-                    </div>
-                  )}
-                  {sel.cast&&sel.cast.length>0 && (
-                    <div>
-                      <div className="sec">Reparto</div>
-                      <div className="cast-row">
-                        {sel.cast.map(function(c,i){return <div key={i} className="cast-item"><div className="cast-av">{ini(c)}</div><div className="cast-name">{c.split(" ")[0]}</div></div>;})}
-                      </div>
-                    </div>
-                  )}
-                  {sel.similar&&sel.similar.length>0 && (
-                    <div>
-                      <div className="sec">Te puede gustar</div>
-                      <div className="sim-row">
-                        {sel.similar.map(function(s,i){
-                          return (
-                            <div key={i} className="sim-card" onClick={function(){goDetail(Object.assign({},s,{streaming:[],genres:[],description:"",score:""}),screen);}}>
-                              {s.poster && <img src={s.poster} alt="" loading="lazy"/>}
-                              {!s.poster && <div className="sim-card-e">—</div>}
-                              <div className="sim-ttl">{s.title}</div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                  <div className="det-btns">
-                    <button className={"det-btn db-p"+(isW(sel)?" db-done":"")} onClick={function(){markW(sel);}}>{isW(sel)?"Vista":"Marcar como vista"}</button>
-                    <button className={"det-btn db-s"+(isL(sel)?" db-done":"")} onClick={function(){addL(sel);}}>{isL(sel)?"En mi lista":"+ Mi lista"}</button>
-                  </div>
-                  {isW(sel) && (
-                    <div>
-                      <div className="sec">¿Cómo te dejó?</div>
-                      <div className="mood-row">
-                        {MOODS_POST.map(function(m){return <button key={m} className={"mood-btn"+(postMood===m?" sel":"")} onClick={function(){setPostMood(m);}}>{m}</button>;})}
-                      </div>
-                    </div>
-                  )}
-                  <StreamLinks film={sel}/>
-                  <div className="stream-lbl">Compartir</div>
-                  <div className="share-row">
-                    <a href={"https://twitter.com/intent/tweet?text="+enc('"'+(sel.titleEs||sel.title)+'" en Rack → https://paulaconsproyectos.github.io/rack/')} target="_blank" rel="noopener" style={{flex:1,padding:"10px 6px",borderRadius:9,background:"#000",color:"#fff",fontSize:12,fontWeight:600,textDecoration:"none",textAlign:"center"}}>Twitter</a>
-                    <a href={"https://wa.me/?text="+enc('"'+(sel.titleEs||sel.title)+'" en Rack → https://paulaconsproyectos.github.io/rack/')} target="_blank" rel="noopener" style={{flex:1,padding:"10px 6px",borderRadius:9,background:"#25D366",color:"#fff",fontSize:12,fontWeight:600,textDecoration:"none",textAlign:"center"}}>WhatsApp</a>
-                    <button onClick={function(){try{navigator.clipboard.writeText('"'+(sel.titleEs||sel.title)+'" → https://paulaconsproyectos.github.io/rack/');}catch{}t_("Copiado");}} style={{flex:1,padding:"10px 6px",borderRadius:9,background:"var(--s3)",color:"var(--t2)",border:"1px solid var(--b)",fontSize:12,fontWeight:600,cursor:"pointer"}}>Copiar</button>
-                  </div>
-                  <div className="sec" style={{marginTop:18}}>Tu reseña</div>
-                  <div className="rev-sec">
-                    <div style={{fontSize:10,fontWeight:700,letterSpacing:".06em",textTransform:"uppercase",color:"var(--t3)",marginBottom:9}}>Puntúa y comenta</div>
-                    <div className="stars">{[1,2,3,4,5].map(function(s){return <button key={s} className={"star"+(s<=revSt?" on":"")} onClick={function(){setRevSt(s);}}>*</button>;})}</div>
-                    <textarea className="rev-ta" placeholder="¿Qué te pareció?" value={revTxt} onChange={function(e){setRevTxt(e.target.value);}}/>
-                    <button className="rev-sub" disabled={!revTxt.trim()||!revSt} onClick={function(){submitRev(sel);}}>Publicar reseña</button>
-                  </div>
-                  {filmRevs.length>0 && (
-                    <div>
-                      <div className="sec">Reseñas · {filmRevs.length}</div>
-                      {filmRevs.map(function(r){
+                )}
+
+                {/* DONDE VER */}
+                <div className="sec">Donde ver</div>
+                <StreamLinks film={sel}/>
+
+                {/* SIMILARES */}
+                {sel.similar&&sel.similar.length>0 && (
+                  <div>
+                    <div className="sec">Te puede gustar</div>
+                    <div className="sim-row">
+                      {sel.similar.map(function(s,i){
                         return (
-                          <div key={r.id} className="rc">
-                            <div className="rc-h">
-                              <div className="rc-ui"><div className="rc-av">{ini(r.userName)}</div><div><div className="rc-name">{r.userName}</div><div className="rc-handle">@{r.handle}</div></div></div>
-                              <div className="rc-stars">{"*".repeat(r.stars)}</div>
-                            </div>
-                            <p className="rc-txt">{r.text}</p>
-                            <button className={"rc-like"+(r.likedBy.includes(user.id)?" liked":"")} onClick={function(){toggleLike(r.id);}}>\u2665 {r.likes}</button>
+                          <div key={i} className="sim-card" onClick={function(){goDetail(Object.assign({},s,{streaming:[],genres:[],description:"",score:""}),screen);}}>
+                            {s.poster ? <img src={s.poster} alt="" loading="lazy"/> : <div className="sim-card-e">-</div>}
+                            <div className="sim-ttl">{s.title}</div>
                           </div>
                         );
                       })}
                     </div>
-                  )}
+                  </div>
+                )}
+
+                {/* RESENAS COMUNIDAD */}
+                <div className="rev-sec">
+                  <div className="sec">Resenas de la comunidad {filmRevs.length>0&&"("+filmRevs.length+")"}</div>
+                  <div className="stars-row">
+                    {[1,2,3,4,5].map(function(s){return (
+                      <button key={s} className={"star"+(s<=revSt?" on":"")} onClick={function(){setRevSt(s);}}>&#9733;</button>
+                    );})}
+                  </div>
+                  <textarea className="rev-ta" placeholder="Que te parecio?" value={revTxt} onChange={function(e){setRevTxt(e.target.value);}}/>
+                  <button className="rev-sub" disabled={!revTxt.trim()||!revSt} onClick={function(){submitRev(sel);}}>Publicar resena</button>
                 </div>
+
+                {filmRevs.length>0 && (
+                  <div style={{marginTop:8}}>
+                    {filmRevs.map(function(r){
+                      return (
+                        <div key={r.id} className="rc">
+                          <div className="rc-h">
+                            <div className="rc-ui">
+                              <div className="rc-av">{ini(r.userName)}</div>
+                              <div>
+                                <div className="rc-name">{r.userName}</div>
+                                <div className="rc-handle">@{r.handle}</div>
+                              </div>
+                            </div>
+                            <div className="rc-stars">{"*".repeat(r.stars)}</div>
+                          </div>
+                          <p className="rc-txt">{r.text}</p>
+                          <button className={"rc-like"+(r.likedBy.includes(user.id)?" liked":"")} onClick={function(){toggleLike(r.id);}}>&#9829; {r.likes}</button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
               </div>
             </div>
           )}
