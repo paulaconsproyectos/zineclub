@@ -91,9 +91,9 @@ button,input,textarea{font-family:'DM Sans',sans-serif;}
 .nb-ic{width:20px;height:20px;display:flex;align-items:center;justify-content:center;}
 .nb-ic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
 /* HOME */
-.home-hero{padding:52px 18px 0;}
-.greet-sm{font-size:12px;color:var(--t3);margin-bottom:2px;}
-.greet-lg{font-size:30px;font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:16px;}
+
+
+
 .quiz-cta{background:linear-gradient(135deg,#4F46E5,#7C3AED);border:none;border-radius:16px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;width:100%;color:#fff;margin-bottom:10px;box-shadow:0 8px 28px rgba(99,102,241,0.3);cursor:pointer;}
 .marathon-cta{background:linear-gradient(135deg,#78350F,#B45309);border:none;border-radius:14px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;width:100%;color:#fff;margin-bottom:10px;cursor:pointer;}
 .trailer-cta{width:100%;padding:14px 18px;background:var(--s2);border:1px solid var(--b2);border-radius:14px;display:flex;align-items:center;justify-content:space-between;color:var(--t);margin-bottom:10px;cursor:pointer;}
@@ -330,9 +330,9 @@ button,input,textarea{font-family:'DM Sans',sans-serif;}
 .code-val{font-family:'DM Serif Display',serif;font-size:38px;letter-spacing:.1em;color:var(--acc2);}
 .stream-sec{margin-bottom:18px;}
 
-.home-topbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
+
 .streak-pill{background:rgba(255,160,0,0.15);color:#FFA000;border:1px solid rgba(255,160,0,0.3);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:600;margin-top:6px;}
-.hero-card{background:radial-gradient(ellipse at 50% 0%,rgba(99,102,241,0.28) 0%,rgba(15,15,25,0.97) 70%);border:1px solid rgba(99,102,241,0.2);border-radius:20px;padding:28px 20px 24px;text-align:center;position:relative;overflow:hidden;cursor:pointer;margin-bottom:12px;}
+
 .hero-card-glow{position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:240px;height:240px;background:radial-gradient(circle,rgba(99,102,241,0.3) 0%,transparent 65%);pointer-events:none;}
 .hero-card-title{font-size:22px;font-weight:700;color:var(--t);margin-bottom:6px;position:relative;font-family:'DM Serif Display',serif;}
 .hero-card-sub{font-size:12px;color:var(--t3);margin-bottom:18px;position:relative;}
@@ -392,6 +392,37 @@ button,input,textarea{font-family:'DM Sans',sans-serif;}
 .auth-logo{font-family:'DM Serif Display',serif;font-size:14px;letter-spacing:0.06em;color:rgba(255,255,255,0.35);}
 .auth-logo span{color:var(--acc);opacity:1;}
 .auth-card{width:100%;max-width:420px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:22px;padding:28px 24px 24px;}
+
+.home-wrap{background:#0a0a0f;min-height:100vh;padding-bottom:80px;}
+.home-top{padding:56px 20px 0;}
+.home-greeting{font-size:32px;font-weight:700;letter-spacing:-0.04em;color:#fff;margin-bottom:20px;}
+.hero-card{position:relative;margin:0 20px;border-radius:22px;overflow:hidden;cursor:pointer;background:linear-gradient(135deg,#0d0d1a 0%,#0a0a14 100%);border:1px solid rgba(99,102,241,0.15);padding:28px 24px 24px;text-align:center;}
+.hero-card-bg{position:absolute;inset:0;background:radial-gradient(ellipse 120% 80% at 50% 100%,rgba(80,60,200,0.45) 0%,rgba(30,20,80,0.3) 40%,transparent 70%);pointer-events:none;}
+.hero-card-bg2{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 20% 50%,rgba(0,200,255,0.08) 0%,transparent 60%);pointer-events:none;}
+.hero-card-title{font-size:26px;font-weight:700;color:#fff;margin-bottom:18px;position:relative;letter-spacing:-0.02em;}
+.hero-card-btn{display:inline-block;padding:10px 28px;border-radius:50px;border:1.5px solid rgba(99,200,255,0.7);color:rgba(140,220,255,0.95);font-size:14px;font-weight:500;position:relative;background:rgba(0,150,255,0.04);letter-spacing:0.02em;}
+.mood-section{padding:24px 20px 0;}
+.mood-sec-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:14px;letter-spacing:-0.02em;}
+.mood-reel{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;align-items:flex-end;scrollbar-width:none;}
+.mood-reel::-webkit-scrollbar{display:none;}
+.mood-item{flex-shrink:0;border-radius:14px;overflow:hidden;cursor:pointer;position:relative;transition:transform .2s;}
+.mood-item img{display:block;object-fit:cover;}
+.mood-item-side{width:90px;height:130px;}
+.mood-item-side img{width:90px;height:130px;}
+.mood-item-main{width:130px;height:185px;box-shadow:0 8px 32px rgba(0,0,0,0.6);}
+.mood-item-main img{width:130px;height:185px;}
+.mood-poster-title{position:absolute;bottom:0;left:0;right:0;padding:8px 8px 10px;background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);font-size:10px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:0.04em;line-height:1.2;}
+.reel-dots{display:flex;gap:5px;justify-content:center;margin-top:12px;}
+.rdot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.2);}
+.rdot-on{background:rgba(255,255,255,0.8);width:16px;border-radius:3px;}
+.activ-section{padding:24px 20px 0;}
+.activ-sec-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:14px;letter-spacing:-0.02em;}
+.activ-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.activ-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:16px 12px 14px;cursor:pointer;text-align:center;}
+.activ-icon{font-size:20px;margin-bottom:6px;opacity:0.7;}
+.activ-label{font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;margin-bottom:4px;}
+.activ-n{font-size:22px;font-weight:700;color:#fff;}
+.streak-pill{background:linear-gradient(135deg,rgba(99,102,241,0.3),rgba(139,92,246,0.3));border:1px solid rgba(99,102,241,0.4);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:rgba(180,180,255,0.9);}
 </style>
 </head>
 <body>
@@ -1114,99 +1145,109 @@ function App(){
         <div>
           {/* HOME */}
           {screen==="home" && (
-            <div>
-              <div className="home-hero">
-                <div className="home-topbar">
-                  <div>
-                    <div className="greet-sm">Hola,</div>
-                    <div className="greet-lg">{user.name.split(" ")[0]}</div>
-                  </div>
-                  {streak.count>1 && <div className="streak-pill">{streak.count} dias seguidos</div>}
+            <div className="home-wrap">
+              <div className="home-top">
+                <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:20}}>
+                  <div className="home-greeting">Hola, {user.name.split(" ")[0]}</div>
+                  {streak.count>1 && <div className="streak-pill">{streak.count} dias</div>}
                 </div>
-                <div className="hero-card" onClick={function(){goQuiz(false);}}>
-                  <div className="hero-card-glow"/>
-                  <div className="hero-card-title">Que veo hoy?</div>
-                  <div className="hero-card-sub">Test de estado de animo</div>
-                  <div className="hero-card-btn">Hacer Test de Mood</div>
-                </div>
-                
               </div>
-              <div className="page" style={{paddingTop:8}}>
-                {films.length>0 && (
-                  <div>
-                    <div className="sec">Para tu Mood Actual</div>
-                    <div className="mood-reel">
-                      {films.map(function(f,i){
-                        return (
-                          <div key={i} className={"mood-item"+(i===0?" mood-item-main":"")} onClick={function(){goDetail(f,"home");}}>
-                            {f.poster ? <img src={f.poster} alt={f.title} className="mood-poster"/> : <div className="mood-poster-empty"/>}
-                            {i===0 && <div className="mood-poster-title">{(f.titleEs||f.title).toUpperCase()}</div>}
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="reel-dots">
-                      {[0,1,2].map(function(i){return <span key={i} className={"rdot"+(i===0?" rdot-on":"")}/>;})}
-                    </div>
-                  </div>
-                )}
-                <div className="sec">Mi Actividad</div>
-                <div className="activ-row">
-                  <div className="activ-card" onClick={function(){setScreen("mypelis");}}>
-                    <div className="activ-n">{(user.watched||[]).length}</div>
-                    <div className="activ-l">Vistas</div>
-                  </div>
-                  <div className="activ-card" onClick={function(){setScreen("mypelis");}}>
-                    <div className="activ-n">{(user.watchlist||[]).length}</div>
-                    <div className="activ-l">Lista</div>
-                  </div>
-                  <div className="activ-card" onClick={function(){setScreen("mypelis");}}>
-                    <div className="activ-n">{reviews.filter(function(r){return r.userId===user.id;}).length}</div>
-                    <div className="activ-l">Resenas</div>
-                  </div>
-                </div>
-                {potw && (
-                  <div>
-                    <div className="sec">Tendencia esta semana</div>
-                    <div className="potw-card" onClick={function(){goDetail(potw,"home");}}>
-                      {potw.backdrop && <img className="potw-bg" src={potw.backdrop} alt="" loading="lazy"/>}
-                      {!potw.backdrop && <div style={{width:"100%",height:170,background:"var(--s2)"}}/>}
-                      <div className="potw-ov">
-                        <div className="potw-tag">Trending semana</div>
-                        <div className="potw-title">{potw.titleEs||potw.title}{potw.score?" "+potw.score:""}</div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <button className="marathon-cta" onClick={function(){goQuiz(true);}}>
-                  <div><div style={{fontSize:15,fontWeight:700}}>Modo Maraton</div><div style={{fontSize:12,opacity:.75,fontWeight:300}}>Tengo tiempo. Dame todo.</div></div>
-                  <div style={{fontSize:13,fontWeight:600,opacity:.8}}>-&gt;</div>
-                </button>
 
-                {/* ESTRENOS */}
-                {trending.length>0 && (
-                  <div>
-                    <div className="sec">Estrenos</div>
-                    <div className="mood-reel">
-                      {trending.map(function(f,i){
-                        return (
-                          <div key={i} className={"mood-item"+(i===0?" mood-item-main":"")} onClick={function(){goDetail(f,"home");}}>
-                            {f.poster ? <img src={f.poster} alt={f.title} className="mood-poster"/> : <div className="mood-poster-empty"/>}
-                            {i===0 && <div className="mood-poster-title">{(f.titleEs||f.title).toUpperCase()}</div>}
-                          </div>
-                        );
-                      })}
+              {/* HERO CARD */}
+              <div className="hero-card" onClick={function(){goQuiz(false);}}>
+                <div className="hero-card-bg"/>
+                <div className="hero-card-bg2"/>
+                <div className="hero-card-title">&#191;Qu&#233; veo hoy?</div>
+                <div className="hero-card-btn">Hacer Test de Mood</div>
+              </div>
+
+              {/* PARA TU MOOD */}
+              {films.length>0 && (
+                <div className="mood-section">
+                  <div className="mood-sec-title">Para tu Mood Actual</div>
+                  <div className="mood-reel">
+                    {films.map(function(f,i){
+                      var isMain=i===0;
+                      return (
+                        <div key={i} className={"mood-item "+(isMain?"mood-item-main":"mood-item-side")} onClick={function(){goDetail(f,"home");}}>
+                          {f.poster
+                            ? <img src={f.poster} alt={f.title}/>
+                            : <div style={{width:"100%",height:"100%",background:"var(--s2)"}}/>
+                          }
+                          {isMain && <div className="mood-poster-title">{(f.titleEs||f.title).toUpperCase()}</div>}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="reel-dots">
+                    {[0,1,2].map(function(i){return <span key={i} className={"rdot"+(i===0?" rdot-on":"")}/>;}) }
+                  </div>
+                </div>
+              )}
+
+              {/* MI ACTIVIDAD */}
+              <div className="activ-section">
+                <div className="activ-sec-title">Mi Actividad</div>
+                <div className="activ-row">
+                  <div className="activ-card" onClick={function(){setScreen("profile");}}>
+                    <div className="activ-label">Vistas</div>
+                    <div className="activ-n">{(user.watched||[]).length}</div>
+                    <svg style={{marginTop:6,opacity:0.4}} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8"/><circle cx="12" cy="12" r="3"/></svg>
+                  </div>
+                  <div className="activ-card" onClick={function(){setScreen("profile");}}>
+                    <div className="activ-label">Lista</div>
+                    <div className="activ-n">{(user.watchlist||[]).length}</div>
+                    <svg style={{marginTop:6,opacity:0.4}} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                  </div>
+                  <div className="activ-card" onClick={function(){setScreen("social");}}>
+                    <div className="activ-label">Rese&#241;as</div>
+                    <div className="activ-n">{reviews.filter(function(r){return r.userId===user.id;}).length}</div>
+                    <svg style={{marginTop:6,opacity:0.4}} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* TENDENCIA */}
+              {potw && (
+                <div className="mood-section">
+                  <div className="mood-sec-title">Tendencia esta semana</div>
+                  <div className="potw-card" onClick={function(){goDetail(potw,"home");}}>
+                    {potw.backdrop && <img className="potw-bg" src={potw.backdrop} alt="" loading="lazy"/>}
+                    {!potw.backdrop && <div style={{width:"100%",height:170,background:"var(--s2)"}}/>}
+                    <div className="potw-ov">
+                      <div className="potw-tag">Trending</div>
+                      <div className="potw-title">{potw.titleEs||potw.title}{potw.score?" &#9733;"+potw.score:""}</div>
                     </div>
                   </div>
-                )}
-                
-                {(user.watchlist||[]).length===0 && (user.watched||[]).length===0 && (
-                  <div className="empty">
-                    <div className="empty-t">Empieza a descubrir cine</div>
-                    <button className="empty-cta" onClick={function(){goQuiz(false);}}>Hacer el test</button>
+                </div>
+              )}
+
+              {/* ESTRENOS */}
+              {trending.length>0 && (
+                <div className="mood-section">
+                  <div className="mood-sec-title">Estrenos</div>
+                  <div className="mood-reel">
+                    {trending.map(function(f,i){
+                      var isMain=i===0;
+                      return (
+                        <div key={i} className={"mood-item "+(isMain?"mood-item-main":"mood-item-side")} onClick={function(){goDetail(f,"home");}}>
+                          {f.poster ? <img src={f.poster} alt={f.title}/> : <div style={{width:"100%",height:"100%",background:"var(--s2)"}}/>}
+                          {isMain && <div className="mood-poster-title">{(f.titleEs||f.title).toUpperCase()}</div>}
+                        </div>
+                      );
+                    })}
                   </div>
-                )}
+                </div>
+              )}
+
+              {/* MODO MARATON */}
+              <div style={{padding:"20px 20px 0"}}>
+                <button className="marathon-cta" onClick={function(){goQuiz(true);}}>
+                  <div><div style={{fontSize:15,fontWeight:700}}>Modo Marat&#243;n</div><div style={{fontSize:12,opacity:.6,marginTop:2}}>Tengo tiempo. Dame todo.</div></div>
+                  <div style={{fontSize:18,opacity:0.6}}>&#8594;</div>
+                </button>
               </div>
+
             </div>
           )}
 
